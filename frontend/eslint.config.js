@@ -25,7 +25,7 @@ module.exports = tseslint.config(
     },
     rules: {
       'no-relative-import-paths/no-relative-import-paths': [
-        'warn',
+        'error',
         { allowSameFolder: false, rootDir: 'src', prefix: '@' },
       ],
       'arrow-parens': ['error', 'always'],
@@ -179,5 +179,5 @@ module.exports = tseslint.config(
     files: ['**/*.html'],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {},
-  }
+  },
 );
