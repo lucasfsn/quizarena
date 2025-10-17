@@ -6,9 +6,15 @@ services:
     restart: on-failure
     environment:
       - NG_APP_API_URL=${NG_APP_API_URL}
-    volumes:
-      - './frontend:/app'
-      - '/app/node_modules'
+    develop:
+      watch:
+        - action: rebuild
+          path: ./frontend/package.json
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - node_modules
     ports:
       - '4200:4200'
     networks:
