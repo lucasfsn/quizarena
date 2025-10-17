@@ -26,7 +26,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/assets/styles/material.scss", "src/assets/styles/globals.scss"],
+            "styles": ["src/assets/styles/material.scss", "src/assets/styles/globals.css"],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
@@ -86,7 +86,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/assets/styles/material.scss", "src/assets/styles/globals.scss"]
+            "styles": ["src/assets/styles/material.scss", "src/assets/styles/globals.css"]
           }
         },
         "lint": {
