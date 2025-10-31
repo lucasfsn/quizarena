@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - 'backend/**'
-    workflow_dispatch:
 
 jobs:
   run-backend-tests:
