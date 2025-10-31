@@ -26,6 +26,8 @@ jobs:
           for dir in backend/*Service; do
             if [ -d "$dir" ]; then
               echo "Running tests in $dir"
-              ./gradlew -p "$dir" clean test
+              cd "$dir"
+              ./gradlew clean test
+              cd -
             fi
           done
