@@ -18,7 +18,7 @@ services:
     ports:
       - '4200:4200'
     networks:
-      - team-project-client-network
+      - quizarena-client-network
     # depends_on:
     #   - backend
   # backend:
@@ -44,10 +44,10 @@ services:
   #   ports:
   #     - '8080:8080'
   #   volumes:
-  #     - team-project-maven-repo:/root/.m2
+  #     - quizarena-maven-repo:/root/.m2
   #   networks:
-  #     - team-project-client-network
-  #     - team-project-server-network
+  #     - quizarena-client-network
+  #     - quizarena-server-network
   #   depends_on:
   #     - database
 
@@ -60,12 +60,12 @@ services:
 #     ports:
 #       - '5432:5432'
 #     volumes:
-#       - team-project-postgresql-data:/var/lib/postgresql/data
+#       - quizarena-postgresql-data:/var/lib/postgresql/data
 #     networks:
-#       - team-project-server-network
+#       - quizarena-server-network
 
 networks:
-  team-project-client-network:
+  quizarena-client-network:
 # volumes:
-#   team-project-postgresql-data:
-#   team-project-maven-repo:
+#   quizarena-postgresql-data:
+#   quizarena-maven-repo:

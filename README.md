@@ -1,4 +1,4 @@
-# Project
+# Quizarena
 
 ## Prerequisites
 
@@ -31,8 +31,8 @@ pre-commit run --all-files --hook-stage pre-push
 1. Clone the project:
 
 ```bash
-git clone https://github.com/lucasfsn/team-project
-cd team-project
+git clone https://github.com/lucasfsn/quizarena
+cd quizarena
 ```
 
 2. Create `.env` file to set environment variables. Use the provided `.env.example` file as a reference.
