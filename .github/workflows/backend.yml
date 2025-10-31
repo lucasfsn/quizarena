@@ -21,6 +21,11 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Run Unit Tests
-        working-directory: backend
-        run: mvn clean verify
+      - name: Run Unit Tests in all Services
+        run: |
+          for dir in backend/*Service; do
+            if [ -d "$dir" ]; then
+              echo "Running tests in $dir"
+              ./gradlew -p "$dir" clean test
+            fi
+          done
