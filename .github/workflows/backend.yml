@@ -24,10 +24,14 @@ jobs:
       - name: Run Unit Tests in all Services
         run: |
           for dir in backend/*Service; do
-            if [ -d "$dir" ]; then
+            if [ -d "$dir" ] && [ -f "$dir/gradlew" ]; then
               echo "Running tests in $dir"
-              cd "$dir"
-              ./gradlew clean test
-              cd -
+              (
+                cd "$dir"
+                chmod +x ./gradlew
+                ./gradlew clean test --no-daemon
+              ) || exit 1
+            else
+              echo "Skipping $dir (no gradlew found)"
             fi
           done
