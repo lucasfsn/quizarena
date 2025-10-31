@@ -43,6 +43,12 @@ cd quizarena
   docker compose -f docker-compose.dev.yml up --build --watch
 ```
 
+> **Note:** If you want to run **only a specific microservice** without starting all docker compose services, you can specify the service name:
+
+```bash
+docker compose -f docker-compose.dev.yml up --build --watch database service-name
+```
+
 ## Branching & PR naming
 
 Use kebab-case for branch names and lowercase text. Format:
