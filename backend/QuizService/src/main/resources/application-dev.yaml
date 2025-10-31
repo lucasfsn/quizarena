@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://quiz-service-database:5432/quizdb
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      driver-class-name: org.postgresql.Driver
+      minimum-idle: 2
+      maximum-pool-size: 10
+      auto-commit: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

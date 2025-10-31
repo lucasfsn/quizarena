@@ -1,0 +1,38 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - quiz-service-database
+    networks:
+      - team-project-client-network
+      - team-project-server-network
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /opt/
+
+  quiz-service-database:
+    image: postgres:18-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: quizdb
+    networks:
+      - team-project-server-network
+    volumes:
+      - team-project-postgresql-data:/var/lib/postgresql/data
+
+networks:
+  team-project-server-network:
+  team-project-client-network:
+volumes:
+  team-project-postgresql-data:
