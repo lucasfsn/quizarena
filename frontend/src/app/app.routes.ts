@@ -8,7 +8,7 @@ export const routes: Routes = [
     component: MainLayout,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'not-found', component: NotFound },
+      { path: 'not-found', title: 'Page Not Found', component: NotFound },
     ],
   },
   { path: '**', redirectTo: 'not-found' },
