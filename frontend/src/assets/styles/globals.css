@@ -1,11 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import 'tailwindcss';
 
-html,
-body {
-  height: 100%;
+@theme inline {
+  /* Main color palette */
+  --color-background-app: #f4f4f4; /* Main application background*/
+  --color-surface: #ffffff; /* Background for cards, modals, and panels */
+  --color-brand-dark: #333333; /* Dark UI accent, headings */
+  --color-text-main: #343a40; /* Main text color */
+  --color-text-secondary: #6c757d; /* Secondary text, descriptions */
+  --color-text-on-accent: #ffffff; /* Text on colored/dark buttons */
+  --color-accent: #007bff; /* Primary accent color, buttons, links */
+  --color-notification: #dc3545; /* Notification/alert color */
+  --color-border-light: #e0e0e0; /* Light borders and separators */
+  --color-game-single-bg: #ffb74d; /* Single Player box background */
+  --color-game-multi-bg: #4db6ac; /* Multiplayer box background */
+  --color-status-success: #28a745; /* Correct answer color */
+  --color-status-error: #dc3545; /* Incorrect answer color */
+
+  /* Fonts */
+  --font-display: 'Roboto', sans-serif;
+
+  /* Breakpoints */
+  --breakpoint-xs: 25rem;
+
+  /* Container Sizes */
+  --container-page-content-container: var(--max-page-content-width);
 }
 
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+:root {
+  --background-app: #f4f4f4;
+  --surface: #ffffff;
+  --brand-dark: #333333;
+  --text-main: #343a40;
+  --text-secondary: #6c757d;
+  --text-on-accent: #ffffff;
+  --accent: #007bff;
+  --notification: #dc3545;
+  --border-light: #e0e0e0;
+  --game-single-bg: #ffb74d;
+  --game-multi-bg: #4db6ac;
+  --status-success: #28a745;
+  --status-error: #dc3545;
+  --max-page-content-width: 96rem;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-display);
+  }
+
+  body {
+    color: var(--color-text-main);
+    font-size: 1rem;
+    font-weight: 400;
+    background-color: var(--color-background-app);
+  }
+
+  a,
+  button {
+    cursor: pointer;
+  }
+}
+
+@utility text-break {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
