@@ -3,7 +3,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    restart: on-failure
+    restart: always
     environment:
       - NG_APP_API_URL=${NG_APP_API_URL}
     develop:
@@ -25,7 +25,7 @@ services:
     build:
       context: ./backend/QuizService
       dockerfile: Dockerfile.dev
-    restart: on-failure
+    restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${POSTGRES_DB}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
