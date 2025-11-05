@@ -1,0 +1,35 @@
+<div class="bg-surface shadow-sm">
+  <div class="mx-auto flex items-center justify-between sm:justify-around gap-4 max-w-96">
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      class="px-3 pt-1 pb-0.5 flex items-center flex-col justify-center uppercase gap-0.5 border-b-surface border-b-2 grow"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon aria-hidden="false" aria-label="Home icon" fontIcon="home"></mat-icon>
+      <p class="text-xs">Home</p>
+    </a>
+    <a
+      routerLink="/leaderboard"
+      routerLinkActive="active"
+      class="px-3 pt-1 pb-0.5 grow flex items-center flex-col justify-center uppercase gap-0.5 border-b-surface border-b-2"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Leaderboard icon"
+        fontIcon="emoji_events"
+      ></mat-icon>
+      <p class="text-xs">Leaderboard</p>
+    </a>
+    <a
+      routerLink="/settings"
+      routerLinkActive="active"
+      class="px-3 pt-1 pb-0.5 grow flex items-center flex-col justify-center uppercase gap-0.5 border-b-surface border-b-2"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon aria-hidden="false" aria-label="Settings icon" fontIcon="settings"></mat-icon>
+      <p class="text-xs">Settings</p>
+    </a>
+  </div>
+</div>
