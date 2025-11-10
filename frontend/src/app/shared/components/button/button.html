@@ -1,0 +1,10 @@
+<button
+  [ngClass]="classes"
+  [disabled]="disabled"
+  [attr.aria-disabled]="disabled"
+  [attr.tabindex]="disabled ? -1 : 0"
+  [routerLink]="disabled ? null : redirectTo"
+  (click)="onClick()"
+>
+  <ng-content />
+</button>

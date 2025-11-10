@@ -1,4 +1,4 @@
-import { NotFoundImage } from '@/app/shared/components/svg/not-found-image/not-found-image';
+import { NotFoundImage } from '@/app/shared/components/svg/not-found-image';
 import { Component } from '@angular/core';
 
 @Component({

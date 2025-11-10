@@ -79,3 +79,10 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+
+@utility focus-ring {
+  outline: none;
+  &:focus-visible {
+    @apply ring-2 ring-sky-500;
+  }
+}
