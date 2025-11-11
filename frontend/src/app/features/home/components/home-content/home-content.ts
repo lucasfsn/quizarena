@@ -7,9 +7,9 @@ import { RankingIcon } from '@/app/shared/components/svg/ranking-icon';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-logged-out',
+  selector: 'app-home-content',
   imports: [HomeQuestionImage, Button, HomeCard, KnowledgeIcon, FriendsIcon, RankingIcon],
-  templateUrl: './logged-out.html',
-  styleUrl: './logged-out.scss',
+  templateUrl: './home-content.html',
+  styleUrl: './home-content.scss',
 })
-export class LoggedOut {}
+export class HomeContent {}

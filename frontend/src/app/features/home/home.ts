@@ -1,9 +1,9 @@
-import { LoggedOut } from '@/app/features/home/components/logged-out/logged-out';
+import { HomeContent } from '@/app/features/home/components/home-content/home-content';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  imports: [LoggedOut],
+  imports: [HomeContent],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

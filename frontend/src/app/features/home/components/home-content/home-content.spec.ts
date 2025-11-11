@@ -1,17 +1,16 @@
+import { HomeContent } from '@/app/features/home/components/home-content/home-content';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoggedOut } from '@/app/features/home/components/logged-out/logged-out';
-
-describe('LoggedOut', () => {
-  let component: LoggedOut;
-  let fixture: ComponentFixture<LoggedOut>;
+describe('HomeContent', () => {
+  let component: HomeContent;
+  let fixture: ComponentFixture<HomeContent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoggedOut],
+      imports: [HomeContent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LoggedOut);
+    fixture = TestBed.createComponent(HomeContent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
