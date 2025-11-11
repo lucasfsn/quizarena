@@ -26,7 +26,7 @@ export class Button {
       'items-center',
       'justify-center',
       'rounded-full',
-      'transition-all',
+      'transition-colors',
       'active:ring-0',
     ];
 

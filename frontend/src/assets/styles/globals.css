@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 @import 'tailwindcss';
 
@@ -19,7 +19,7 @@
   --color-status-error: #dc3545; /* Incorrect answer color */
 
   /* Fonts */
-  --font-display: 'Roboto', sans-serif;
+  --font-display: 'Rubik', sans-serif;
 
   /* Breakpoints */
   --breakpoint-xs: 25rem;
@@ -84,5 +84,12 @@
   outline: none;
   &:focus-visible {
     @apply ring-2 ring-sky-500;
+  }
+}
+
+@utility focus-ring-inset {
+  outline: none;
+  &:focus-visible {
+    @apply ring-2 ring-sky-500 ring-inset;
   }
 }
