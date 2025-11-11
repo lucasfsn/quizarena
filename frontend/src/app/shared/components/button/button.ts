@@ -37,8 +37,8 @@ export class Button {
     };
 
     const variants: Record<Variant, string[]> = {
-      primary: ['bg-accent', 'text-text-on-accent', 'hover:opacity-95', 'active:opacity-90'],
-      secondary: ['bg-surface', 'text-text-main', 'hover:opacity-95', 'active:opacity-90'],
+      primary: ['bg-accent', 'text-on-accent', 'hover:opacity-95', 'active:opacity-90'],
+      secondary: ['bg-surface', 'text-primary', 'hover:opacity-95', 'active:opacity-90'],
     };
     const variantClasses = this.disabled
       ? ['bg-gray-300', 'text-gray-500', 'opacity-80', 'cursor-not-allowed']
