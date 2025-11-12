@@ -8,17 +8,21 @@
         <p class="text-base sm:text-xl">Join now and start your quiz adventure - it's free.</p>
       </div>
       <div class="flex md:hidden gap-1.5">
-        <app-button redirectTo="/signup" size="md" variant="primary" customClasses="shadow-sm"
-          >Start your journey</app-button
-        >
+        @defer (when !isLoggedIn; prefetch on idle) {
+          <app-button redirectTo="/signup" size="md" variant="primary" customClasses="shadow-sm"
+            >Start your journey</app-button
+          >
+        }
         <app-button redirectTo="/quizzes" size="md" variant="secondary" customClasses="shadow-sm"
           >Browse quizzes</app-button
         >
       </div>
       <div class="hidden md:flex gap-2.5">
-        <app-button redirectTo="/signup" size="lg" variant="primary" customClasses="shadow-sm"
-          >Start your journey</app-button
-        >
+        @defer (when !isLoggedIn; prefetch on idle) {
+          <app-button redirectTo="/signup" size="lg" variant="primary" customClasses="shadow-sm"
+            >Start your journey</app-button
+          >
+        }
         <app-button redirectTo="/quizzes" size="lg" variant="secondary" customClasses="shadow-sm"
           >Browse quizzes</app-button
         >

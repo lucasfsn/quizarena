@@ -12,4 +12,7 @@ import { Component } from '@angular/core';
   templateUrl: './home-content.html',
   styleUrl: './home-content.scss',
 })
-export class HomeContent {}
+export class HomeContent {
+  // Mock flag representing a logged-in user; replace with real auth logic later
+  protected readonly isLoggedIn: boolean = false;
+}
