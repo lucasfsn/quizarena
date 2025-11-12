@@ -16,7 +16,7 @@ export class Button {
   @Input({ required: true }) public size!: Size;
   @Input() public disabled: boolean = false;
   @Input() public customClasses: string = '';
-  @Input() public redirectTo?: string;
+  @Input() public redirectTo: string | null = null;
   @Output() public handleClick = new EventEmitter<void>();
 
   protected get classes(): string[] {
@@ -50,7 +50,7 @@ export class Button {
   }
 
   protected onClick(): void {
-    if (this.disabled) return;
+    if (this.redirectTo !== null || this.disabled) return;
 
     this.handleClick.emit();
   }
