@@ -8,7 +8,7 @@
         <p class="text-base sm:text-xl">Join now and start your quiz adventure - it's free.</p>
       </div>
       <div class="flex md:hidden gap-1.5">
-        @defer (when !isLoggedIn; prefetch on idle) {
+        @defer (when isLoggedIn() === false; prefetch on idle) {
           <app-button redirectTo="/signup" size="md" variant="primary" customClasses="shadow-sm"
             >Start your journey</app-button
           >
@@ -18,7 +18,7 @@
         >
       </div>
       <div class="hidden md:flex gap-2.5">
-        @defer (when !isLoggedIn; prefetch on idle) {
+        @defer (when isLoggedIn() === false; prefetch on idle) {
           <app-button redirectTo="/signup" size="lg" variant="primary" customClasses="shadow-sm"
             >Start your journey</app-button
           >

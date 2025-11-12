@@ -4,7 +4,7 @@ import { FriendsIcon } from '@/app/shared/components/svg/friends-icon';
 import { HomeQuestionImage } from '@/app/shared/components/svg/home-question-image';
 import { KnowledgeIcon } from '@/app/shared/components/svg/knowledge-icon';
 import { RankingIcon } from '@/app/shared/components/svg/ranking-icon';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-home-content',
@@ -13,6 +13,6 @@ import { Component } from '@angular/core';
   styleUrl: './home-content.scss',
 })
 export class HomeContent {
-  // Mock flag representing a logged-in user; replace with real auth logic later
-  protected readonly isLoggedIn: boolean = false;
+  // Temporary mock for user login state; replace with real auth logic (initially null)
+  protected readonly isLoggedIn = signal<boolean | null>(false);
 }
