@@ -14,5 +14,5 @@ import { Component, signal } from '@angular/core';
 })
 export class HomeContent {
   // Temporary mock for user login state; replace with real auth logic (initially null)
-  protected readonly isLoggedIn = signal<boolean | null>(false);
+  protected readonly isLoggedIn = signal<boolean | null>(null);
 }
