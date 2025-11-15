@@ -1,40 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import 'tailwindcss';
+@import 'primeicons/primeicons.css';
 
 @theme inline {
   /* Main color palette */
-  --color-background-app: #f4f4f4; /* Main application background*/
-  --color-surface: #ffffff; /* Background for cards, modals, and panels */
-  --color-brand-dark: #333333; /* Dark UI accent, headings */
-  --color-text-main: #343a40; /* Main text color */
-  --color-text-secondary: #6c757d; /* Secondary text, descriptions */
-  --color-text-on-accent: #ffffff; /* Text on colored/dark buttons */
-  --color-accent: #007bff; /* Primary accent color, buttons, links */
-  --color-notification: #dc3545; /* Notification/alert color */
-  --color-border-light: #e0e0e0; /* Light borders and separators */
-  --color-game-single-bg: #ffb74d; /* Single Player box background */
-  --color-game-multi-bg: #4db6ac; /* Multiplayer box background */
-  --color-status-success: #28a745; /* Correct answer color */
-  --color-status-error: #dc3545; /* Incorrect answer color */
+  --color-background-app: var(--background-app); /* Main application background*/
+  --color-surface: var(--surface); /* Background for cards, modals, and panels */
+  --color-brand-dark: var(--brand-dark); /* Dark UI accent, headings */
+  --color-primary: var(--primary); /* Main text color */
+  --color-secondary: var(--secondary); /* Secondary text, descriptions */
+  --color-on-accent: var(--on-accent); /* Text on colored/dark buttons */
+  --color-accent: var(--accent); /* Primary accent color, buttons, links */
+  --color-notification: var(--notification); /* Notification/alert color */
+  --color-border-light: var(--border-light); /* Light borders and separators */
+  --color-game-single-bg: var(--game-single-bg); /* Single Player box background */
+  --color-game-multi-bg: var(--game-multi-bg); /* Multiplayer box background */
+  --color-status-success: var(--status-success); /* Correct answer color */
+  --color-status-error: var(--status-error); /* Incorrect answer color */
 
   /* Fonts */
-  --font-display: 'Roboto', sans-serif;
+  --font-display: 'Rubik', sans-serif;
 
   /* Breakpoints */
   --breakpoint-xs: 25rem;
 
   /* Container Sizes */
-  --container-page-content-container: var(--max-page-content-width);
+  --container-page-content-container: 96rem;
 }
 
 :root {
   --background-app: #f4f4f4;
   --surface: #ffffff;
   --brand-dark: #333333;
-  --text-main: #343a40;
-  --text-secondary: #6c757d;
-  --text-on-accent: #ffffff;
+  --primary: #343a40;
+  --secondary: #6c757d;
+  --on-accent: #ffffff;
   --accent: #007bff;
   --notification: #dc3545;
   --border-light: #e0e0e0;
@@ -42,7 +42,6 @@
   --game-multi-bg: #4db6ac;
   --status-success: #28a745;
   --status-error: #dc3545;
-  --max-page-content-width: 96rem;
 }
 
 @layer base {
@@ -54,10 +53,10 @@
   }
 
   body {
-    color: var(--color-text-main);
+    color: var(--primary);
+    background-color: var(--background-app);
     font-size: 1rem;
     font-weight: 400;
-    background-color: var(--color-background-app);
   }
 
   a,
@@ -78,4 +77,18 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+@utility focus-ring {
+  outline: none;
+  &:focus-visible {
+    @apply ring-2 ring-accent;
+  }
+}
+
+@utility focus-ring-inset {
+  outline: none;
+  &:focus-visible {
+    @apply ring-2 ring-accent ring-inset;
+  }
 }

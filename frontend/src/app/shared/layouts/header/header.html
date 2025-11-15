@@ -1,7 +1,10 @@
 <div class="bg-surface shadow-sm">
-  <div class="bg-brand-dark h-4"></div>
+  <div class="bg-brand-dark h-2"></div>
   <div class="flex gap-2 justify-between items-center px-2.5 py-2 sm:px-4 sm:py-3">
-    <a routerLink="/" class="text-2xl uppercase font-extrabold transition-all flex gap-1.5 group">
+    <a
+      routerLink="/"
+      class="text-2xl uppercase font-extrabold transition-all flex gap-1.5 group focus-ring"
+    >
       <img
         src="/assets/images/logo.webp"
         alt="Quizarena logo"
@@ -9,13 +12,24 @@
       />
       <span class="hidden sm:block group-hover:text-brand-dark">Quizarena</span>
     </a>
-    <div class="flex items-center gap-2 sm:gap-3">
-      <div
-        class="bg-brand-dark aspect-square size-8 rounded-full border-[5px] border-border-light flex items-center justify-center"
-      >
-        <span class="text-text-on-accent font-extrabold text-2xl">J</span>
+    <p-popover #menu>
+      <div class="flex flex-col gap-1.5">
+        <button
+          class="flex items-center gap-2 hover:text-secondary transition-colors focus-ring px-0.5 rounded-sm"
+          routerLink="/settings"
+        >
+          <i class="pi pi-cog" aria-hidden="true"></i>
+          <span class="text-sm sm:text-base">Settings</span>
+        </button>
+        <button
+          class="flex items-center gap-2 hover:text-secondary transition-colors focus-ring px-0.5 rounded-sm"
+          (click)="onLogout()"
+        >
+          <i class="pi pi-sign-out" aria-hidden="true"></i>
+          <span class="text-sm sm:text-base">Logout</span>
+        </button>
       </div>
-      <p>John</p>
-    </div>
+    </p-popover>
+    <app-user-button (handleClick)="menu.toggle($event)" />
   </div>
 </div>
