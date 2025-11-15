@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SkeletonModule } from 'primeng/skeleton';
+import { Skeleton } from 'primeng/skeleton';
 
 type Variant = 'primary' | 'secondary' | 'skeleton';
 type Size = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'app-button',
-  imports: [CommonModule, RouterLink, SkeletonModule],
+  imports: [CommonModule, RouterLink, Skeleton],
   templateUrl: './button.html',
   styleUrl: './button.scss',
 })

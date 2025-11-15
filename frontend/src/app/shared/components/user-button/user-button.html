@@ -1,4 +1,6 @@
-@defer (prefetch on idle) {
+@if (isLoading()) {
+  <p-skeleton width="2rem" height="2rem" borderRadius="9999px" />
+} @else {
   @if (isLoggedIn()) {
     <button
       (click)="onClick($event)"
@@ -9,6 +11,4 @@
   } @else {
     <app-button redirectTo="/login" size="md" variant="primary">Login</app-button>
   }
-} @placeholder {
-  <p-skeleton width="2rem" height="2rem" borderRadius="9999px" />
 }

@@ -8,36 +8,32 @@
         <p class="text-base sm:text-xl">Join now and start your quiz adventure - it's free.</p>
       </div>
       <div class="flex md:hidden gap-1.5">
-        @defer (prefetch on idle) {
-          @if (isLoggedIn()) {
-            <app-button redirectTo="/signup" size="md" variant="primary" customClasses="shadow-sm"
-              >Create your quiz</app-button
-            >
-          } @else {
-            <app-button redirectTo="/signup" size="md" variant="primary" customClasses="shadow-sm"
-              >Start your journey</app-button
-            >
-          }
-        } @placeholder {
+        @if (isLoading()) {
           <app-button size="md" variant="skeleton" skeletonWidth="9rem" />
+        } @else {
+          <app-button
+            [redirectTo]="isLoggedIn() ? '/quiz/create' : '/signup'"
+            size="md"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
+          >
         }
         <app-button redirectTo="/quizzes" size="md" variant="secondary" customClasses="shadow-sm"
           >Browse quizzes</app-button
         >
       </div>
       <div class="hidden md:flex gap-2.5">
-        @defer (prefetch on idle) {
-          @if (isLoggedIn()) {
-            <app-button redirectTo="/signup" size="lg" variant="primary" customClasses="shadow-sm"
-              >Create your quiz</app-button
-            >
-          } @else {
-            <app-button redirectTo="/signup" size="lg" variant="primary" customClasses="shadow-sm"
-              >Start your journey</app-button
-            >
-          }
-        } @placeholder {
+        @if (isLoading()) {
           <app-button size="lg" variant="skeleton" skeletonWidth="10rem" />
+        } @else {
+          <app-button
+            [redirectTo]="isLoggedIn() ? '/quiz/create' : '/signup'"
+            size="lg"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
+          >
         }
         <app-button redirectTo="/quizzes" size="lg" variant="secondary" customClasses="shadow-sm"
           >Browse quizzes</app-button
