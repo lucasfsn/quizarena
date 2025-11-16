@@ -9,6 +9,10 @@ export const serverRoutes: ServerRoute[] = [
     path: 'home',
     renderMode: RenderMode.Prerender,
   },
+  {
+    path: 'quizzes',
+    renderMode: RenderMode.Server,
+  },
   { path: 'not-found', renderMode: RenderMode.Prerender },
   {
     path: '**',
