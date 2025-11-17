@@ -1,5 +1,7 @@
-<app-header></app-header>
-<div class="py-8 px-5 md:py-5 w-full h-full mb-11 max-w-page-content-container mx-auto">
-  <router-outlet></router-outlet>
-</div>
-<app-footer></app-footer>
+<app-header class="bg-surface shadow-sm"></app-header>
+<main class="p-3 md:p-6 flex-1 w-full flex flex-col overflow-y-auto">
+  <div class="flex-1">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+<app-footer class="bg-surface shadow-sm"></app-footer>

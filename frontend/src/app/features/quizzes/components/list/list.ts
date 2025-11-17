@@ -35,6 +35,13 @@ export class List implements OnInit {
     const loaded = this.quizzesService.loadedQuizzes().length;
     const total = this.quizzesService.totalCount();
 
+    const filtered = this.quizzes().length;
+
+    const filters = this.quizFiltersService.filters();
+    const hasActiveFilters = filters.category || filters.title || filters.author;
+
+    if (hasActiveFilters) return loaded < total && filtered === loaded;
+
     return loaded < total;
   });
 
