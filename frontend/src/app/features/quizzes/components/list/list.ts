@@ -1,32 +1,63 @@
-import { MOCK_QUIZZES } from '@/app/dev/quiz-list';
 import { Quiz } from '@/app/features/quizzes/components/quiz/quiz';
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
+import { Quizzes } from '@/app/features/quizzes/services/quizzes/quizzes';
 import { QuizItem } from '@/app/features/quizzes/types/quiz-item';
-import { Component, computed, inject } from '@angular/core';
+import { Button } from '@/app/shared/components/button/button';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-list',
-  imports: [Quiz],
+  imports: [Quiz, Button, Skeleton],
   templateUrl: './list.html',
   styleUrl: './list.scss',
 })
-export class List {
+export class List implements OnInit {
   protected quizFiltersService = inject(QuizFilters);
+  protected quizzesService = inject(Quizzes);
 
-  // Mock data
-  private readonly allQuizzes = MOCK_QUIZZES;
+  private readonly PAGE_SIZE = 10;
+  protected isLoading = this.quizzesService.loading;
 
+  protected skeletonItems = computed(() => {
+    const loaded = this.quizzesService.loadedQuizzes().length;
+    const total = this.quizzesService.totalCount();
+
+    if (loaded === 0) return Array(this.PAGE_SIZE).fill(null);
+
+    const remaining = Math.max(total - loaded, 0);
+    const skeletonCount = Math.min(this.PAGE_SIZE, remaining);
+
+    return Array(skeletonCount).fill(null);
+  });
+
+  protected hasMore = computed(() => {
+    const loaded = this.quizzesService.loadedQuizzes().length;
+    const total = this.quizzesService.totalCount();
+
+    return loaded < total;
+  });
+
+  protected loadMore(): void {
+    if (this.hasMore() && !this.isLoading()) this.quizzesService.getMoreQuizzes(this.PAGE_SIZE);
+  }
   protected quizzes = computed<QuizItem[]>(() => {
     const filters = this.quizFiltersService.filters();
 
-    return this.allQuizzes.filter((quiz) => {
-      const matchesCategory = !filters.category || quiz.category === filters.category;
+    return this.quizzesService.loadedQuizzes().filter((quiz) => {
+      const { category, title, author } = quiz;
+
+      const matchesCategory = !filters.category || category === filters.category;
       const matchesTitle =
-        !filters.title || quiz.title.toLowerCase().includes(filters.title.toLowerCase());
+        !filters.title || title.toLowerCase().includes(filters.title.toLowerCase());
       const matchesAuthor =
-        !filters.author || quiz.author?.toLowerCase().includes(filters.author.toLowerCase());
+        !filters.author || author?.toLowerCase().includes(filters.author.toLowerCase());
 
       return matchesCategory && matchesTitle && matchesAuthor;
     });
   });
+
+  public ngOnInit(): void {
+    this.quizzesService.getInitialQuizzes(this.PAGE_SIZE);
+  }
 }

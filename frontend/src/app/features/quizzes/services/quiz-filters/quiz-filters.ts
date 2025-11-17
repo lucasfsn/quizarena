@@ -1,7 +1,7 @@
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
 import { computed, Injectable, signal } from '@angular/core';
 
-export interface QuizFiltersState {
+interface QuizFiltersState {
   category?: QuizCategory;
   title?: string;
   author?: string;
@@ -11,35 +11,35 @@ export interface QuizFiltersState {
   providedIn: 'root',
 })
 export class QuizFilters {
-  private readonly categorySignal = signal<QuizCategory | undefined>(undefined);
-  private readonly titleSignal = signal<string | undefined>(undefined);
-  private readonly authorSignal = signal<string | undefined>(undefined);
+  private readonly category = signal<QuizCategory | undefined>(undefined);
+  private readonly title = signal<string | undefined>(undefined);
+  private readonly author = signal<string | undefined>(undefined);
 
   public filters = computed<QuizFiltersState>(() => ({
-    category: this.categorySignal(),
-    title: this.titleSignal(),
-    author: this.authorSignal(),
+    category: this.category(),
+    title: this.title(),
+    author: this.author(),
   }));
 
-  public showAuthorFilter = computed(() => this.categorySignal() === QuizCategory.COMMUNITY);
+  public showAuthorFilter = computed(() => this.category() === QuizCategory.COMMUNITY);
 
   public setCategory(category?: QuizCategory): void {
-    this.categorySignal.set(category);
+    this.category.set(category);
 
-    if (category !== QuizCategory.COMMUNITY) this.authorSignal.set(undefined);
+    if (category !== QuizCategory.COMMUNITY) this.author.set(undefined);
   }
 
   public setTitle(title?: string): void {
-    this.titleSignal.set(title);
+    this.title.set(title);
   }
 
   public setAuthor(author?: string): void {
-    this.authorSignal.set(author);
+    this.author.set(author);
   }
 
   public reset(): void {
-    this.categorySignal.set(undefined);
-    this.titleSignal.set(undefined);
-    this.authorSignal.set(undefined);
+    this.category.set(undefined);
+    this.title.set(undefined);
+    this.author.set(undefined);
   }
 }
