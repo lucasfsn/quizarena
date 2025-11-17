@@ -1,12 +1,14 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-  @for (quiz of quizzes; track quiz.id) {
-    <app-quiz [quiz]="quiz" />
-  }
-</div>
-
-<!-- <div
-  class="bg-surface shadow-sm rounded-lg flex items-center flex-col p-4 min-h-40 justify-center text-secondary"
->
-  <p class="text-xl font-medium">No quizzes found!</p>
-  <p>Try adjusting your filters or browsing a different category.</p>
-</div> -->
+@if (quizzes().length === 0) {
+  <div
+    class="bg-surface shadow-sm rounded-lg flex items-center flex-col p-4 min-h-40 justify-center text-secondary"
+  >
+    <p class="text-xl font-medium">No quizzes found!</p>
+    <p>Try adjusting your filters or browsing a different category.</p>
+  </div>
+} @else {
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    @for (quiz of quizzes(); track quiz.id) {
+      <app-quiz [quiz]="quiz" />
+    }
+  </div>
+}

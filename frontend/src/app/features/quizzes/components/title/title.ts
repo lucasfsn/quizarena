@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputGroup } from 'primeng/inputgroup';
@@ -12,11 +12,13 @@ import { InputText } from 'primeng/inputtext';
   styleUrl: './title.scss',
 })
 export class Title implements OnInit {
+  public titleChange = output<string | undefined>();
+
   protected form = new FormControl<string>('');
 
   public ngOnInit(): void {
     this.form.valueChanges.subscribe((value) => {
-      console.log(value);
+      this.titleChange.emit(value || undefined);
     });
   }
 }

@@ -1,9 +1,9 @@
 <div class="bg-surface shadow-sm rounded-lg flex flex-col p-4 gap-3 sm:gap-5">
   <div class="flex gap-3 justify-between flex-col sm:flex-row">
-    <app-title class="flex-1" />
+    <app-title class="flex-1" (titleChange)="onTitleChange($event)" />
     <app-category class="flex-1" (categoryChange)="onCategoryChange($event)" />
   </div>
   @if (showAuthorFilter) {
-    <app-author />
+    <app-author (authorChange)="onAuthorChange($event)" />
   }
 </div>

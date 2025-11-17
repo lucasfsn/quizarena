@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
@@ -10,11 +10,13 @@ import { InputText } from 'primeng/inputtext';
   styleUrl: './author.scss',
 })
 export class Author implements OnInit {
+  public authorChange = output<string | undefined>();
+
   protected form = new FormControl<string>('');
 
   public ngOnInit(): void {
     this.form.valueChanges.subscribe((value) => {
-      console.log(value);
+      this.authorChange.emit(value || undefined);
     });
   }
 }

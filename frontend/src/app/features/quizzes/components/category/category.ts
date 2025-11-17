@@ -5,7 +5,6 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { Select } from 'primeng/select';
 
 interface CategoryOption {
-  id: number;
   name: QuizCategory;
 }
 
@@ -18,20 +17,9 @@ interface CategoryOption {
 export class Category implements OnInit {
   public categoryChange = output<QuizCategory | undefined>();
 
-  // TODO: Fetch categories from API
-  protected readonly categories: CategoryOption[] = [
-    { id: 1, name: QuizCategory.GENERAL_KNOWLEDGE },
-    { id: 2, name: QuizCategory.SCIENCE_AND_NATURE },
-    { id: 3, name: QuizCategory.HISTORY },
-    { id: 4, name: QuizCategory.GEOGRAPHY },
-    { id: 5, name: QuizCategory.SPORTS },
-    { id: 6, name: QuizCategory.ENTERTAINMENT },
-    { id: 7, name: QuizCategory.ART_AND_LITERATURE },
-    { id: 8, name: QuizCategory.TECHNOLOGY },
-    { id: 9, name: QuizCategory.MATHEMATICS },
-    { id: 10, name: QuizCategory.POP_CULTURE },
-    { id: 11, name: QuizCategory.COMMUNITY },
-  ];
+  protected readonly categories: CategoryOption[] = Object.values(QuizCategory).map((category) => ({
+    name: category,
+  }));
 
   protected readonly form = new FormControl<CategoryOption | null>(null);
 
