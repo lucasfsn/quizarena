@@ -3,29 +3,29 @@
     <a
       routerLink="/home"
       routerLinkActive="active"
-      class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset"
+      class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset flex-1"
       [routerLinkActiveOptions]="{ exact: true }"
     >
       <i class="pi pi-home" aria-hidden="true"></i>
       <p class="text-xs">Home</p>
     </a>
     <a
+      routerLink="/quizzes"
+      routerLinkActive="active"
+      class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset flex-1"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <i class="pi pi-list" aria-hidden="true"></i>
+      <p class="text-xs">Quizzes</p>
+    </a>
+    <a
       routerLink="/leaderboard"
       routerLinkActive="active"
-      class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset"
+      class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset flex-1"
       [routerLinkActiveOptions]="{ exact: true }"
     >
       <i class="pi pi-crown" aria-hidden="true"></i>
       <p class="text-xs">Leaderboard</p>
-    </a>
-    <a
-      routerLink="/settings"
-      routerLinkActive="active"
-      class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      <i class="pi pi-cog" aria-hidden="true" aria-label="Settings icon"></i>
-      <p class="text-xs">Settings</p>
     </a>
   </div>
 </div>

@@ -16,10 +16,10 @@
           <p>{{ quiz().questionsCount }} questions</p>
         </div>
         @if (quiz().author !== null) {
-          <div class="text-secondary flex gap-1.5 text-xs items-center">
-            <i class="pi pi-user" style="font-size: 0.75rem"></i>
-            <p class="text-break">By {{ quiz().author }}</p>
-          </div>
+        <div class="text-secondary flex gap-1.5 text-xs items-center">
+          <i class="pi pi-user" style="font-size: 0.75rem"></i>
+          <p class="text-break">By {{ quiz().author }}</p>
+        </div>
         }
       </div>
     </div>
@@ -27,6 +27,6 @@
   <button
     class="bg-border-light p-2 text-center rounded-b-lg hover:opacity-90 transition-opacity focus-ring"
   >
-    <p class="text-accent font-medium text-xs sm:text-sm">Start Quiz</p>
+    <p class="text-accent font-medium text-xs sm:text-sm">Start quiz</p>
   </button>
 </div>

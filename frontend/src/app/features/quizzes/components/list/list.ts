@@ -58,6 +58,7 @@ export class List implements OnInit {
   });
 
   public ngOnInit(): void {
+    this.quizFiltersService.reset();
     this.quizzesService.getInitialQuizzes(this.PAGE_SIZE);
   }
 }
