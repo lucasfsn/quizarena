@@ -1,6 +1,10 @@
 <div class="bg-surface shadow-sm rounded-lg flex flex-col">
   <div class="p-4 flex gap-2">
-    <div class="size-8 sm:size-12 shrink-0 rounded-full bg-border-light"></div>
+    <img
+      class="size-8 sm:size-12 shrink-0 rounded-full object-cover object-center shadow-sm"
+      [src]="categoryImagePath()"
+      [alt]="quiz().category"
+    />
     <div class="flex flex-col gap-1">
       <div>
         <h2 class="font-medium">{{ quiz().title }}</h2>
