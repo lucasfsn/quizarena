@@ -48,6 +48,7 @@ export class List implements OnInit {
   protected loadMore(): void {
     if (this.hasMore() && !this.isLoading()) this.quizzesService.getMoreQuizzes(this.PAGE_SIZE);
   }
+
   protected quizzes = computed<QuizItem[]>(() => {
     const filters = this.quizFiltersService.filters();
 
