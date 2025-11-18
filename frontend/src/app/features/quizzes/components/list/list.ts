@@ -1,14 +1,14 @@
+import { QuizSkeleton } from '@/app/features/quizzes/components/quiz-skeleton/quiz-skeleton';
 import { Quiz } from '@/app/features/quizzes/components/quiz/quiz';
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
 import { Quizzes } from '@/app/features/quizzes/services/quizzes/quizzes';
 import { QuizItem } from '@/app/features/quizzes/types/quiz-item';
 import { Button } from '@/app/shared/components/button/button';
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-list',
-  imports: [Quiz, Button, Skeleton],
+  imports: [Quiz, Button, QuizSkeleton],
   templateUrl: './list.html',
   styleUrl: './list.scss',
 })

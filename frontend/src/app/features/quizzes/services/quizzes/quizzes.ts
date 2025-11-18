@@ -24,16 +24,17 @@ export class Quizzes {
   private isLoading = signal<boolean>(false);
   public loading = this.isLoading.asReadonly();
 
-  public readonly totalCount = signal<number>(MOCK_QUIZZES.length);
+  public readonly totalCount = signal<number>(0);
   private currentPage = signal<number>(0);
 
   private getQuizzes(params: LoadQuizzesParams): Observable<LoadQuizzesResponse> {
+    // Simulate API call with delay
     const { page, pageSize } = params;
     const start = (page - 1) * pageSize;
     const items = MOCK_QUIZZES.slice(start, start + pageSize);
     const total = MOCK_QUIZZES.length;
 
-    return of({ items, total, hasMore: start + pageSize < total }).pipe(delay(500));
+    return of({ items, total, hasMore: start + pageSize < total }).pipe(delay(2000));
   }
 
   public getInitialQuizzes(pageSize: number = 10): void {
