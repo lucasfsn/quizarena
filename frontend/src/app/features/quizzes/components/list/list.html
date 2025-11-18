@@ -17,6 +17,9 @@
         }
       }
     </div>
+    @if (isLoading()) {
+      <app-button variant="skeleton" size="lg" skeletonWidth="6.75rem" class="mx-auto"/>
+    }
     @if (hasMore() && !isLoading()) {
       <app-button
         variant="secondary"
