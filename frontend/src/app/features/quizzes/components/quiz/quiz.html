@@ -1,9 +1,11 @@
 <div class="bg-surface shadow-sm rounded-lg flex flex-col">
   <div class="p-4 flex gap-2">
     <img
+      ngSrc="{{ categoryImagePath() }}"
+      alt="{{ quiz().category }}"
+      width="48"
+      height="48"
       class="size-8 sm:size-12 shrink-0 rounded-full object-cover object-center shadow-sm"
-      [src]="categoryImagePath()"
-      [alt]="quiz().category"
     />
     <div class="flex flex-col gap-1">
       <div>
