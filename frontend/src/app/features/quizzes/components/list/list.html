@@ -1,6 +1,6 @@
 @if (query.isPending()) {
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
-    @for (item of skeletonItems(); track $index) {
+    @for (skeleton of quizzesSkeleton(); track $index) {
       <app-quiz-skeleton />
     }
   </div>
@@ -18,7 +18,7 @@
         <app-quiz [quiz]="quiz" />
       }
       @if (query.isFetchingNextPage()) {
-        @for (item of skeletonItems(); track $index) {
+        @for (skeleton of quizzesSkeleton(); track $index) {
           <app-quiz-skeleton />
         }
       }

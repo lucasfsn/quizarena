@@ -38,17 +38,16 @@ export class List {
     initialPageParam: 0,
   }));
 
-  protected skeletonItems = computed(() => {
+  protected quizzesSkeleton = computed(() => {
     const pages = this.query.data()?.pages ?? [];
     const loaded = pages.reduce((prev, curr) => prev + curr.numberOfElements, 0);
     const total = pages[0]?.totalElements ?? 0;
 
     if (loaded === 0) return Array(this.PAGE_SIZE).fill(null);
 
-    const remaining = Math.max(total - loaded, 0);
-    const skeletonCount = Math.min(this.PAGE_SIZE, remaining);
+    const remaining = Math.min(this.PAGE_SIZE, Math.max(total - loaded, 0));
 
-    return Array(skeletonCount).fill(null);
+    return Array(remaining).fill(null);
   });
 
   protected quizzes = computed<QuizItem[]>(() => {
