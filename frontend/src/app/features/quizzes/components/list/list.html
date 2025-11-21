@@ -1,4 +1,10 @@
-@if (quizzes().length === 0 && !isLoading()) {
+@if (query.isPending()) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
+    @for (item of skeletonItems(); track $index) {
+      <app-quiz-skeleton />
+    }
+  </div>
+} @else if (quizzes().length === 0) {
   <div
     class="bg-surface shadow-sm rounded-lg flex items-center flex-col p-4 min-h-40 justify-center text-secondary"
   >
@@ -11,21 +17,21 @@
       @for (quiz of quizzes(); track quiz.id) {
         <app-quiz [quiz]="quiz" />
       }
-      @if (isLoading()) {
+      @if (query.isFetchingNextPage()) {
         @for (item of skeletonItems(); track $index) {
           <app-quiz-skeleton />
         }
       }
     </div>
-    @if (isLoading()) {
-      <app-button variant="skeleton" size="lg" skeletonWidth="6.75rem" class="mx-auto"/>
+    @if (query.isFetchingNextPage()) {
+      <app-button variant="skeleton" size="lg" skeletonWidth="6.75rem" class="mx-auto" />
     }
-    @if (hasMore() && !isLoading()) {
+    @if (showButton()) {
       <app-button
         variant="secondary"
         size="lg"
         customClasses="shadow-sm mx-auto"
-        (handleClick)="loadMore()"
+        (handleClick)="query.fetchNextPage()"
       >
         Load more
       </app-button>

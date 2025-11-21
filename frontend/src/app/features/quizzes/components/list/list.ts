@@ -4,7 +4,9 @@ import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-f
 import { Quizzes } from '@/app/features/quizzes/services/quizzes/quizzes';
 import { QuizItem } from '@/app/features/quizzes/types/quiz-item';
 import { Button } from '@/app/shared/components/button/button';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -12,16 +14,34 @@ import { Component, computed, inject, OnInit } from '@angular/core';
   templateUrl: './list.html',
   styleUrl: './list.scss',
 })
-export class List implements OnInit {
+export class List {
   protected quizFiltersService = inject(QuizFilters);
   protected quizzesService = inject(Quizzes);
 
   private readonly PAGE_SIZE = 10;
-  protected isLoading = this.quizzesService.loading;
+
+  protected query = injectInfiniteQuery(() => ({
+    queryKey: ['quizzes', this.quizFiltersService.filters()],
+    queryFn: async ({ pageParam }) =>
+      lastValueFrom(
+        this.quizzesService.getQuizzes(
+          pageParam,
+          this.PAGE_SIZE,
+          this.quizFiltersService.filters(),
+        ),
+      ),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.last) return undefined;
+
+      return lastPage.pageable.pageNumber + 1;
+    },
+    initialPageParam: 0,
+  }));
 
   protected skeletonItems = computed(() => {
-    const loaded = this.quizzesService.loadedQuizzes().length;
-    const total = this.quizzesService.totalCount();
+    const pages = this.query.data()?.pages ?? [];
+    const loaded = pages.reduce((prev, curr) => prev + curr.numberOfElements, 0);
+    const total = pages[0]?.totalElements ?? 0;
 
     if (loaded === 0) return Array(this.PAGE_SIZE).fill(null);
 
@@ -31,42 +51,13 @@ export class List implements OnInit {
     return Array(skeletonCount).fill(null);
   });
 
-  protected hasMore = computed(() => {
-    const loaded = this.quizzesService.loadedQuizzes().length;
-    const total = this.quizzesService.totalCount();
-
-    const filtered = this.quizzes().length;
-
-    const filters = this.quizFiltersService.filters();
-    const hasActiveFilters = filters.category || filters.title || filters.author;
-
-    if (hasActiveFilters) return loaded < total && filtered === loaded;
-
-    return loaded < total;
-  });
-
-  protected loadMore(): void {
-    if (this.hasMore() && !this.isLoading()) this.quizzesService.getMoreQuizzes(this.PAGE_SIZE);
-  }
-
   protected quizzes = computed<QuizItem[]>(() => {
-    const filters = this.quizFiltersService.filters();
+    const pages = this.query.data()?.pages ?? [];
 
-    return this.quizzesService.loadedQuizzes().filter((quiz) => {
-      const { category, title, author } = quiz;
-
-      const matchesCategory = !filters.category || category === filters.category;
-      const matchesTitle =
-        !filters.title || title.toLowerCase().includes(filters.title.toLowerCase());
-      const matchesAuthor =
-        !filters.author || author?.toLowerCase().includes(filters.author.toLowerCase());
-
-      return matchesCategory && matchesTitle && matchesAuthor;
-    });
+    return pages.flatMap((page) => page.content);
   });
 
-  public ngOnInit(): void {
-    this.quizFiltersService.reset();
-    this.quizzesService.getInitialQuizzes(this.PAGE_SIZE);
-  }
+  protected showButton = computed(
+    () => !this.query.isFetchingNextPage() && this.query.hasNextPage(),
+  );
 }

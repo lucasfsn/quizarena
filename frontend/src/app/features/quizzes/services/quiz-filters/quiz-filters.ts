@@ -1,11 +1,6 @@
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
+import { QuizzesFilters } from '@/app/features/quizzes/types/quizzes-filters';
 import { computed, Injectable, signal } from '@angular/core';
-
-interface QuizFiltersState {
-  category?: QuizCategory;
-  title?: string;
-  author?: string;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +10,7 @@ export class QuizFilters {
   private readonly title = signal<string | undefined>(undefined);
   private readonly author = signal<string | undefined>(undefined);
 
-  public filters = computed<QuizFiltersState>(() => ({
+  public filters = computed<QuizzesFilters>(() => ({
     category: this.category(),
     title: this.title(),
     author: this.author(),
