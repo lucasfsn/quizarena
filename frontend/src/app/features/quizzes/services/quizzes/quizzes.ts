@@ -1,75 +1,44 @@
-import { MOCK_QUIZZES } from '@/app/dev/quiz-list';
+import { Page } from '@/app/core/types/page';
+import { Response } from '@/app/core/types/response';
+import { getMockQuizzes } from '@/app/dev/get-mock-quizzes';
 import { QuizItem } from '@/app/features/quizzes/types/quiz-item';
-import { Injectable, signal } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
-
-interface LoadQuizzesParams {
-  page: number;
-  pageSize: number;
-}
-
-interface LoadQuizzesResponse {
-  items: QuizItem[];
-  total: number;
-  hasMore: boolean;
-}
+import { QuizzesFilters } from '@/app/features/quizzes/types/quizzes-filters';
+import { environment } from '@/environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Quizzes {
-  private quizzes = signal<QuizItem[]>([]);
-  public loadedQuizzes = this.quizzes.asReadonly();
+  private http = inject(HttpClient);
 
-  private isLoading = signal<boolean>(false);
-  public loading = this.isLoading.asReadonly();
+  private useMock = true;
 
-  public readonly totalCount = signal<number>(0);
-  private currentPage = signal<number>(0);
+  public getQuizzes(
+    page: number = 0,
+    pageSize: number = 10,
+    filters?: QuizzesFilters,
+  ): Observable<Page<QuizItem>> {
+    if (this.useMock) return getMockQuizzes(page, pageSize, filters);
 
-  private getQuizzes(params: LoadQuizzesParams): Observable<LoadQuizzesResponse> {
-    // Simulate API call with delay
-    const { page, pageSize } = params;
-    const start = (page - 1) * pageSize;
-    const items = MOCK_QUIZZES.slice(start, start + pageSize);
-    const total = MOCK_QUIZZES.length;
+    const params = this.getQuizzesParams(page, pageSize, filters);
 
-    return of({ items, total, hasMore: start + pageSize < total }).pipe(delay(2000));
+    return this.http
+      .get<Response<Page<QuizItem>>>(`${environment.apiUrl}/quizzes`, {
+        params,
+      })
+      .pipe(map((res: Response<Page<QuizItem>>) => res.data));
   }
 
-  public getInitialQuizzes(pageSize: number = 10): void {
-    if (this.isLoading() || this.quizzes().length > 0) return;
+  private getQuizzesParams(page: number, pageSize: number, filters?: QuizzesFilters): HttpParams {
+    let params = new HttpParams().set('page', page).set('pageSize', pageSize);
 
-    this.isLoading.set(true);
-    this.currentPage.set(1);
+    if (filters?.category) params = params.set('category', filters.category);
+    if (filters?.title) params = params.set('title', filters.title);
+    if (filters?.author) params = params.set('author', filters.author);
 
-    this.getQuizzes({ page: 1, pageSize }).subscribe({
-      next: ({ items, total }) => {
-        this.quizzes.set(items);
-        this.totalCount.set(total);
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.isLoading.set(false);
-      },
-    });
-  }
-
-  public getMoreQuizzes(pageSize: number = 10): void {
-    if (this.isLoading()) return;
-
-    const nextPage = this.currentPage() + 1;
-    this.isLoading.set(true);
-
-    this.getQuizzes({ page: nextPage, pageSize }).subscribe({
-      next: ({ items }) => {
-        this.quizzes.update((curr) => [...curr, ...items]);
-        this.currentPage.set(nextPage);
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.isLoading.set(false);
-      },
-    });
+    return params;
   }
 }

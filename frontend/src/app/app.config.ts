@@ -1,13 +1,16 @@
 import { routes } from '@/app/app.routes';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import {
-    ApplicationConfig,
-    provideBrowserGlobalErrorListeners,
-    provideZoneChangeDetection,
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
+import { QueryClient, provideTanStackQuery } from '@tanstack/angular-query-experimental';
+import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 
@@ -18,6 +21,17 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch()),
+    provideTanStackQuery(
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000, // 1 minute,
+          },
+        },
+      }),
+      withDevtools(),
+    ),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
