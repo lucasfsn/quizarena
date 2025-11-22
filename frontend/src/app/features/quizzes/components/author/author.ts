@@ -1,8 +1,9 @@
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
-import { Component, effect, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-author',
@@ -11,8 +12,10 @@ import { InputText } from 'primeng/inputtext';
   styleUrl: './author.scss',
 })
 export class Author implements OnInit {
-  protected quizFiltersService = inject(QuizFilters);
   public disabled = input.required<boolean>();
+  private destroyRef = inject(DestroyRef);
+
+  protected quizFiltersService = inject(QuizFilters);
 
   public constructor() {
     effect(() => {
@@ -24,8 +27,10 @@ export class Author implements OnInit {
   protected form = new FormControl<string>('');
 
   public ngOnInit(): void {
-    this.form.valueChanges.subscribe((value) => {
+    const subscription = this.form.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
       this.quizFiltersService.setAuthor(value || undefined);
     });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }

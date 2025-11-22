@@ -5,13 +5,14 @@ import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-f
 import { Quizzes as QuizzesService } from '@/app/features/quizzes/services/quizzes/quizzes';
 import { Button } from '@/app/shared/components/button/button';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
+import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
 import { Component, computed, inject } from '@angular/core';
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-quizzes',
-  imports: [Filters, List, Button, FallbackUi],
+  imports: [Filters, List, Button, FallbackUi, FetchErrorImage],
   templateUrl: './quizzes.html',
   styleUrl: './quizzes.scss',
 })

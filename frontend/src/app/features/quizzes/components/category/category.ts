@@ -1,6 +1,6 @@
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
-import { Component, effect, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, effect, inject, input, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Select } from 'primeng/select';
@@ -16,8 +16,10 @@ interface CategoryOption {
   styleUrl: './category.scss',
 })
 export class Category implements OnInit {
-  protected quizFiltersService = inject(QuizFilters);
   public disabled = input.required<boolean>();
+  private destroyRef = inject(DestroyRef);
+
+  protected quizFiltersService = inject(QuizFilters);
 
   public constructor() {
     effect(() => {
@@ -33,8 +35,10 @@ export class Category implements OnInit {
   protected readonly form = new FormControl<CategoryOption | null>(null);
 
   public ngOnInit(): void {
-    this.form.valueChanges.subscribe((value) => {
+    const subscription = this.form.valueChanges.subscribe((value) => {
       this.quizFiltersService.setCategory(value?.name);
     });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
