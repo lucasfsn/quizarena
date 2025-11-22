@@ -1,4 +1,5 @@
-import { Component, OnInit, output } from '@angular/core';
+import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
+import { Component, effect, inject, input, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputGroup } from 'primeng/inputgroup';
@@ -12,13 +13,21 @@ import { InputText } from 'primeng/inputtext';
   styleUrl: './title.scss',
 })
 export class Title implements OnInit {
-  public titleChange = output<string | undefined>();
+  protected quizFiltersService = inject(QuizFilters);
+  public disabled = input.required<boolean>();
+
+  public constructor() {
+    effect(() => {
+      if (this.disabled()) this.form.disable({ emitEvent: false });
+      else this.form.enable({ emitEvent: false });
+    });
+  }
 
   protected form = new FormControl<string>('');
 
   public ngOnInit(): void {
     this.form.valueChanges.subscribe((value) => {
-      this.titleChange.emit(value || undefined);
+      this.quizFiltersService.setTitle(value || undefined);
     });
   }
 }
