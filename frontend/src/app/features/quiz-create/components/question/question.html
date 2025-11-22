@@ -1,0 +1,62 @@
+<div [formGroup]="questionForm()" class="bg-surface shadow-sm rounded-lg flex flex-col p-4 gap-3.5">
+  <div class="flex items-center gap-2 justify-between">
+    <p class="font-medium">Question #{{ questionIndex() + 1 }}</p>
+    <app-button
+      variant="secondary"
+      size="sm"
+      customClasses="ml-auto"
+      [disabled]="questionsCount() <= minQuestions()"
+      (handleClick)="removeQuestion.emit()"
+      >Remove question</app-button>
+  </div>
+  <div class="flex flex-col gap-1.5">
+    <p-floatlabel variant="on">
+      <textarea
+        id="title"
+        type="text"
+        pTextarea
+        class="w-full"
+        formControlName="text"
+        placeholder="Enter the question here"
+        cols="30"
+        style="resize: none"
+      ></textarea>
+      <label for="title">Question text</label>
+    </p-floatlabel>
+    <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-2" formArrayName="answers">
+        <p class="text-sm">Options (Select the correct one)</p>
+        @for (answer of answers().controls; track answer; let index = $index) {
+          <div
+            class="flex items-center gap-3 p-3 bg-background-app border border-border-light rounded-lg transition"
+            [formGroupName]="index"
+          >
+            <p-checkbox [binary]="true" formControlName="isCorrect" />
+            <input
+              id="title"
+              type="text"
+              pInputText
+              class="w-full"
+              formControlName="text"
+              placeholder="Option {{ index + 1 }}"
+            />
+            @if (answers().length > minAnswers()) {
+              <app-button variant="primary" size="md" (handleClick)="removeAnswer.emit(index)"
+                >-</app-button
+              >
+            }
+          </div>
+        }
+        @if (answers().length < maxAnswers()) {
+          <app-button
+            variant="primary"
+            size="sm"
+            customClasses="mx-auto"
+            (handleClick)="addAnswer.emit()"
+            >Add option</app-button
+          >
+        }
+      </div>
+    </div>
+  </div>
+</div>

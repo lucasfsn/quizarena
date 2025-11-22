@@ -10,14 +10,29 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: Home
+        component: Home,
       },
       {
         path: 'quizzes',
-        title: 'Browse Quizzes',
-        loadComponent: () => import('@/app/features/quizzes/quizzes').then((m) => m.Quizzes),
+        children: [
+          {
+            path: '',
+            title: 'Browse Quizzes',
+            loadComponent: () => import('@/app/features/quizzes/quizzes').then((m) => m.Quizzes),
+          },
+          {
+            path: 'new',
+            title: 'Create New Quiz',
+            loadComponent: () =>
+              import('@/app/features/quiz-create/quiz-create').then((m) => m.QuizCreate),
+          },
+        ],
       },
-      { path: 'not-found', title: 'Page Not Found', loadComponent: () => import('@/app/features/not-found/not-found').then((m) => m.NotFound) },
+      {
+        path: 'not-found',
+        title: 'Page Not Found',
+        loadComponent: () => import('@/app/features/not-found/not-found').then((m) => m.NotFound),
+      },
     ],
   },
   { path: '**', redirectTo: 'not-found' },

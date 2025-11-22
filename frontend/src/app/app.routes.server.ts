@@ -6,6 +6,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'quizzes/new',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'quizzes',
     renderMode: RenderMode.Server,
   },
