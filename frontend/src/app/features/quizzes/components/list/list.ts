@@ -30,11 +30,7 @@ export class List {
           this.quizFiltersService.filters(),
         ),
       ),
-    getNextPageParam: (lastPage) => {
-      if (lastPage.last) return undefined;
-
-      return lastPage.pageable.pageNumber + 1;
-    },
+    getNextPageParam: (lastPage) => (lastPage.last ? undefined : lastPage.number + 1),
     initialPageParam: 0,
   }));
 
