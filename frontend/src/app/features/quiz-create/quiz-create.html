@@ -10,15 +10,10 @@
       [control]="form.controls.title"
     />
     <div class="flex flex-col gap-2 md:gap-4">
-      <p class="text-xl self-start font-medium">Questions ({{ questions.length }} / 20)</p>
-      @for (question of questionControls; track question; let index = $index) {
+      <p class="text-xl self-start font-medium">Questions ({{ form.controls.questions.length }} / 20)</p>
+      @for (question of form.controls.questions.controls; track question; let index = $index) {
         <app-question
-          [minAnswers]="MIN_ANSWERS"
-          [maxAnswers]="MAX_ANSWERS"
-          [minQuestions]="MIN_QUESTIONS"
-          [questionForm]="question"
-          [questionIndex]="index"
-          [questionsCount]="questions.length"
+          [data]="getQuestionData(question, index)"
           (addAnswer)="addAnswer(index)"
           (removeAnswer)="removeAnswer(index, $event)"
           (removeQuestion)="removeQuestion(index)"
@@ -30,7 +25,7 @@
         variant="secondary"
         size="lg"
         (handleClick)="addQuestion()"
-        [disabled]="questions.length >= MAX_QUESTIONS"
+        [disabled]="form.controls.questions.length >= limits.MAX_QUESTIONS"
         >Add question</app-button
       >
       <app-button type="submit" variant="primary" size="lg" [disabled]="form.invalid"

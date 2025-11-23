@@ -1,11 +1,11 @@
-<div [formGroup]="questionForm()" class="bg-surface shadow-sm rounded-lg flex flex-col p-4 gap-3.5">
+<div [formGroup]="this.data().form" class="bg-surface shadow-sm rounded-lg flex flex-col p-4 gap-3.5">
   <div class="flex items-center gap-2 justify-between">
-    <p class="font-medium">Question #{{ questionIndex() + 1 }}</p>
+    <p class="font-medium">Question #{{ this.data().index + 1 }}</p>
     <app-button
       variant="secondary"
       size="sm"
       customClasses="ml-auto"
-      [disabled]="questionsCount() <= minQuestions()"
+      [disabled]="this.data().totalCount <= limits.MIN_QUESTIONS"
       (handleClick)="removeQuestion.emit()"
       >Remove question</app-button>
   </div>
@@ -40,14 +40,14 @@
               formControlName="text"
               placeholder="Option {{ index + 1 }}"
             />
-            @if (answers().length > minAnswers()) {
+            @if (answers().length > limits.MIN_ANSWERS) {
               <app-button variant="primary" size="md" (handleClick)="removeAnswer.emit(index)"
                 >-</app-button
               >
             }
           </div>
         }
-        @if (answers().length < maxAnswers()) {
+        @if (answers().length < limits.MAX_ANSWERS) {
           <app-button
             variant="primary"
             size="sm"
