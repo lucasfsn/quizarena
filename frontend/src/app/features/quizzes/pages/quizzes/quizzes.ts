@@ -6,7 +6,7 @@ import { Quizzes as QuizzesService } from '@/app/features/quizzes/services/quizz
 import { Button } from '@/app/shared/components/button/button';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 
@@ -16,7 +16,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './quizzes.html',
   styleUrl: './quizzes.scss',
 })
-export class Quizzes {
+export class Quizzes implements OnInit {
   protected quizFiltersService = inject(QuizFilters);
   protected quizzesService = inject(QuizzesService);
 
@@ -53,4 +53,8 @@ export class Quizzes {
 
     return pages.flatMap((page) => page.content);
   });
+
+  public ngOnInit(): void {
+    this.quizFiltersService.reset();
+  }
 }
