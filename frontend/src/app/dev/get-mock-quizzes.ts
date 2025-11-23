@@ -1,6 +1,6 @@
 import { Page } from '@/app/core/types/page';
 import { MOCK_QUIZZES } from '@/app/dev/quiz-list';
-import { QuizItem } from '@/app/features/quizzes/types/quiz-item';
+import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { QuizzesFilters } from '@/app/features/quizzes/types/quizzes-filters';
 import { delay, Observable, of } from 'rxjs';
 
@@ -8,7 +8,7 @@ export function getMockQuizzes(
   page: number,
   pageSize: number,
   filters?: QuizzesFilters,
-): Observable<Page<QuizItem>> {
+): Observable<Page<QuizPreview>> {
   let filteredQuizzes = MOCK_QUIZZES;
 
   if (filters?.category)
@@ -30,7 +30,7 @@ export function getMockQuizzes(
   const totalElements = filteredQuizzes.length;
   const totalPages = Math.ceil(totalElements / pageSize);
 
-  const mockPage: Page<QuizItem> = {
+  const mockPage: Page<QuizPreview> = {
     content,
     pageable: {
       pageNumber: page,

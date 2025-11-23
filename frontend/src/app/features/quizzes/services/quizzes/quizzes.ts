@@ -1,7 +1,9 @@
 import { Page } from '@/app/core/types/page';
 import { Response } from '@/app/core/types/response';
 import { getMockQuizzes } from '@/app/dev/get-mock-quizzes';
-import { QuizItem } from '@/app/features/quizzes/types/quiz-item';
+import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
+import { QuizDetails } from '@/app/features/quizzes/types/quiz-details';
+import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { QuizzesFilters } from '@/app/features/quizzes/types/quizzes-filters';
 import { environment } from '@/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -20,16 +22,22 @@ export class Quizzes {
     page: number = 0,
     pageSize: number = 10,
     filters?: QuizzesFilters,
-  ): Observable<Page<QuizItem>> {
+  ): Observable<Page<QuizPreview>> {
     if (this.useMock) return getMockQuizzes(page, pageSize, filters);
 
     const params = this.getQuizzesParams(page, pageSize, filters);
 
     return this.http
-      .get<Response<Page<QuizItem>>>(`${environment.apiUrl}/quizzes`, {
+      .get<Response<Page<QuizPreview>>>(`${environment.apiUrl}/quizzes`, {
         params,
       })
-      .pipe(map((res: Response<Page<QuizItem>>) => res.data));
+      .pipe(map((res: Response<Page<QuizPreview>>) => res.data));
+  }
+
+  public createQuiz(payload: QuizCreatePayload): Observable<QuizDetails> {
+    return this.http
+      .post<Response<QuizDetails>>(`${environment.apiUrl}/quizzes`, payload)
+      .pipe(map((res: Response<QuizDetails>) => res.data));
   }
 
   private getQuizzesParams(page: number, pageSize: number, filters?: QuizzesFilters): HttpParams {

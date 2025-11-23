@@ -18,13 +18,16 @@ export const routes: Routes = [
           {
             path: '',
             title: 'Browse Quizzes',
-            loadComponent: () => import('@/app/features/quizzes/quizzes').then((m) => m.Quizzes),
+            loadComponent: () =>
+              import('@/app/features/quizzes/pages/quizzes/quizzes').then((m) => m.Quizzes),
           },
           {
             path: 'new',
             title: 'Create New Quiz',
             loadComponent: () =>
-              import('@/app/features/quiz-create/quiz-create').then((m) => m.QuizCreate),
+              import('@/app/features/quizzes/pages/quiz-create/quiz-create').then(
+                (m) => m.QuizCreate,
+              ),
           },
         ],
       },
