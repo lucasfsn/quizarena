@@ -12,7 +12,7 @@
         <app-button size="md" variant="skeleton" skeletonWidth="9rem" />
         } @else {
         <app-button
-          [redirectTo]="isLoggedIn() ? '/quiz/create' : '/signup'"
+          [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
           size="md"
           variant="primary"
           customClasses="shadow-sm"
@@ -28,7 +28,7 @@
         <app-button size="lg" variant="skeleton" skeletonWidth="10rem" />
         } @else {
         <app-button
-          [redirectTo]="isLoggedIn() ? '/quiz/create' : '/signup'"
+          [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
           size="lg"
           variant="primary"
           customClasses="shadow-sm"

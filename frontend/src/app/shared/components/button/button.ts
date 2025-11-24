@@ -3,7 +3,7 @@ import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Skeleton } from 'primeng/skeleton';
 
-type Variant = 'primary' | 'secondary' | 'skeleton';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'skeleton';
 type Size = 'sm' | 'md' | 'lg';
 
 @Component({
@@ -52,6 +52,7 @@ export class Button {
     const variants: Record<Exclude<Variant, 'skeleton'>, string[]> = {
       primary: ['bg-accent', 'text-on-accent', 'hover:opacity-95', 'active:opacity-90'],
       secondary: ['bg-surface', 'text-primary', 'hover:opacity-95', 'active:opacity-90'],
+      ghost: ['bg-transparent', 'text-primary', 'hover:opacity-95', 'active:opacity-90'],
     };
 
     const variantClasses = this.disabled()

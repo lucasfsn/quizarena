@@ -31,4 +31,10 @@ export class QuizFilters {
   public setAuthor(author?: string): void {
     this.author.set(author);
   }
+
+  public reset(): void {
+    this.category.set(undefined);
+    this.title.set(undefined);
+    this.author.set(undefined);
+  }
 }

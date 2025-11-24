@@ -1,7 +1,7 @@
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
-import { QuizItem } from '@/app/features/quizzes/types/quiz-item';
+import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 
-export const MOCK_QUIZZES: QuizItem[] = [
+export const MOCK_QUIZZES: QuizPreview[] = [
   {
     id: '1',
     title: 'The World of AI Ethics',
