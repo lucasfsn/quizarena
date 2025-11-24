@@ -21,5 +21,6 @@ export const quizzesResolver: ResolveFn<void> = () => {
     initialPageParam: 0,
     getNextPageParam: (lastPage: Page<QuizPreview>) =>
       lastPage.last ? undefined : lastPage.number + 1,
+    staleTime: 10 * 60 * 1000, // 10 minutes
   });
 };
