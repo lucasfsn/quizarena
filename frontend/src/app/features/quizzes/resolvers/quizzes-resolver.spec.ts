@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ResolveFn } from '@angular/router';
 
-import { quizzesResolver } from './quizzes-resolver';
+import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 
 describe('quizzesResolver', () => {
-  const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
-      TestBed.runInInjectionContext(() => quizzesResolver(...resolverParameters));
+  const executeResolver: ResolveFn<void> = (...resolverParameters) =>
+    TestBed.runInInjectionContext(() => quizzesResolver(...resolverParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
