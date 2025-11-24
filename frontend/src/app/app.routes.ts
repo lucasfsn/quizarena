@@ -1,6 +1,7 @@
 import { Home } from '@/app/features/home/home';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
 import { Routes } from '@angular/router';
+import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
           {
             path: '',
             title: 'Browse Quizzes',
+            resolve: { quizzesResolver },
             loadComponent: () =>
               import('@/app/features/quizzes/pages/quizzes/quizzes').then((m) => m.Quizzes),
           },
