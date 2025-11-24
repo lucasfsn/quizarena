@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: usermanagement
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://database:5432/users
+    username: admin
+    password: admin
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/quizarena
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+
+server:
+  port: 8086

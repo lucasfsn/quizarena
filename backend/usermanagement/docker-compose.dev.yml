@@ -1,0 +1,38 @@
+services:
+  database:
+    image: postgres:16-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: users
+    networks:
+      - quizarena-network
+    volumes:
+      - quizarena-volume:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8086:8086"
+    depends_on:
+      - database
+    networks:
+      - quizarena-network
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /opt/
+
+networks:
+  quizarena-network:
+    name: quizarena-network
+
+volumes:
+  quizarena-volume:
