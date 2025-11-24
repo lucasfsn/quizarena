@@ -30,11 +30,8 @@ module.exports = tseslint.config(
       ],
       'arrow-parens': ['error', 'always'],
       complexity: ['error', 8],
-      // indent: ["error", 2],
-      // "no-console": "error",
       'no-else-return': 'error',
       'no-nested-ternary': 'error',
-      // "no-param-reassign": "error",
       'max-depth': ['error', 2],
       'max-nested-callbacks': ['error', 3],
       'newline-before-return': 'error',
@@ -163,14 +160,10 @@ module.exports = tseslint.config(
       '@typescript-eslint/typedef': [
         'error',
         {
-          // "arrowParameter": true,
-          // "variableDeclaration": true,
-          // "memberVariableDeclaration": true,
           arrayDestructuring: false,
           parameter: true,
           propertyDeclaration: true,
           variableDeclarationIgnoreFunction: true,
-          // "objectDestructuring": true
         },
       ],
     },

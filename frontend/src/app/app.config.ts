@@ -1,5 +1,5 @@
 import { routes } from '@/app/app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -13,6 +13,7 @@ import { QueryClient, provideTanStackQuery } from '@tanstack/angular-query-exper
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
+import { apiErrorInterceptor } from '@/app/core/interceptors/api-error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([apiErrorInterceptor])),
     provideTanStackQuery(
       new QueryClient({
         defaultOptions: {
