@@ -13,8 +13,7 @@
   --color-accent: var(--accent); /* Primary accent color, buttons, links */
   --color-notification: var(--notification); /* Notification/alert color */
   --color-border-light: var(--border-light); /* Light borders and separators */
-  --color-game-single-bg: var(--game-single-bg); /* Single Player box background */
-  --color-game-multi-bg: var(--game-multi-bg); /* Multiplayer box background */
+  --color-tertiary: var(--tertiary); /* Tertiary text */
   --color-status-success: var(--status-success); /* Correct answer color */
   --color-status-error: var(--status-error); /* Incorrect answer color */
 
@@ -38,8 +37,7 @@
   --accent: #007bff;
   --notification: #dc3545;
   --border-light: #e0e0e0;
-  --game-single-bg: #ffb74d;
-  --game-multi-bg: #4db6ac;
+  --tertiary: #d19338;
   --status-success: #28a745;
   --status-error: #dc3545;
 }
