@@ -1,0 +1,50 @@
+<div class="flex flex-col gap-4 md:gap-6 items-center w-full">
+  <h1 class="text-3xl sm:text-4xl font-bold text-center">Multiplayer Lobby</h1>
+  <div class="flex gap-8 w-full">
+    <svg si-game-lobby-image class="flex-1 max-h-150"></svg>
+    <div class="flex flex-col gap-3 min-w-64 sm:min-w-md">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-2xl text-center">{{ game().quiz.title }}</h2>
+        <div class="flex gap-2 justify-between items-center text-sm">
+          <p>{{ game().quiz.category }}</p>
+          <p>{{ game().quiz.questionsCount }} questions</p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col bg-surface gap-5 p-6 rounded-md shadow-sm items-center min-h-64 justify-between"
+      >
+        <div class="flex flex-col items-center gap-0.5">
+          <p class="uppercase font-medium">Lobby code</p>
+          <p class="uppercase font-extrabold text-5xl">{{ game().roomCode }}</p>
+        </div>
+        <div class="flex gap-2 justify-between items-center w-full">
+          <app-button variant="ghost" size="lg">Cancel</app-button>
+          <!--<app-button variant="secondary" size="md">Leave</app-button>-->
+          <app-button variant="primary" size="lg">Start quiz</app-button>
+        </div>
+      </div>
+    </div>
+    <div class="flex-1 bg-surface rounded-md shadow-sm p-3 self-start flex flex-col gap-4">
+      <p class="font-medium text-xl text-center">Players joined ({{ game().players.length }})</p>
+      <div class="flex flex-col gap-2 overflow-y-auto max-h-150">
+        @for (player of game().players; track player.user.id) {
+        <div class="flex gap-2">
+          <div
+            class="aspect-square size-12 rounded-full flex items-center justify-center focus-ring text-on-accent text-2xl"
+            [class.bg-tertiary]="player.isHost"
+            [class.bg-primary]="!player.isHost"
+          >
+            {{ player.user.firstName.charAt(0) + player.user.lastName.charAt(0) }}
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="text-xl text-shadow-sm" [class.text-tertiary]="player.isHost">
+              {{ player.user.firstName }} {{player.user.lastName}}
+            </p>
+            <p class="text-sm text-secondary">({{ player.user.username }})</p>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

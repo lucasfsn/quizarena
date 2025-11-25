@@ -1,7 +1,7 @@
 import { Home } from '@/app/features/home/home';
+import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
 import { Routes } from '@angular/router';
-import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 
 export const routes: Routes = [
   {
@@ -32,6 +32,11 @@ export const routes: Routes = [
               ),
           },
         ],
+      },
+      {
+        path: 'game/:id',
+        title: 'Quiz Game',
+        loadComponent: () => import('@/app/features/game/pages/game/game').then((m) => m.Game),
       },
       {
         path: 'not-found',
