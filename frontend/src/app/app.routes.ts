@@ -1,7 +1,8 @@
 import { Home } from '@/app/features/home/home';
+import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
 import { Routes } from '@angular/router';
-import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
+import { authGuard } from '@/app/core/guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,7 @@ export const routes: Routes = [
               import('@/app/features/quizzes/pages/quiz-create/quiz-create').then(
                 (m) => m.QuizCreate,
               ),
+            canActivate: [authGuard],
           },
         ],
       },

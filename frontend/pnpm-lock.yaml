@@ -41,6 +41,12 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.1.0
+      keycloak-angular:
+        specifier: ^20.0.0
+        version: 20.0.0(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/router@20.3.4(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.4(@angular/animations@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(keycloak-js@26.2.1)(rxjs@7.8.2)
+      keycloak-js:
+        specifier: ^26.2.1
+        version: 26.2.1
       primeicons:
         specifier: ^7.0.0
         version: 7.0.0
@@ -2685,6 +2691,18 @@ packages:
     resolution: {integrity: sha512-LrtUxbdvt1gOpo3gxG+VAJlJAEMhbWlM4YrFQgql98FwF7+K8K12LYO4hnDdUkNjeztYrOXEMqgTajSWgmtI/w==}
     engines: {node: '>= 10'}
     hasBin: true
+
+  keycloak-angular@20.0.0:
+    resolution: {integrity: sha512-p9ThVUN8TNz15M2dd11VRDdHzgEDRSSxvyRGtK4N45lTbfs52DeNK+YXcpgt8ZX0/YN27GjU9GjiB4odI4/A2Q==}
+    peerDependencies:
+      '@angular/common': ^20
+      '@angular/core': ^20
+      '@angular/router': ^20
+      keycloak-js: ^18 || ^19 || ^20 || ^21 || ^22 || ^23 || ^24 || ^25 || ^26
+      rxjs: ^7
+
+  keycloak-js@26.2.1:
+    resolution: {integrity: sha512-bZt6fQj/TLBAmivXSxSlqAJxBx/knNZDQGJIW4ensGYGN4N6tUKV8Zj3Y7/LOV8eIpvWsvqV70fbACihK8Ze0Q==}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -6592,6 +6610,17 @@ snapshots:
       - debug
       - supports-color
       - utf-8-validate
+
+  keycloak-angular@20.0.0(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/router@20.3.4(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.4(@angular/animations@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(keycloak-js@26.2.1)(rxjs@7.8.2):
+    dependencies:
+      '@angular/common': 20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/core': 20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@angular/router': 20.3.4(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.4(@angular/animations@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
+      keycloak-js: 26.2.1
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  keycloak-js@26.2.1: {}
 
   keyv@4.5.4:
     dependencies:
