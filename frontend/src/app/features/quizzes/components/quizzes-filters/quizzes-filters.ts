@@ -13,7 +13,7 @@ import { Component, inject, input } from '@angular/core';
 export class QuizzesFilters {
   public disabled = input.required<boolean>();
 
-  protected quizFiltersService = inject(QuizFilters);
+  private quizFiltersService = inject(QuizFilters);
 
   protected get showAuthorFilter(): boolean {
     return this.quizFiltersService.showAuthorFilter();

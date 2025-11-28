@@ -19,7 +19,7 @@ export class QuizzesFiltersCategory implements OnInit {
   public disabled = input.required<boolean>();
   private destroyRef = inject(DestroyRef);
 
-  protected quizFiltersService = inject(QuizFilters);
+  private quizFiltersService = inject(QuizFilters);
 
   public constructor() {
     effect(() => {
