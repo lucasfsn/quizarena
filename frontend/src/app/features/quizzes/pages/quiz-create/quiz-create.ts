@@ -1,8 +1,8 @@
-import { Toast } from '@/app/core/services/toast/toast';
 import { QuizCreateForm } from '@/app/features/quizzes/components/quiz-create-form/quiz-create-form';
 import { Quizzes } from '@/app/features/quizzes/services/quizzes/quizzes';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
 import { QuizDetails } from '@/app/features/quizzes/types/quiz-details';
+import { Toast } from '@/app/shared/services/toast/toast';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { injectMutation } from '@tanstack/angular-query-experimental';

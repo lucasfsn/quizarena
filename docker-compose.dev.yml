@@ -6,6 +6,9 @@ services:
     restart: always
     environment:
       - NG_APP_API_URL=${NG_APP_API_URL}
+      - NG_APP_KEYCLOAK_AUTHORITY=${NG_APP_KEYCLOAK_AUTHORITY}
+      - NG_APP_KEYCLOAK_CLIENT_ID=${NG_APP_KEYCLOAK_CLIENT_ID}
+      - NG_APP_KEYCLOAK_REALM=${NG_APP_KEYCLOAK_REALM}
     develop:
       watch:
         - action: rebuild
@@ -16,7 +19,7 @@ services:
           ignore:
             - node_modules
     ports:
-      - '4200:4200'
+      - "4200:4200"
     networks:
       - quizarena-client-network
     # depends_on:
@@ -38,7 +41,7 @@ services:
           path: ./backend/QuizService
           target: /opt
     ports:
-      - '8081:8080'
+      - "8081:8080"
     networks:
       - quizarena-server-network
     depends_on:
@@ -52,7 +55,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - quizarena-postgresql-data:/var/lib/postgresql/data
     networks:

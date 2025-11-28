@@ -13,6 +13,7 @@
     />
     <span class="hidden sm:block group-hover:text-brand-dark">Quizarena</span>
   </a>
+  @if (isLoggedIn()) {
   <p-popover #menu>
     <div class="flex flex-col gap-1.5">
       <button
@@ -32,4 +33,9 @@
     </div>
   </p-popover>
   <app-user-button (handleClick)="menu.toggle($event)" />
+  } @else {
+  <app-button variant="ghost" size="lg" customClasses="!py-1" (handleClick)="onLogin()"
+    >Login</app-button
+  >
+  }
 </div>

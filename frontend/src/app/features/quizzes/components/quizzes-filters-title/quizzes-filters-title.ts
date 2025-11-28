@@ -17,7 +17,7 @@ export class QuizzesFiltersTitle implements OnInit {
   private destroyRef = inject(DestroyRef);
   public disabled = input.required<boolean>();
 
-  protected quizFiltersService = inject(QuizFilters);
+  private quizFiltersService = inject(QuizFilters);
 
   public constructor() {
     effect(() => {

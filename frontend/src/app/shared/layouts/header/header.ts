@@ -1,17 +1,29 @@
+import { Authorization } from '@/app/core/auth/authorization';
+import { Button } from '@/app/shared/components/button/button';
 import { UserButton } from '@/app/shared/components/user-button/user-button';
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, PopoverModule, UserButton, NgOptimizedImage],
+  imports: [RouterLink, PopoverModule, UserButton, NgOptimizedImage, Button],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
+  private authorizationService = inject(Authorization);
+
+  protected onLogin(): void {
+    this.authorizationService.login();
+  }
+
   protected onLogout(): void {
-    // TODO: Implement logout logic here
+    this.authorizationService.logout();
+  }
+
+  protected isLoggedIn(): boolean {
+    return this.authorizationService.isLoggedIn();
   }
 }
