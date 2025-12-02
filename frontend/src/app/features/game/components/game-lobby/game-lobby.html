@@ -1,50 +1,76 @@
-<div class="flex flex-col gap-4 md:gap-6 items-center w-full">
-  <h1 class="text-3xl sm:text-4xl font-bold text-center">Multiplayer Lobby</h1>
-  <div class="flex gap-8 w-full">
-    <svg si-game-lobby-image class="flex-1 max-h-150"></svg>
-    <div class="flex flex-col gap-3 min-w-64 sm:min-w-md">
-      <div class="flex flex-col gap-2">
-        <h2 class="text-2xl text-center">{{ game().quiz.title }}</h2>
-        <div class="flex gap-2 justify-between items-center text-sm">
-          <p>{{ game().quiz.category }}</p>
-          <p>{{ game().quiz.questionsCount }} questions</p>
-        </div>
-      </div>
+<div class="flex flex-col gap-4 md:gap-8 items-center w-full">
+  <div class="self-start flex flex-col gap-1">
+    <div class="flex flex-col sm:flex-row gap-1 sm:gap-3 items-center">
+      <h1 class="text-2xl xs:text-3xl sm:text-5xl font-bold text-center">
+        {{ game().quiz.title }}
+      </h1>
       <div
-        class="flex flex-col bg-surface gap-5 p-6 rounded-md shadow-sm items-center min-h-64 justify-between"
+        class="self-start sm:self-center bg-accent rounded-full text-xs sm:text-base w-fit px-2 py-0.5 sm:px-3 sm:py-1 text-on-accent shadow-sm shrink-0"
       >
-        <div class="flex flex-col items-center gap-0.5">
-          <p class="uppercase font-medium">Lobby code</p>
-          <p class="uppercase font-extrabold text-5xl">{{ game().roomCode }}</p>
-        </div>
-        <div class="flex gap-2 justify-between items-center w-full">
-          <app-button variant="ghost" size="lg">Cancel</app-button>
-          <!--<app-button variant="secondary" size="md">Leave</app-button>-->
-          <app-button variant="primary" size="lg">Start quiz</app-button>
-        </div>
+        {{game().quiz.questionsCount }} questions
       </div>
     </div>
-    <div class="flex-1 bg-surface rounded-md shadow-sm p-3 self-start flex flex-col gap-4">
-      <p class="font-medium text-xl text-center">Players joined ({{ game().players.length }})</p>
-      <div class="flex flex-col gap-2 overflow-y-auto max-h-150">
-        @for (player of game().players; track player.user.id) {
-        <div class="flex gap-2">
-          <div
-            class="aspect-square size-12 rounded-full flex items-center justify-center focus-ring text-on-accent text-2xl"
-            [class.bg-tertiary]="player.isHost"
-            [class.bg-primary]="!player.isHost"
+    <h2 class="text-secondary text-sm sm:text-lg">{{ game().quiz.category }}</h2>
+  </div>
+  <div class="flex flex-col gap-8 w-full bg-surface rounded-4xl shadow-md px-6 py-4">
+    <div class="flex gap-4 justify-center">
+      <svg si-game-lobby-image class="scale-x-[-1] max-h-100 shrink-0 hidden sm:flex"></svg>
+      <div class="flex flex-col gap-2.5 sm:gap-4 items-center justify-center">
+        <div class="flex items-center gap-4">
+          <p class="uppercase font-extrabold text-4xl sm:text-5xl lg:text-7xl">
+            {{ game().roomCode }}
+          </p>
+          <app-button
+            variant="primary"
+            size="md"
+            class="hidden sm:flex shrink-0"
+            (handleClick)="copyRoomCode(game().roomCode)"
+            >Copy code</app-button
           >
-            {{ player.user.firstName.charAt(0) + player.user.lastName.charAt(0) }}
-          </div>
-          <div class="flex flex-col gap-1">
-            <p class="text-xl text-shadow-sm" [class.text-tertiary]="player.isHost">
-              {{ player.user.firstName }} {{player.user.lastName}}
-            </p>
-            <p class="text-sm text-secondary">({{ player.user.username }})</p>
-          </div>
+          <app-button
+            variant="primary"
+            size="sm"
+            class="flex sm:hidden shrink-0"
+            (handleClick)="copyRoomCode(game().roomCode)"
+            >Copy code</app-button
+          >
         </div>
-        }
+        <p class="text-accent font-medium text-base sm:text-lg">
+          Share this code with your friends!
+        </p>
+        <p-carousel
+          [value]="game().players"
+          [numVisible]="5"
+          [numScroll]="2"
+          [circular]="true"
+          [showNavigators]="true"
+          [showIndicators]="false"
+          class="max-w-2xs sm:max-w-xs lg:max-w-xl"
+        >
+          <ng-template let-player #item>
+            <div class="flex gap-2 items-center min-w-34 sm:min-w-48 p-2">
+              <div
+                class="aspect-square size-6 sm:size-8 rounded-full flex items-center justify-center focus-ring text-on-accent text-xs sm:text-base"
+                [class.bg-tertiary]="player.isHost"
+                [class.bg-primary]="!player.isHost"
+              >
+                {{ player.user.firstName.charAt(0) + player.user.lastName.charAt(0) }}
+              </div>
+              <p class="text-base sm:text-lg text-shadow-sm" [class.text-tertiary]="player.isHost">
+                {{ player.user.firstName }} {{player.user.lastName}}
+              </p>
+            </div>
+          </ng-template>
+        </p-carousel>
       </div>
+    </div>
+    <div class="hidden sm:flex gap-2 self-center items-center">
+      <app-button variant="ghost" size="lg">Cancel</app-button>
+      <app-button variant="primary" size="lg">Start game</app-button>
+    </div>
+    <div class="flex sm:hidden gap-2 self-center items-center">
+      <app-button variant="ghost" size="md">Cancel</app-button>
+      <app-button variant="primary" size="md">Start game</app-button>
     </div>
   </div>
 </div>
