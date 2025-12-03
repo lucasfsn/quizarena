@@ -1,14 +1,10 @@
-@if (isLoading()) {
-  <p-skeleton width="2rem" height="2rem" borderRadius="9999px" />
+@if (isLoggedIn()) {
+<button
+  (click)="onClick($event)"
+  class="bg-brand-dark aspect-square size-8 rounded-full border-4 border-border-light flex items-center justify-center focus-ring"
+>
+  <i class="pi pi-user text-border-light"></i>
+</button>
 } @else {
-  @if (isLoggedIn()) {
-    <button
-      (click)="onClick($event)"
-      class="bg-brand-dark aspect-square size-8 rounded-full border-4 border-border-light flex items-center justify-center focus-ring"
-    >
-      <span class="text-on-accent font-extrabold text-xl">J</span>
-    </button>
-  } @else {
-    <app-button redirectTo="/login" size="md" variant="primary">Login</app-button>
-  }
+<app-button redirectTo="/login" size="md" variant="primary">Login</app-button>
 }
