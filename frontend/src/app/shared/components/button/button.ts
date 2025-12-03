@@ -41,6 +41,8 @@ export class Button {
       'rounded-full',
       'transition-colors',
       'active:ring-0',
+      'cursor-default',
+      'select-none',
     ];
 
     const sizes: Record<Size, string[]> = {

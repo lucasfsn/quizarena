@@ -16,6 +16,19 @@ export class GameLobby {
 
   private toastService = inject(Toast);
 
+  protected responsiveOptions = [
+    {
+      breakpoint: '1024px',
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: '500px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
+
   protected copyRoomCode(gameCode: string): void {
     navigator.clipboard
       .writeText(gameCode)

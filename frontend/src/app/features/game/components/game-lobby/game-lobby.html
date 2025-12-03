@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-4 md:gap-8 items-center w-full">
+<div class="flex flex-col gap-4 md:gap-8 items-center w-full h-full">
   <div class="self-start flex flex-col gap-1">
     <div class="flex flex-col sm:flex-row gap-1 sm:gap-3 items-center">
       <h1 class="text-2xl xs:text-3xl sm:text-5xl font-bold text-center">
@@ -14,7 +14,7 @@
   </div>
   <div class="flex flex-col gap-8 w-full bg-surface rounded-4xl shadow-md px-6 py-4">
     <div class="flex gap-4 justify-center">
-      <svg si-game-lobby-image class="scale-x-[-1] max-h-100 shrink-0 hidden sm:flex"></svg>
+      <svg si-game-lobby-image class="scale-x-[-1] max-h-115 shrink-0 hidden sm:flex"></svg>
       <div class="flex flex-col gap-2.5 sm:gap-4 items-center justify-center">
         <div class="flex items-center gap-4">
           <p class="uppercase font-extrabold text-4xl sm:text-5xl lg:text-7xl">
@@ -35,28 +35,33 @@
             >Copy code</app-button
           >
         </div>
-        <p class="text-accent font-medium text-base sm:text-lg">
+        <p class="text-accent font-medium text-base sm:text-lg cursor-default select-none">
           Share this code with your friends!
         </p>
         <p-carousel
           [value]="game().players"
-          [numVisible]="5"
-          [numScroll]="2"
+          [numVisible]="3"
+          [numScroll]="1"
           [circular]="true"
-          [showNavigators]="true"
           [showIndicators]="false"
-          class="max-w-2xs sm:max-w-xs lg:max-w-xl"
+          [responsiveOptions]="responsiveOptions"
+          [autoplayInterval]="2000"
+          contentClass="p-2"
+          class="max-w-2xs xs:max-w-sm md:max-w-md lg:max-w-2xl"
         >
           <ng-template let-player #item>
-            <div class="flex gap-2 items-center min-w-34 sm:min-w-48 p-2">
+            <div class="flex gap-2 items-center justify-center p-1">
               <div
-                class="aspect-square size-6 sm:size-8 rounded-full flex items-center justify-center focus-ring text-on-accent text-xs sm:text-base"
+                class="aspect-square size-6 sm:size-8 rounded-full flex items-center justify-center focus-ring text-on-accent text-xs sm:text-base cursor-default select-none"
                 [class.bg-tertiary]="player.isHost"
                 [class.bg-primary]="!player.isHost"
               >
                 {{ player.user.firstName.charAt(0) + player.user.lastName.charAt(0) }}
               </div>
-              <p class="text-base sm:text-lg text-shadow-sm" [class.text-tertiary]="player.isHost">
+              <p
+                class="text-base sm:text-lg text-shadow-sm cursor-default select-none"
+                [class.text-tertiary]="player.isHost"
+              >
                 {{ player.user.firstName }} {{player.user.lastName}}
               </p>
             </div>
