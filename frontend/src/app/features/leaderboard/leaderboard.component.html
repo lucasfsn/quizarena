@@ -1,0 +1,25 @@
+<div class="leaderboard-wrapper">
+
+  <h2>Leaderboard</h2>
+
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="error">Failed to load leaderboard.</div>
+
+  <table *ngIf="!loading && !error">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>User</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of leaderboard; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.score }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
