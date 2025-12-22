@@ -24,7 +24,14 @@ export const questionReceived = createAction(
   '[Socket] Question Received',
   props<{ question: Question }>(),
 );
-export const submitAnswer = createAction('[Question] Submit Answer', props<{ answerId: string }>());
+export const answerSelected = createAction(
+  '[Question] Answer Selected',
+  props<{ answerId: string | null }>(),
+);
+export const submitAnswer = createAction(
+  '[Question] Submit Answer',
+  props<{ answerId: string | null }>(),
+);
 export const answerResultsReceived = createAction(
   '[Socket] Answer Results Received',
   props<{ results: AnswerResults }>(),

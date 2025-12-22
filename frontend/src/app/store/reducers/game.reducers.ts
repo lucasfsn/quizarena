@@ -4,31 +4,35 @@ import { Lobby } from '@/app/features/game/types/lobby';
 import { Question } from '@/app/features/game/types/question';
 import {
   answerResultsReceived,
+  answerSelected,
   gameError,
   gameFinished,
   lobbyUpdated,
   questionReceived,
   resetGame,
   socketConnected,
+  submitAnswer,
 } from '@/app/store/actions/game.actions';
 import { createReducer, on } from '@ngrx/store';
 
-enum GameStatus {
+export enum GameStatus {
   IDLE = 'idle',
   LOBBY = 'lobby',
   QUESTION = 'question',
-  ANSWERS = 'answers',
+  ANSWER = 'answer',
   FINISHED = 'finished',
   ERROR = 'error',
 }
 
-interface GameState {
+export interface GameState {
   lobby: Lobby | null;
   question: Question | null;
   answers: AnswerResults | null;
   gameResult: GameResult | null;
   status: GameStatus;
   error?: string;
+  selectedAnswerId: string | null;
+  hasSubmitted: boolean;
 }
 
 export const initialState: GameState = {
@@ -38,6 +42,8 @@ export const initialState: GameState = {
   gameResult: null,
   status: GameStatus.IDLE,
   error: undefined,
+  selectedAnswerId: null,
+  hasSubmitted: false,
 };
 
 export const gameReducer = createReducer(
@@ -57,10 +63,18 @@ export const gameReducer = createReducer(
     answers: null,
     status: GameStatus.QUESTION,
   })),
+  on(answerSelected, (state, { answerId }) => ({
+    ...state,
+    selectedAnswerId: answerId,
+  })),
+  on(submitAnswer, (state) => ({
+    ...state,
+    hasSubmitted: true,
+  })),
   on(answerResultsReceived, (state, { results }) => ({
     ...state,
     answers: results,
-    status: GameStatus.ANSWERS,
+    status: GameStatus.ANSWER,
   })),
   on(gameFinished, (state, { result }) => ({
     ...state,
