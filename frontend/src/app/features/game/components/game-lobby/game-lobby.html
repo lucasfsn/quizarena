@@ -56,13 +56,13 @@
                 [class.bg-tertiary]="player.isHost"
                 [class.bg-primary]="!player.isHost"
               >
-                {{ player.user.firstName.charAt(0) + player.user.lastName.charAt(0) }}
+                {{ player.player.firstName.charAt(0) + player.player.lastName.charAt(0) }}
               </div>
               <p
                 class="text-base sm:text-lg text-shadow-sm cursor-default select-none"
                 [class.text-tertiary]="player.isHost"
               >
-                {{ player.user.firstName }} {{player.user.lastName}}
+                {{ player.player.firstName }} {{player.player.lastName}}
               </p>
             </div>
           </ng-template>
