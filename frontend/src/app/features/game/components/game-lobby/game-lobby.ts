@@ -1,5 +1,5 @@
 import { Toast } from '@/app/core/services/toast/toast';
-import { Lobby } from '@/app/features/game/types/lobby';
+import { GameDetails } from '@/app/features/game/types/game-details';
 import { Button } from '@/app/shared/components/button/button';
 import { GameLobbyImage } from '@/app/shared/components/svg/game-lobby-image';
 import { Component, inject, input } from '@angular/core';
@@ -12,7 +12,7 @@ import { Carousel } from 'primeng/carousel';
   styleUrl: './game-lobby.scss',
 })
 export class GameLobby {
-  public game = input.required<Lobby>();
+  public game = input.required<GameDetails>();
 
   private toastService = inject(Toast);
 

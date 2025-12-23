@@ -1,7 +1,7 @@
-import { Lobby } from '@/app/features/game/types/lobby';
+import { GameDetails } from '@/app/features/game/types/game-details';
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
 
-export const MOCK_GAME_LOBBY: Lobby = {
+export const MOCK_GAME_LOBBY: GameDetails = {
   roomCode: 'ABC123',
   quiz: {
     id: '1',
@@ -112,5 +112,4 @@ export const MOCK_GAME_LOBBY: Lobby = {
     },
   ],
   hostId: '79d544be-253c-4a71-abbe-225fcc25b5e8',
-  isStarted: false,
 };

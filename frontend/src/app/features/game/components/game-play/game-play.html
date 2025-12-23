@@ -21,14 +21,10 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
       @for (answer of question().answers; track answer.id; let i = $index) {
       <button
-        class="rounded-3xl border-border-light border-3 text-lg md:text-xl px-4 py-2 cursor-pointer hover:text-shadow-2xs active:text-shadow-2xs text-break transition-all focus-ring"
+        class="bg-surface rounded-3xl border-border-light border-3 text-lg md:text-xl px-4 py-2 cursor-pointer hover:text-shadow-2xs active:text-shadow-2xs text-break transition-all focus-ring disabled:cursor-default"
         (click)="onAnswerSelect(answer)"
         [disabled]="isLocked()"
-        [class.bg-border-light]="!hasResults() && isSelected(answer.id)"
-        [class.border-secondary]="!hasResults() && isSelected(answer.id)"
-        [class.bg-surface]="!hasResults() && !isSelected(answer.id)"
-        [class.border-status-success]="hasResults() && isCorrectAnswer(answer.id)"
-        [class.border-status-error]="hasResults() && isMyWrongAnswer(answer.id)"
+        [ngClass]="answerClass(answer.id)"
       >
         {{ i+1 }}. {{ answer.label }}
       </button>

@@ -1,7 +1,7 @@
 import { GameSocket } from '@/app/features/game/services/game-socket';
 import { ServerMessage } from '@/app/features/game/types/server-message';
 import {
-  answerResultsReceived,
+  correctAnswerIdReceived,
   GameAction,
   gameError,
   gameFinished,
@@ -62,11 +62,11 @@ export class GameEffects {
   private mapMessageToAction(message: ServerMessage): GameAction {
     switch (message.type) {
       case 'LOBBY_UPDATE':
-        return lobbyUpdated({ lobby: message.payload });
+        return lobbyUpdated({ gameDetails: message.payload });
       case 'QUESTION':
         return questionReceived({ question: message.payload });
-      case 'ANSWER_RESULTS':
-        return answerResultsReceived({ results: message.payload });
+      case 'CORRECT_ANSWER':
+        return correctAnswerIdReceived(message.payload);
       case 'GAME_FINISHED':
         return gameFinished({ result: message.payload });
       case 'ERROR':

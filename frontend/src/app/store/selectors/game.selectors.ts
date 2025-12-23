@@ -1,5 +1,5 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { GameState } from '@/app/store/reducers/game.reducers';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const selectGameState = createFeatureSelector<GameState>('game');
 
@@ -12,4 +12,7 @@ export const selectHasSubmitted = createSelector(selectGameState, (state) => sta
 
 export const selectGameStatus = createSelector(selectGameState, (state) => state.status);
 
-export const selectAnswerResults = createSelector(selectGameState, (state) => state.answers);
+export const selectCorrectAnswerId = createSelector(
+  selectGameState,
+  (state) => state.correctAnswerId,
+);

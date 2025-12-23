@@ -1,10 +1,9 @@
-import { AnswerResults } from '@/app/features/game/types/answer-results';
+import { GameDetails } from '@/app/features/game/types/game-details';
 import { GameResult } from '@/app/features/game/types/game-result';
-import { Lobby } from '@/app/features/game/types/lobby';
 import { Question } from '@/app/features/game/types/question';
 import {
-  answerResultsReceived,
   answerSelected,
+  correctAnswerIdReceived,
   gameError,
   gameFinished,
   lobbyUpdated,
@@ -25,9 +24,9 @@ export enum GameStatus {
 }
 
 export interface GameState {
-  lobby: Lobby | null;
+  gameDetails: GameDetails | null;
   question: Question | null;
-  answers: AnswerResults | null;
+  correctAnswerId: string | null;
   gameResult: GameResult | null;
   status: GameStatus;
   error?: string;
@@ -36,9 +35,9 @@ export interface GameState {
 }
 
 export const initialState: GameState = {
-  lobby: null,
+  gameDetails: null,
   question: null,
-  answers: null,
+  correctAnswerId: null,
   gameResult: null,
   status: GameStatus.IDLE,
   error: undefined,
@@ -52,15 +51,15 @@ export const gameReducer = createReducer(
     ...state,
     status: GameStatus.LOBBY,
   })),
-  on(lobbyUpdated, (state, { lobby }) => ({
+  on(lobbyUpdated, (state, { gameDetails }) => ({
     ...state,
-    lobby,
+    gameDetails,
     status: GameStatus.LOBBY,
   })),
   on(questionReceived, (state, { question }) => ({
     ...state,
     question,
-    answers: null,
+    correctAnswer: null,
     status: GameStatus.QUESTION,
   })),
   on(answerSelected, (state, { answerId }) => ({
@@ -71,9 +70,9 @@ export const gameReducer = createReducer(
     ...state,
     hasSubmitted: true,
   })),
-  on(answerResultsReceived, (state, { results }) => ({
+  on(correctAnswerIdReceived, (state, { correctAnswerId }) => ({
     ...state,
-    answers: results,
+    correctAnswerId,
     status: GameStatus.ANSWER,
   })),
   on(gameFinished, (state, { result }) => ({
