@@ -1,6 +1,6 @@
 import {
-    QuizCreateFormQuestion,
-    QuizCreateFormQuestionData,
+  QuizCreateFormQuestion,
+  QuizCreateFormQuestionData,
 } from '@/app/features/quizzes/components/quiz-create-form-question/quiz-create-form-question';
 import { QuizCreateFormTitle } from '@/app/features/quizzes/components/quiz-create-form-title/quiz-create-form-title';
 import { QUIZ_FORM_CONSTRAINTS } from '@/app/features/quizzes/constants/quiz-form-consts';

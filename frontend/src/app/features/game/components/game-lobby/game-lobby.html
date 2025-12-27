@@ -7,7 +7,7 @@
       <div
         class="self-start sm:self-center bg-accent rounded-full text-xs sm:text-base w-fit px-2 py-0.5 sm:px-3 sm:py-1 text-on-accent shadow-sm shrink-0"
       >
-        {{game().quiz.questionsCount }} questions
+        {{ game().quiz.questionsCount }} questions
       </div>
     </div>
     <h2 class="text-secondary text-sm sm:text-lg">{{ game().quiz.category }}</h2>
@@ -62,7 +62,7 @@
                 class="text-base sm:text-lg text-shadow-sm cursor-default select-none"
                 [class.text-tertiary]="isHost()"
               >
-                {{ player.firstName }} {{player.lastName}}
+                {{ player.firstName }} {{ player.lastName }}
               </p>
             </div>
           </ng-template>
@@ -72,13 +72,13 @@
     <div class="hidden sm:flex gap-2 self-center items-center">
       <app-button variant="ghost" size="lg" (handleClick)="leave()">Leave</app-button>
       @if (isHost()) {
-      <app-button variant="primary" size="lg" (handleClick)="startGame()">Start game</app-button>
+        <app-button variant="primary" size="lg" (handleClick)="startGame()">Start game</app-button>
       }
     </div>
     <div class="flex sm:hidden gap-2 self-center items-center">
       <app-button variant="ghost" size="md" (handleClick)="leave()">Leave</app-button>
       @if (isHost()) {
-      <app-button variant="primary" size="md" (handleClick)="startGame()">Start game</app-button>
+        <app-button variant="primary" size="md" (handleClick)="startGame()">Start game</app-button>
       }
     </div>
   </div>

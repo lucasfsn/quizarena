@@ -31,39 +31,40 @@
       <div class="flex flex-col gap-2" formArrayName="answers">
         <p class="text-xs sm:text-sm">Options (you can select multiple answers)</p>
         @for (answer of answers().controls; track answer; let index = $index) {
-        <div
-          class="flex items-center gap-3 p-3 bg-background-app border border-border-light rounded-lg transition"
-          [formGroupName]="index"
-        >
-          <p-checkbox [binary]="true" formControlName="isCorrect" />
-          <input
-            id="title"
-            type="text"
-            pInputText
-            class="w-full"
-            formControlName="text"
-            placeholder="Option {{ index + 1 }}"
-          />
-          @if (answers().length > limits.MIN_ANSWERS) {
+          <div
+            class="flex items-center gap-3 p-3 bg-background-app border border-border-light rounded-lg transition"
+            [formGroupName]="index"
+          >
+            <p-checkbox [binary]="true" formControlName="isCorrect" />
+            <input
+              id="title"
+              type="text"
+              pInputText
+              class="w-full"
+              formControlName="text"
+              placeholder="Option {{ index + 1 }}"
+            />
+            @if (answers().length > limits.MIN_ANSWERS) {
+              <app-button
+                variant="primary"
+                size="sm"
+                customClasses="aspect-square"
+                (handleClick)="removeAnswer.emit(index)"
+                [disabled]="isLoading()"
+                >-</app-button
+              >
+            }
+          </div>
+        }
+        @if (answers().length < limits.MAX_ANSWERS) {
           <app-button
             variant="primary"
             size="sm"
-            customClasses="aspect-square"
-            (handleClick)="removeAnswer.emit(index)"
+            customClasses="mx-auto"
+            (handleClick)="addAnswer.emit()"
             [disabled]="isLoading()"
-            >-</app-button
+            >Add option</app-button
           >
-          }
-        </div>
-        } @if (answers().length < limits.MAX_ANSWERS) {
-        <app-button
-          variant="primary"
-          size="sm"
-          customClasses="mx-auto"
-          (handleClick)="addAnswer.emit()"
-          [disabled]="isLoading()"
-          >Add option</app-button
-        >
         }
       </div>
     </div>

@@ -9,15 +9,15 @@
       </div>
       <div class="flex md:hidden gap-1.5">
         @if (isLoading()) {
-        <app-button size="md" variant="skeleton" skeletonWidth="9rem" />
+          <app-button size="md" variant="skeleton" skeletonWidth="9rem" />
         } @else {
-        <app-button
-          [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
-          size="md"
-          variant="primary"
-          customClasses="shadow-sm"
-          >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
-        >
+          <app-button
+            [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
+            size="md"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
+          >
         }
         <app-button redirectTo="/quizzes" size="md" variant="secondary" customClasses="shadow-sm"
           >Explore quizzes</app-button
@@ -25,15 +25,15 @@
       </div>
       <div class="hidden md:flex gap-2.5">
         @if (isLoading()) {
-        <app-button size="lg" variant="skeleton" skeletonWidth="10rem" />
+          <app-button size="lg" variant="skeleton" skeletonWidth="10rem" />
         } @else {
-        <app-button
-          [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
-          size="lg"
-          variant="primary"
-          customClasses="shadow-sm"
-          >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
-        >
+          <app-button
+            [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
+            size="lg"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
+          >
         }
         <app-button redirectTo="/quizzes" size="lg" variant="secondary" customClasses="shadow-sm"
           >Explore quizzes</app-button

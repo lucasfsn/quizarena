@@ -10,7 +10,7 @@ interface ToastOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Toast {
   protected messageService = inject(MessageService);
@@ -19,11 +19,11 @@ export class Toast {
     this.messageService.add({
       ...options,
       life: 3000, // life of 3 seconds
-      sticky: false // will disappear automatically
+      sticky: false, // will disappear automatically
     });
   }
 
-  public success(detail: string, summary: string = "Success"): void {
+  public success(detail: string, summary: string = 'Success'): void {
     this.show({
       severity: 'success',
       summary,
@@ -31,7 +31,7 @@ export class Toast {
     });
   }
 
-  public error(detail: string, summary: string = "Error"): void {
+  public error(detail: string, summary: string = 'Error'): void {
     this.show({
       severity: 'error',
       summary,
@@ -39,7 +39,7 @@ export class Toast {
     });
   }
 
-  public warn(detail: string, summary: string = "Warn"): void {
+  public warn(detail: string, summary: string = 'Warn'): void {
     this.show({
       severity: 'warn',
       summary,
@@ -47,7 +47,7 @@ export class Toast {
     });
   }
 
-  public info(detail: string, summary: string = "Info"): void {
+  public info(detail: string, summary: string = 'Info'): void {
     this.show({
       severity: 'info',
       summary,

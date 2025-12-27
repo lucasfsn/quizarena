@@ -1,5 +1,6 @@
 import { routes } from '@/app/app.routes';
 import { apiErrorInterceptor } from '@/app/core/interceptors/api-error-interceptor';
+import { GameEffects } from '@/app/store/effects/game.effects';
 import { gameReducer } from '@/app/store/reducers/game.reducers';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import {
@@ -17,7 +18,6 @@ import { QueryClient, provideTanStackQuery } from '@tanstack/angular-query-exper
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
-import { GameEffects } from '@/app/store/effects/game.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [

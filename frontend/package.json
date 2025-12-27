@@ -6,9 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --watch=false",
     "serve:ssr:frontend": "node dist/frontend/server/server.mjs",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "format": "prettier . --write",
+    "format-check": "prettier . --check"
   },
   "prettier": {
     "printWidth": 100,
@@ -69,6 +71,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
+    "prettier-plugin-organize-imports": "4.3.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4.1.14",
     "typescript": "~5.9.2",

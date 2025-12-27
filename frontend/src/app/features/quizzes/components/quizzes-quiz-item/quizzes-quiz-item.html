@@ -18,10 +18,10 @@
           <p>{{ quiz().questionsCount }} questions</p>
         </div>
         @if (quiz().author !== null) {
-        <div class="text-secondary flex gap-1.5 text-xs items-center">
-          <i class="pi pi-user" style="font-size: 0.75rem"></i>
-          <p class="text-break">By {{ quiz().author }}</p>
-        </div>
+          <div class="text-secondary flex gap-1.5 text-xs items-center">
+            <i class="pi pi-user" style="font-size: 0.75rem"></i>
+            <p class="text-break">By {{ quiz().author }}</p>
+          </div>
         }
       </div>
     </div>
