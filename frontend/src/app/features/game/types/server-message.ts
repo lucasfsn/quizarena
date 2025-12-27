@@ -3,6 +3,7 @@ import { Question } from '@/app/features/game/types/question';
 
 export type ServerMessage =
   | { type: 'LOBBY_UPDATE'; payload: GameDetails }
+  | { type: 'LOBBY_CLOSE'; payload: null }
   | { type: 'QUESTION'; payload: Question }
   | { type: 'CORRECT_ANSWER'; payload: { correctAnswerId: string } }
   | { type: 'GAME_FINISHED'; payload: { summaryId: string } }

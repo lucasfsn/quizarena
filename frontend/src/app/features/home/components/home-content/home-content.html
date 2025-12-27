@@ -12,11 +12,11 @@
           <app-button size="md" variant="skeleton" skeletonWidth="9rem" />
         } @else {
           <app-button
-            [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
+            (handleClick)="handleShowJoinQuizDialog()"
             size="md"
             variant="primary"
             customClasses="shadow-sm"
-            >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
+            >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
           >
         }
         <app-button redirectTo="/quizzes" size="md" variant="secondary" customClasses="shadow-sm"
@@ -28,17 +28,46 @@
           <app-button size="lg" variant="skeleton" skeletonWidth="10rem" />
         } @else {
           <app-button
-            [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
+            (handleClick)="handleShowJoinQuizDialog()"
             size="lg"
             variant="primary"
             customClasses="shadow-sm"
-            >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
+            >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
           >
         }
         <app-button redirectTo="/quizzes" size="lg" variant="secondary" customClasses="shadow-sm"
           >Explore quizzes</app-button
         >
       </div>
+      <p-dialog header="Join Quiz" [modal]="true" [(visible)]="joinQuizDialogVisible">
+        <div class="flex flex-col gap-2 items-center">
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                [formControl]="roomControl"
+                id="roomCode"
+                class="uppercase"
+                autocomplete="off"
+                maxlength="6"
+              />
+              <label for="roomCode">Room code</label>
+            </p-floatlabel>
+            @if (error()) {
+              <span class="text-status-error text-xs">{{ error() }}</span>
+            }
+          </div>
+          <app-button
+            variant="ghost"
+            size="lg"
+            class="w-full"
+            customClasses="w-full"
+            (handleClick)="handleEnterQuizByCode()"
+            [disabled]="roomControl.invalid"
+            >Enter</app-button
+          >
+        </div>
+      </p-dialog>
     </div>
     <svg class="min-w-16 xs:min-w-32 max-w-96" si-home-question-image></svg>
   </div>

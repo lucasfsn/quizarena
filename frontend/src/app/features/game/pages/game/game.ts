@@ -9,11 +9,12 @@ import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
-import { selectError, selectGameStatus } from '@/app/store/selectors/game.selectors';
-import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { selectGameStatus } from '@/app/store/selectors/game.selectors';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ProgressSpinner } from 'primeng/progressspinner';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -26,7 +27,6 @@ export class Game implements OnDestroy, OnInit {
   private readonly route = inject(ActivatedRoute);
 
   protected readonly status = this.store.selectSignal(selectGameStatus);
-  protected readonly error = this.store.selectSignal(selectError);
 
   // protected readonly gameDetails = this.store.selectSignal(selectGameDetails);
   protected readonly details = signal<GameDetails>(MOCK_GAME_LOBBY);
@@ -37,19 +37,22 @@ export class Game implements OnDestroy, OnInit {
 
   protected readonly GameStatus = GameStatus;
 
-  protected readonly isLoading = computed(() =>
-    [GameStatus.CREATING, GameStatus.JOINING].includes(this.status()),
-  );
-
   public ngOnInit(): void {
     const quizId = this.route.snapshot.paramMap.get('id');
     const roomCode = this.route.snapshot.paramMap.get('roomCode');
 
-    if (quizId) {
-      this.store.dispatch(GameActions.createAndJoinLobby({ quizId }));
-    } else if (roomCode) {
-      this.store.dispatch(GameActions.joinLobby({ roomCode }));
-    }
+    this.store
+      .select(selectGameStatus)
+      .pipe(take(1))
+      .subscribe((status) => {
+        if (status !== GameStatus.IDLE) return;
+
+        if (quizId) {
+          this.store.dispatch(GameActions.createLobby({ quizId }));
+        } else if (roomCode) {
+          this.store.dispatch(GameActions.joinLobby({ roomCode }));
+        }
+      });
   }
 
   public ngOnDestroy(): void {

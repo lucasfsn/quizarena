@@ -14,8 +14,16 @@ export class Game {
 
   public createGame(quizId: string): Observable<GameDetails> {
     return this.http
-      .post<Response<GameDetails>>(`${environment.apiUrl}/game`, {
+      .post<Response<GameDetails>>(`${environment.apiUrl}/games`, {
         quizId,
+      })
+      .pipe(map((res: Response<GameDetails>) => res.data));
+  }
+
+  public joinGame(roomCode: string): Observable<GameDetails> {
+    return this.http
+      .post<Response<GameDetails>>(`${environment.apiUrl}/games/join`, {
+        roomCode,
       })
       .pipe(map((res: Response<GameDetails>) => res.data));
   }

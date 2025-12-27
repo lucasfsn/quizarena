@@ -7,12 +7,13 @@ export const GameActions = createActionGroup({
   source: 'Game',
   events: {
     // Host creates lobby
-    'Create And Join Lobby': props<{ quizId: string }>(),
-    'Create Lobby Success': props<{ roomCode: string; gameDetails: GameDetails }>(),
+    'Create Lobby': props<{ quizId: string }>(),
+    'Create Lobby Success': props<{ gameDetails: GameDetails }>(),
     'Create Lobby Failure': props<{ error: string }>(),
 
     // Player joins existing lobby
     'Join Lobby': props<{ roomCode: string }>(),
+    'Join Lobby Success': props<{ gameDetails: GameDetails }>(),
     'Join Lobby Failure': props<{ error: string }>(),
 
     // Leave actions
@@ -34,9 +35,8 @@ export const GameActions = createActionGroup({
 export const SocketActions = createActionGroup({
   source: 'Socket',
   events: {
-    Connected: emptyProps(),
-    Disconnected: emptyProps(),
     'Lobby Updated': props<{ gameDetails: GameDetails }>(),
+    'Lobby Closed': emptyProps(),
     'Question Received': props<{ question: Question }>(),
     'Correct Answer Received': props<{ correctAnswerId: string }>(),
     'Game Finished': props<{ summaryId: string }>(),

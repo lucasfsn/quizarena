@@ -1,4 +1,4 @@
-@if (isLoading()) {
+@if (status() === GameStatus.LOADING) {
   <div class="w-full flex items-center h-full">
     <p-progress-spinner
       strokeWidth="6"

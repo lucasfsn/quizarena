@@ -5,8 +5,7 @@ import { createReducer, on } from '@ngrx/store';
 
 export enum GameStatus {
   IDLE = 'idle',
-  CREATING = 'creating',
-  JOINING = 'joining',
+  LOADING = 'loading',
   LOBBY = 'lobby',
   QUESTION = 'question',
   ANSWER = 'answer',
@@ -40,44 +39,28 @@ export const initialState: GameState = {
 
 export const gameReducer = createReducer(
   initialState,
-  on(GameActions.createAndJoinLobby, (state) => ({
+  on(GameActions.createLobby, GameActions.joinLobby, (state) => ({
     ...state,
-    status: GameStatus.CREATING,
+    status: GameStatus.LOADING,
     isHost: true,
-    error: null,
   })),
-
-  on(GameActions.createLobbySuccess, (state, { gameDetails }) => ({
+  on(GameActions.createLobbySuccess, GameActions.joinLobbySuccess, (state, { gameDetails }) => ({
     ...state,
     gameDetails,
     status: GameStatus.LOBBY,
-  })),
-
-  on(GameActions.createLobbyFailure, (state, { error }) => ({
-    ...state,
-    status: GameStatus.ERROR,
-    error,
-  })),
-
-  on(GameActions.joinLobby, (state) => ({
-    ...state,
-    status: GameStatus.JOINING,
-    isHost: false,
     error: null,
   })),
-
-  on(GameActions.joinLobbyFailure, (state, { error }) => ({
+  on(GameActions.createLobbyFailure, GameActions.joinLobbyFailure, (state, { error }) => ({
     ...state,
     status: GameStatus.ERROR,
     error,
   })),
-
   on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
     ...state,
     gameDetails,
     status: GameStatus.LOBBY,
   })),
-
+  on(SocketActions.lobbyClosed, () => initialState),
   on(SocketActions.questionReceived, (state, { question }) => ({
     ...state,
     question,
@@ -86,34 +69,28 @@ export const gameReducer = createReducer(
     hasSubmitted: false,
     status: GameStatus.QUESTION,
   })),
-
   on(GameActions.selectAnswer, (state, { answerId }) => ({
     ...state,
     selectedAnswerId: answerId,
   })),
-
   on(GameActions.submitAnswer, (state) => ({
     ...state,
     hasSubmitted: true,
   })),
-
   on(SocketActions.correctAnswerReceived, (state, { correctAnswerId }) => ({
     ...state,
     correctAnswerId,
     status: GameStatus.ANSWER,
   })),
-
   on(SocketActions.gameFinished, (state, { summaryId }) => ({
     ...state,
     summaryId,
     status: GameStatus.FINISHED,
   })),
-
   on(SocketActions.error, (state, { message }) => ({
     ...state,
     error: message,
     status: GameStatus.ERROR,
   })),
-
   on(GameActions.reset, () => initialState),
 );
