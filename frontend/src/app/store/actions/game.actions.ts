@@ -1,49 +1,45 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
-import { GameResult } from '@/app/features/game/types/game-result';
 import { Question } from '@/app/features/game/types/question';
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-export type GameAction =
-  | ReturnType<typeof lobbyUpdated>
-  | ReturnType<typeof questionReceived>
-  | ReturnType<typeof correctAnswerIdReceived>
-  | ReturnType<typeof gameFinished>
-  | ReturnType<typeof gameError>;
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const GameActions = createActionGroup({
+  source: 'Game',
+  events: {
+    // Host creates lobby
+    'Create And Join Lobby': props<{ quizId: string }>(),
+    'Create Lobby Success': props<{ roomCode: string; gameDetails: GameDetails }>(),
+    'Create Lobby Failure': props<{ error: string }>(),
 
-// Lobby Actions
-export const joinLobby = createAction(
-  '[Lobby] Join',
-  props<{ lobbyId: string; playerName: string }>(),
-);
-export const lobbyUpdated = createAction(
-  '[Socket] Lobby Updated',
-  props<{ gameDetails: GameDetails }>(),
-);
-export const leaveLobby = createAction('[Lobby] Leave');
+    // Player joins existing lobby
+    'Join Lobby': props<{ roomCode: string }>(),
+    'Join Lobby Failure': props<{ error: string }>(),
 
-// Question actions
-export const questionReceived = createAction(
-  '[Socket] Question Received',
-  props<{ question: Question }>(),
-);
-export const answerSelected = createAction(
-  '[Question] Answer Selected',
-  props<{ answerId: string | null }>(),
-);
-export const submitAnswer = createAction(
-  '[Question] Submit Answer',
-  props<{ answerId: string | null }>(),
-);
-export const correctAnswerIdReceived = createAction(
-  '[Socket] Correct Answer Id Received',
-  props<{ correctAnswerId: string }>(),
-);
+    // Leave actions
+    Leave: emptyProps(),
+    'Close Lobby': emptyProps(),
+    'Leave Lobby': emptyProps(),
 
-// Game finished actions
-export const gameFinished = createAction('[Socket] Game Finished', props<{ result: GameResult }>());
+    // Gameplay
+    'Start Game': emptyProps(),
+    'Select Answer': props<{ answerId: string | null }>(),
+    'Submit Answer': props<{ questionId: string; answerId: string | null }>(),
 
-// Socket connection actions
-export const socketConnected = createAction('[Socket] Connected');
-export const socketDisconnected = createAction('[Socket] Disconnected');
-export const gameError = createAction('[Socket] Error', props<{ message: string }>());
-export const resetGame = createAction('[Game] Reset');
+    // Reset
+    Reset: emptyProps(),
+  },
+});
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SocketActions = createActionGroup({
+  source: 'Socket',
+  events: {
+    Connected: emptyProps(),
+    Disconnected: emptyProps(),
+    'Lobby Updated': props<{ gameDetails: GameDetails }>(),
+    'Question Received': props<{ question: Question }>(),
+    'Correct Answer Received': props<{ correctAnswerId: string }>(),
+    'Game Finished': props<{ summaryId: string }>(),
+    Error: props<{ message: string }>(),
+  },
+});

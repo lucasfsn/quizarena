@@ -14,7 +14,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
-    path: 'game/:id',
+    path: 'quizzes/:id',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'game/:roomCode',
     renderMode: RenderMode.Client,
   },
   { path: 'not-found', renderMode: RenderMode.Prerender },

@@ -10,12 +10,14 @@ import {
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
+import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import Aura from '@primeuix/themes/aura';
 import { QueryClient, provideTanStackQuery } from '@tanstack/angular-query-experimental';
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
+import { GameEffects } from '@/app/store/effects/game.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,6 +38,7 @@ export const appConfig: ApplicationConfig = {
       withDevtools(),
     ),
     provideStore({ game: gameReducer }),
+    provideEffects([GameEffects]),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {

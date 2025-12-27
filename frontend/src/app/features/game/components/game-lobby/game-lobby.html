@@ -24,14 +24,14 @@
             variant="primary"
             size="md"
             class="hidden sm:flex shrink-0"
-            (handleClick)="copyRoomCode(game().roomCode)"
+            (handleClick)="copyRoomCode()"
             >Copy code</app-button
           >
           <app-button
             variant="primary"
             size="sm"
             class="flex sm:hidden shrink-0"
-            (handleClick)="copyRoomCode(game().roomCode)"
+            (handleClick)="copyRoomCode()"
             >Copy code</app-button
           >
         </div>
@@ -53,16 +53,16 @@
             <div class="flex gap-2 items-center justify-center p-1">
               <div
                 class="aspect-square size-6 sm:size-8 rounded-full flex items-center justify-center focus-ring text-on-accent text-xs sm:text-base cursor-default select-none"
-                [class.bg-tertiary]="player.isHost"
-                [class.bg-primary]="!player.isHost"
+                [class.bg-tertiary]="isHost()"
+                [class.bg-primary]="!isHost()"
               >
-                {{ player.player.firstName.charAt(0) + player.player.lastName.charAt(0) }}
+                {{ player.firstName.charAt(0) + player.lastName.charAt(0) }}
               </div>
               <p
                 class="text-base sm:text-lg text-shadow-sm cursor-default select-none"
-                [class.text-tertiary]="player.isHost"
+                [class.text-tertiary]="isHost()"
               >
-                {{ player.player.firstName }} {{player.player.lastName}}
+                {{ player.firstName }} {{player.lastName}}
               </p>
             </div>
           </ng-template>
@@ -70,12 +70,16 @@
       </div>
     </div>
     <div class="hidden sm:flex gap-2 self-center items-center">
-      <app-button variant="ghost" size="lg">Cancel</app-button>
-      <app-button variant="primary" size="lg">Start game</app-button>
+      <app-button variant="ghost" size="lg" (handleClick)="leave()">Leave</app-button>
+      @if (isHost()) {
+      <app-button variant="primary" size="lg" (handleClick)="startGame()">Start game</app-button>
+      }
     </div>
     <div class="flex sm:hidden gap-2 self-center items-center">
-      <app-button variant="ghost" size="md">Cancel</app-button>
-      <app-button variant="primary" size="md">Start game</app-button>
+      <app-button variant="ghost" size="md" (handleClick)="leave()">Leave</app-button>
+      @if (isHost()) {
+      <app-button variant="primary" size="md" (handleClick)="startGame()">Start game</app-button>
+      }
     </div>
   </div>
 </div>

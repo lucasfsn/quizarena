@@ -1,21 +1,12 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
-import { GameResult } from '@/app/features/game/types/game-result';
 import { Question } from '@/app/features/game/types/question';
-import {
-  answerSelected,
-  correctAnswerIdReceived,
-  gameError,
-  gameFinished,
-  lobbyUpdated,
-  questionReceived,
-  resetGame,
-  socketConnected,
-  submitAnswer,
-} from '@/app/store/actions/game.actions';
+import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export enum GameStatus {
   IDLE = 'idle',
+  CREATING = 'creating',
+  JOINING = 'joining',
   LOBBY = 'lobby',
   QUESTION = 'question',
   ANSWER = 'answer',
@@ -24,66 +15,105 @@ export enum GameStatus {
 }
 
 export interface GameState {
+  isHost: boolean;
   gameDetails: GameDetails | null;
   question: Question | null;
   correctAnswerId: string | null;
-  gameResult: GameResult | null;
   status: GameStatus;
-  error?: string;
+  error: string | null;
   selectedAnswerId: string | null;
+  summaryId: string | null;
   hasSubmitted: boolean;
 }
 
 export const initialState: GameState = {
+  isHost: false,
   gameDetails: null,
   question: null,
   correctAnswerId: null,
-  gameResult: null,
   status: GameStatus.IDLE,
-  error: undefined,
+  error: null,
   selectedAnswerId: null,
+  summaryId: null,
   hasSubmitted: false,
 };
 
 export const gameReducer = createReducer(
   initialState,
-  on(socketConnected, (state) => ({
+  on(GameActions.createAndJoinLobby, (state) => ({
     ...state,
-    status: GameStatus.LOBBY,
+    status: GameStatus.CREATING,
+    isHost: true,
+    error: null,
   })),
-  on(lobbyUpdated, (state, { gameDetails }) => ({
+
+  on(GameActions.createLobbySuccess, (state, { gameDetails }) => ({
     ...state,
     gameDetails,
     status: GameStatus.LOBBY,
   })),
-  on(questionReceived, (state, { question }) => ({
+
+  on(GameActions.createLobbyFailure, (state, { error }) => ({
+    ...state,
+    status: GameStatus.ERROR,
+    error,
+  })),
+
+  on(GameActions.joinLobby, (state) => ({
+    ...state,
+    status: GameStatus.JOINING,
+    isHost: false,
+    error: null,
+  })),
+
+  on(GameActions.joinLobbyFailure, (state, { error }) => ({
+    ...state,
+    status: GameStatus.ERROR,
+    error,
+  })),
+
+  on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
+    ...state,
+    gameDetails,
+    status: GameStatus.LOBBY,
+  })),
+
+  on(SocketActions.questionReceived, (state, { question }) => ({
     ...state,
     question,
-    correctAnswer: null,
+    correctAnswerId: null,
+    selectedAnswerId: null,
+    hasSubmitted: false,
     status: GameStatus.QUESTION,
   })),
-  on(answerSelected, (state, { answerId }) => ({
+
+  on(GameActions.selectAnswer, (state, { answerId }) => ({
     ...state,
     selectedAnswerId: answerId,
   })),
-  on(submitAnswer, (state) => ({
+
+  on(GameActions.submitAnswer, (state) => ({
     ...state,
     hasSubmitted: true,
   })),
-  on(correctAnswerIdReceived, (state, { correctAnswerId }) => ({
+
+  on(SocketActions.correctAnswerReceived, (state, { correctAnswerId }) => ({
     ...state,
     correctAnswerId,
     status: GameStatus.ANSWER,
   })),
-  on(gameFinished, (state, { result }) => ({
+
+  on(SocketActions.gameFinished, (state, { summaryId }) => ({
     ...state,
-    gameResult: result,
+    summaryId,
     status: GameStatus.FINISHED,
   })),
-  on(gameError, (state, { message }) => ({
+
+  on(SocketActions.error, (state, { message }) => ({
     ...state,
     error: message,
     status: GameStatus.ERROR,
   })),
-  on(resetGame, () => initialState),
+
+  on(GameActions.reset, () => initialState),
 );

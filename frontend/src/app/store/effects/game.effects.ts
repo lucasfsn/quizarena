@@ -1,46 +1,101 @@
-import { GameSocket } from '@/app/features/game/services/game-socket';
+import { GameSocket } from '@/app/features/game/services/game-socket/game-socket';
+import { Game } from '@/app/features/game/services/game/game';
 import { ServerMessage } from '@/app/features/game/types/server-message';
-import {
-  correctAnswerIdReceived,
-  GameAction,
-  gameError,
-  gameFinished,
-  joinLobby,
-  lobbyUpdated,
-  questionReceived,
-  submitAnswer,
-} from '@/app/store/actions/game.actions';
-import { effect, inject, Injectable } from '@angular/core';
+import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
+import { selectIsHost } from '@/app/store/selectors/game.selectors';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { tap } from 'rxjs';
+import { concatLatestFrom } from '@ngrx/operators';
+import { Action, Store } from '@ngrx/store';
+import { catchError, map, Observable, of, switchMap, takeUntil, tap } from 'rxjs';
 
 @Injectable()
 export class GameEffects {
-  private readonly store = inject(Store);
-  private readonly gameSocket = inject(GameSocket);
   private readonly actions$ = inject(Actions);
+  private readonly store = inject(Store);
+  private readonly gameService = inject(Game);
+  private readonly gameSocketService = inject(GameSocket);
 
-  public constructor() {
-    effect(() => {
-      const messages = this.gameSocket.loadedMessages();
+  public createLobby$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.createAndJoinLobby),
+      switchMap(({ quizId }) => this.handleGameCreation(quizId)),
+    ),
+  );
 
-      if (messages.length > 0) {
-        const message = messages[messages.length - 1];
-
-        const action = this.mapMessageToAction(message);
-        this.store.dispatch(action);
-      }
-    });
+  private handleGameCreation(quizId: string): Observable<Action> {
+    return this.gameService.createGame(quizId).pipe(
+      switchMap((res) =>
+        this.gameSocketService.connect(res.roomCode).pipe(
+          map(() =>
+            GameActions.createLobbySuccess({
+              roomCode: res.roomCode,
+              gameDetails: res,
+            }),
+          ),
+        ),
+      ),
+      catchError((err) =>
+        of(
+          GameActions.createLobbyFailure({
+            error: err.message ?? 'An unexpected has occured',
+          }),
+        ),
+      ),
+    );
   }
 
-  public connect$ = createEffect(
+  public joinLobby$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.joinLobby),
+      switchMap(({ roomCode }) =>
+        this.gameSocketService.connect(roomCode).pipe(
+          tap(() => this.gameSocketService.joinGame(roomCode)),
+          switchMap(() => this.gameSocketService.loadedMessages),
+          takeUntil(this.actions$.pipe(ofType(GameActions.leave, GameActions.reset))),
+          map((message) => this.mapMessageToAction(message)),
+          catchError((error) => of(GameActions.joinLobbyFailure({ error: error.message }))),
+        ),
+      ),
+    ),
+  );
+
+  public listenToMessagesAfterCreate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.createLobbySuccess),
+      switchMap(() =>
+        this.gameSocketService.loadedMessages.pipe(
+          map((message) => this.mapMessageToAction(message)),
+          takeUntil(this.actions$.pipe(ofType(GameActions.leave, GameActions.reset))),
+        ),
+      ),
+    ),
+  );
+
+  public leave$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.leave),
+      concatLatestFrom(() => this.store.select(selectIsHost)),
+      map(([, isHost]) => (isHost ? GameActions.closeLobby() : GameActions.leaveLobby())),
+    ),
+  );
+
+  public leaveLobby$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.leaveLobby),
+      tap(() => {
+        this.gameSocketService.leaveGame();
+        this.gameSocketService.disconnect();
+      }),
+      map(() => GameActions.reset()),
+    ),
+  );
+
+  public startGame$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(joinLobby),
-        tap(() => {
-          this.gameSocket.connect();
-        }),
+        ofType(GameActions.startGame),
+        tap(() => this.gameSocketService.startGame()),
       ),
     { dispatch: false },
   );
@@ -48,31 +103,32 @@ export class GameEffects {
   public submitAnswer$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(submitAnswer),
-        tap(({ answerId }) => {
-          this.gameSocket.send('/game/answer', {
-            type: 'SUBMIT_ANSWER',
-            payload: { answerId },
-          });
+        ofType(GameActions.submitAnswer),
+        tap(({ questionId, answerId }) => {
+          this.gameSocketService.submitAnswer(questionId, answerId);
         }),
       ),
     { dispatch: false },
   );
 
-  private mapMessageToAction(message: ServerMessage): GameAction {
+  private mapMessageToAction(
+    message: ServerMessage,
+  ): ReturnType<(typeof SocketActions)[keyof typeof SocketActions]> {
     switch (message.type) {
       case 'LOBBY_UPDATE':
-        return lobbyUpdated({ gameDetails: message.payload });
+        return SocketActions.lobbyUpdated({ gameDetails: message.payload });
       case 'QUESTION':
-        return questionReceived({ question: message.payload });
+        return SocketActions.questionReceived({ question: message.payload });
       case 'CORRECT_ANSWER':
-        return correctAnswerIdReceived(message.payload);
+        return SocketActions.correctAnswerReceived({
+          correctAnswerId: message.payload.correctAnswerId,
+        });
       case 'GAME_FINISHED':
-        return gameFinished({ result: message.payload });
+        return SocketActions.gameFinished({ summaryId: message.payload.summaryId });
       case 'ERROR':
-        return gameError({ message: message.payload.message });
+        return SocketActions.error({ message: message.payload.message });
       default:
-        return gameError({ message: 'Unknown message type' });
+        return SocketActions.error({ message: 'Unknown message type' });
     }
   }
 }

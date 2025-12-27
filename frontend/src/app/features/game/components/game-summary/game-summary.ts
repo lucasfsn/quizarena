@@ -1,8 +1,12 @@
 import { MOCK_GAME_RESULT } from '@/app/dev/game-summary';
+import { getGameResultQueryKey } from '@/app/features/game/queries/get-game-result-query-key';
+import { Game } from '@/app/features/game/services/game/game';
 import { GameDetails } from '@/app/features/game/types/game-details';
-import { GameResult, GameResultPlayer } from '@/app/features/game/types/game-result';
-import { Component, input, signal } from '@angular/core';
+import { GameResultPlayer } from '@/app/features/game/types/game-result';
+import { Component, inject, input } from '@angular/core';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 import { TableModule } from 'primeng/table';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-game-summary',
@@ -11,13 +15,20 @@ import { TableModule } from 'primeng/table';
   styleUrl: './game-summary.scss',
 })
 export class GameSummary {
-  public game = input.required<GameDetails>();
+  public readonly game = input.required<GameDetails>();
+  public readonly summaryId = input.required<string>();
 
-  protected readonly summary = signal<GameResult>(MOCK_GAME_RESULT);
+  private readonly gameService = inject(Game);
+
+  protected query = injectQuery(() => ({
+    queryKey: getGameResultQueryKey(this.summaryId()),
+    queryFn: async () => lastValueFrom(this.gameService.getGameResult(this.summaryId())),
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  }));
 
   protected get loggedInPlayer(): GameResultPlayer | undefined {
-    return this.summary().players.find(
-      (player) => player.player.id === MOCK_GAME_RESULT.players.at(5)?.player.id,
-    );
+    return this.query
+      .data()
+      ?.players.find((player) => player.player.id === MOCK_GAME_RESULT.players.at(5)?.player.id);
   } // TODO: Replace with actual logged-in player ID
 }

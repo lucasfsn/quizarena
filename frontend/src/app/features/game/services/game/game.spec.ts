@@ -1,0 +1,15 @@
+import { Game } from '@/app/features/game/services/game/game';
+import { TestBed } from '@angular/core/testing';
+
+describe('Game', () => {
+  let service: Game;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(Game);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});

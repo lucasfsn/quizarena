@@ -31,11 +31,16 @@ export const routes: Routes = [
                 (m) => m.QuizCreate,
               ),
           },
+          {
+            path: ':id',
+            title: 'Quiz',
+            loadComponent: () => import('@/app/features/game/pages/game/game').then((m) => m.Game),
+          },
         ],
       },
       {
-        path: 'game/:id',
-        title: 'Quiz Game',
+        path: 'game/:roomCode',
+        title: 'Game',
         loadComponent: () => import('@/app/features/game/pages/game/game').then((m) => m.Game),
       },
       {

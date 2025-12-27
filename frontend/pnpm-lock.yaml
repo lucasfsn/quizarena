@@ -35,6 +35,9 @@ importers:
       '@ngrx/effects':
         specifier: ^21.0.0
         version: 21.0.0(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@ngrx/store@20.0.1(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(rxjs@7.8.2)
+      '@ngrx/operators':
+        specifier: ^21.0.1
+        version: 21.0.1(rxjs@7.8.2)
       '@primeuix/themes':
         specifier: ^1.2.5
         version: 1.2.5
@@ -1092,6 +1095,11 @@ packages:
       '@angular/core': ^21.0.0
       '@ngrx/store': 21.0.0
       rxjs: ^6.5.3 || ^7.5.0
+
+  '@ngrx/operators@21.0.1':
+    resolution: {integrity: sha512-CfSh9MzQoIjbipSJ4q1+ZhcY537I5th4hNdNiWHu/egx2+SgFUZlOcQ6E9c+DJMsVkYOoIYhKX1E/bYlFBqXJw==}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
 
   '@ngrx/store@20.0.1':
     resolution: {integrity: sha512-SWIHKe9lBoNf4rOklaWbCRAz8ie1Duf1iL4SMe6BipqhdUfJ/pEbcz3xMQUIlv1CciHhRgMJFTzFrDxamYHknQ==}
@@ -4856,6 +4864,11 @@ snapshots:
     dependencies:
       '@angular/core': 20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)
       '@ngrx/store': 20.0.1(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@ngrx/operators@21.0.1(rxjs@7.8.2)':
+    dependencies:
       rxjs: 7.8.2
       tslib: 2.8.1
 
