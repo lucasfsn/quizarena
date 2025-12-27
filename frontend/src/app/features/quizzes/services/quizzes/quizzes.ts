@@ -2,7 +2,6 @@ import { Page } from '@/app/core/types/page';
 import { Response } from '@/app/core/types/response';
 import { getMockQuizzes } from '@/app/dev/get-mock-quizzes';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
-import { QuizDetails } from '@/app/features/quizzes/types/quiz-details';
 import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { QuizzesFilters } from '@/app/features/quizzes/types/quizzes-filters';
 import { environment } from '@/environments/environment';
@@ -34,10 +33,10 @@ export class Quizzes {
       .pipe(map((res: Response<Page<QuizPreview>>) => res.data));
   }
 
-  public createQuiz(payload: QuizCreatePayload): Observable<QuizDetails> {
+  public createQuiz(payload: QuizCreatePayload): Observable<QuizPreview> {
     return this.http
-      .post<Response<QuizDetails>>(`${environment.apiUrl}/quizzes`, payload)
-      .pipe(map((res: Response<QuizDetails>) => res.data));
+      .post<Response<QuizPreview>>(`${environment.apiUrl}/quizzes`, payload)
+      .pipe(map((res: Response<QuizPreview>) => res.data));
   }
 
   private getQuizzesParams(page: number, pageSize: number, filters?: QuizzesFilters): HttpParams {
