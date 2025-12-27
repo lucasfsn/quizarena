@@ -65,7 +65,7 @@ export class HomeContent {
     this.joinQuizDialogVisible = true;
   }
 
-  protected handleEnterQuizByCode(): void {
+  protected handleEnterQuizByCodeClick(): void {
     const code = this.roomControl.value;
     if (!code) return;
 

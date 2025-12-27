@@ -27,8 +27,9 @@
     </div>
   </div>
   <button
-    class="bg-border-light p-2 text-center rounded-b-lg hover:opacity-90 transition-opacity focus-ring text-accent font-medium text-xs sm:text-sm"
-    [routerLink]="['/quizzes', quiz().id]"
+    class="bg-border-light p-2 text-center rounded-b-lg hover:opacity-90 transition-opacity focus-ring text-accent font-medium text-xs sm:text-sm disabled:text-secondary disabled:cursor-not-allowed"
+    (click)="handleStartQuizClick(quiz().id)"
+    [disabled]="status() === GameStatus.LOADING"
   >
     Start quiz
   </button>

@@ -44,6 +44,15 @@ export class GameEffects {
     ),
   );
 
+  public createLobbyFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(GameActions.createLobbyFailure),
+        tap(({ error }) => this.toastService.error(error, 'Failed to create game')),
+      ),
+    { dispatch: false },
+  );
+
   public joinLobby$ = createEffect(() =>
     this.actions$.pipe(
       ofType(GameActions.joinLobby),
@@ -62,14 +71,11 @@ export class GameEffects {
     ),
   );
 
-  public navigateToGame$ = createEffect(
+  public joinLobbyFailure$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(GameActions.createLobbySuccess, GameActions.joinLobbySuccess),
-        tap(({ gameDetails }) => {
-          const targetUrl = `/game/${gameDetails.roomCode}`;
-          if (this.router.url !== targetUrl) this.router.navigate(['/game', gameDetails.roomCode]);
-        }),
+        ofType(GameActions.joinLobbyFailure),
+        tap(() => this.router.navigate(['/'])),
       ),
     { dispatch: false },
   );

@@ -38,7 +38,6 @@ export class Game implements OnDestroy, OnInit {
   protected readonly GameStatus = GameStatus;
 
   public ngOnInit(): void {
-    const quizId = this.route.snapshot.paramMap.get('id');
     const roomCode = this.route.snapshot.paramMap.get('roomCode');
 
     this.store
@@ -47,11 +46,7 @@ export class Game implements OnDestroy, OnInit {
       .subscribe((status) => {
         if (status !== GameStatus.IDLE) return;
 
-        if (quizId) {
-          this.store.dispatch(GameActions.createLobby({ quizId }));
-        } else if (roomCode) {
-          this.store.dispatch(GameActions.joinLobby({ roomCode }));
-        }
+        if (roomCode) this.store.dispatch(GameActions.joinLobby({ roomCode }));
       });
   }
 

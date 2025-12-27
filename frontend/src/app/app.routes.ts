@@ -31,11 +31,6 @@ export const routes: Routes = [
                 (m) => m.QuizCreate,
               ),
           },
-          {
-            path: ':id',
-            title: 'Quiz',
-            loadComponent: () => import('@/app/features/game/pages/game/game').then((m) => m.Game),
-          },
         ],
       },
       {
