@@ -23,7 +23,7 @@ export class GameSummary {
   protected query = injectQuery(() => ({
     queryKey: getGameResultQueryKey(this.summaryId()),
     queryFn: async () => lastValueFrom(this.gameService.getGameResult(this.summaryId())),
-    staleTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: Infinity,
   }));
 
   protected get loggedInPlayer(): GameResultPlayer | undefined {

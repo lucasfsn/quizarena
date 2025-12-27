@@ -33,7 +33,7 @@ export class GameSocket implements OnDestroy {
       this.rxStomp = new RxStomp();
 
       this.rxStomp.configure({
-        brokerURL: `${environment.apiUrl}`, // TODO: add ws endpoint
+        brokerURL: `${environment.wsUrl}`,
         reconnectDelay: 1000,
       });
 

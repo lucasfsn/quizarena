@@ -7,6 +7,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Action, Store } from '@ngrx/store';
+import { QueryClient } from '@tanstack/angular-query-experimental';
 import { catchError, map, Observable, of, switchMap, takeUntil, tap } from 'rxjs';
 
 @Injectable()
@@ -15,6 +16,7 @@ export class GameEffects {
   private readonly store = inject(Store);
   private readonly gameService = inject(Game);
   private readonly gameSocketService = inject(GameSocket);
+  private readonly queryClient = inject(QueryClient);
 
   public createLobby$ = createEffect(() =>
     this.actions$.pipe(
