@@ -3,11 +3,15 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 export const serverRoutes: ServerRoute[] = [
   {
     path: '',
-    renderMode: RenderMode.Prerender,
+    renderMode: RenderMode.Server,
   },
   {
-    path: 'home',
-    renderMode: RenderMode.Prerender,
+    path: 'quizzes/new',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'quizzes',
+    renderMode: RenderMode.Server,
   },
   { path: 'not-found', renderMode: RenderMode.Prerender },
   {

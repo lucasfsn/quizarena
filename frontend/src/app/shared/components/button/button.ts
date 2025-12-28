@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Skeleton } from 'primeng/skeleton';
 
-type Variant = 'primary' | 'secondary' | 'skeleton';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'skeleton';
 type Size = 'sm' | 'md' | 'lg';
 
 @Component({
@@ -13,16 +13,16 @@ type Size = 'sm' | 'md' | 'lg';
   styleUrl: './button.scss',
 })
 export class Button {
-  @Input({ required: true }) public variant!: Variant;
-  @Input({ required: true }) public size!: Size;
-  @Input() public skeletonWidth: string = '8rem';
-  @Input() public disabled: boolean = false;
-  @Input() public customClasses: string = '';
-  @Input() public redirectTo: string | null = null;
-  @Output() public handleClick = new EventEmitter<void>();
+  public variant = input.required<Variant>();
+  public size = input.required<Size>();
+  public skeletonWidth = input<string>('8rem');
+  public disabled = input<boolean>(false);
+  public customClasses = input<string>('');
+  public redirectTo = input<string | null>(null);
+  public handleClick = output<void>();
 
   protected get skeletonHeight(): string {
-    switch (this.size) {
+    switch (this.size()) {
       case 'sm':
         return '1.5rem';
       case 'md':
@@ -52,19 +52,20 @@ export class Button {
     const variants: Record<Exclude<Variant, 'skeleton'>, string[]> = {
       primary: ['bg-accent', 'text-on-accent', 'hover:opacity-95', 'active:opacity-90'],
       secondary: ['bg-surface', 'text-primary', 'hover:opacity-95', 'active:opacity-90'],
+      ghost: ['bg-transparent', 'text-primary', 'hover:opacity-95', 'active:opacity-90'],
     };
 
-    const variantClasses = this.disabled
+    const variantClasses = this.disabled()
       ? ['bg-gray-300', 'text-gray-500', 'opacity-80', 'cursor-not-allowed']
-      : [...variants[this.variant as Exclude<Variant, 'skeleton'>], 'cursor-pointer'];
+      : [...variants[this.variant() as Exclude<Variant, 'skeleton'>], 'cursor-pointer'];
 
-    const custom = this.customClasses ? this.customClasses.split(/\s+/).filter(Boolean) : [];
+    const custom = this.customClasses() ? this.customClasses().split(/\s+/).filter(Boolean) : [];
 
-    return [...base, ...sizes[this.size], ...variantClasses, ...custom];
+    return [...base, ...sizes[this.size()], ...variantClasses, ...custom];
   }
 
   protected onClick(): void {
-    if (this.redirectTo !== null || this.disabled) return;
+    if (this.redirectTo() !== null || this.disabled()) return;
 
     this.handleClick.emit();
   }

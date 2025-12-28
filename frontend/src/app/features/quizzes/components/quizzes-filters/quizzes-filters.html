@@ -1,0 +1,9 @@
+<div class="bg-surface shadow-sm rounded-lg flex flex-col p-4 gap-3 sm:gap-5">
+  <div class="flex gap-3 justify-between flex-col sm:flex-row">
+    <app-quizzes-filters-title class="flex-1" [disabled]="disabled()" />
+    <app-quizzes-filters-category class="flex-1" [disabled]="disabled()" />
+  </div>
+  @if (showAuthorFilter) {
+    <app-quizzes-filters-author [disabled]="disabled()" />
+  }
+</div>
