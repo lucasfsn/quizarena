@@ -738,7 +738,7 @@
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
+      "clientAuthenticatorType": "none",
       "secret": "**********",
       "redirectUris": [
         "http://localhost:8085/*"
@@ -753,7 +753,7 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "publicClient": false,
+      "publicClient": true,
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
@@ -2523,6 +2523,44 @@
   "organizationsEnabled": false,
   "verifiableCredentialsEnabled": false,
   "adminPermissionsEnabled": false,
+  "users": [
+    {
+      "username": "verstappen",
+      "email": "max.verstappen@gmail.com",
+      "firstName": "Max",
+      "lastName": "Verstappen",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin"
+        }
+      ],
+      "realmRoles": [
+        "default-roles-quizarena",
+        "admin"
+      ]
+    },
+    {
+      "username": "lewandowski",
+      "email": "robert.lewandowski@gmail.com",
+      "firstName": "Robert",
+      "lastName": "Lewandowski",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user"
+        }
+      ],
+      "realmRoles": [
+        "default-roles-quizarena",
+        "user"
+      ] 
+    }
+  ],
   "clientProfiles": {
     "profiles": []
   },

@@ -21,6 +21,49 @@ services:
       - quizarena-client-network
     # depends_on:
     #   - gateway # Gateway will run on port 8080
+
+  apigateway:
+    build:
+      context: ./backend/Gateway
+      dockerfile: Dockerfile.dev
+    restart: always
+    depends_on:
+      - user-service
+      - quiz-service
+      # - keycloak
+    ports:
+      - "8085:8085"
+    networks:
+      - quizarena-server-network
+      - quizarena-client-network
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend/Gateway
+          target: /opt/
+
+  user-service:
+    build:
+      context: ./backend/UserService
+      dockerfile: Dockerfile.dev
+    restart: always
+    networks:
+      - quizarena-server-network
+    ports:
+      - "8086:8086" 
+    depends_on:
+      - database
+      # - keycloak
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend/UserService
+          target: /opt/
+
   quiz-service:
     build:
       context: ./backend/QuizService
@@ -38,11 +81,31 @@ services:
           path: ./backend/QuizService
           target: /opt
     ports:
-      - '8081:8080'
+      - '8081:8081'
     networks:
       - quizarena-server-network
     depends_on:
       - database
+
+  keycloak:
+    build:
+      context: ./backend/Keycloak/data
+      dockerfile: Dockerfile.kc
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - quizarena-server-network
+      - quizarena-client-network
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HTTP_PORT=8080
+      # - KC_HOSTNAME=keycloak
+      - KC_HOSTNAME=localhost
+      # - KC_HOSTNAME_STRICT=false
+      # - KC_HOSTNAME_STRICT_HTTPS=false
+
 
   database:
     image: postgres:18-alpine

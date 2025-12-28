@@ -17,7 +17,6 @@ public class GatewayApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GatewayApplication.class);
 
-
 	// Final application run method
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayApplication.class, args);
@@ -58,7 +57,6 @@ public class GatewayApplication {
 //	public Mono<String> fallback() {
 //		return Mono.just("fallback");
 //	}
-//
 
 
 }
