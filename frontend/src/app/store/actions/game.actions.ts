@@ -6,27 +6,17 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 export const GameActions = createActionGroup({
   source: 'Game',
   events: {
-    // Host creates lobby
     'Create Lobby': props<{ quizId: string }>(),
     'Create Lobby Success': props<{ gameDetails: GameDetails }>(),
     'Create Lobby Failure': props<{ error: string }>(),
-
-    // Player joins existing lobby
     'Join Lobby': props<{ roomCode: string }>(),
     'Join Lobby Success': props<{ gameDetails: GameDetails }>(),
     'Join Lobby Failure': props<{ error: string }>(),
-
-    // Leave actions
     Leave: emptyProps(),
     'Close Lobby': emptyProps(),
     'Leave Lobby': emptyProps(),
-
-    // Gameplay
     'Start Game': emptyProps(),
-    'Select Answer': props<{ answerId: string | null }>(),
     'Submit Answer': props<{ questionId: string; answerId: string | null }>(),
-
-    // Reset
     Reset: emptyProps(),
   },
 });

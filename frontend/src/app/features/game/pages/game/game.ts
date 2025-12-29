@@ -29,7 +29,7 @@ export class Game implements OnDestroy, OnInit {
   protected readonly status = this.store.selectSignal(selectGameStatus);
 
   // protected readonly gameDetails = this.store.selectSignal(selectGameDetails);
-  protected readonly details = signal<GameDetails>(MOCK_GAME_LOBBY);
+  protected readonly gameDetails = signal<GameDetails>(MOCK_GAME_LOBBY);
   // protected readonly question = this.store.selectSignal(selectQuestion);
   protected readonly question = signal<Question>(MOCK_GAME_QUESTION);
   // protected readonly summaryId = this.store.selectSignal(selectSummaryId);

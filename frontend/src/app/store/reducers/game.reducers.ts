@@ -14,27 +14,25 @@ export enum GameStatus {
 }
 
 export interface GameState {
+  status: GameStatus;
   isHost: boolean;
   gameDetails: GameDetails | null;
   question: Question | null;
+  submittedAnswerId: string | null;
   correctAnswerId: string | null;
-  status: GameStatus;
-  error: string | null;
-  selectedAnswerId: string | null;
   summaryId: string | null;
-  hasSubmitted: boolean;
+  error: string | null;
 }
 
 export const initialState: GameState = {
+  status: GameStatus.IDLE,
   isHost: false,
   gameDetails: null,
   question: null,
+  submittedAnswerId: null,
   correctAnswerId: null,
-  status: GameStatus.IDLE,
-  error: null,
-  selectedAnswerId: null,
   summaryId: null,
-  hasSubmitted: false,
+  error: null,
 };
 
 export const gameReducer = createReducer(
@@ -65,17 +63,12 @@ export const gameReducer = createReducer(
     ...state,
     question,
     correctAnswerId: null,
-    selectedAnswerId: null,
-    hasSubmitted: false,
+    submittedAnswerId: null,
     status: GameStatus.QUESTION,
   })),
-  on(GameActions.selectAnswer, (state, { answerId }) => ({
+  on(GameActions.submitAnswer, (state, { answerId }) => ({
     ...state,
-    selectedAnswerId: answerId,
-  })),
-  on(GameActions.submitAnswer, (state) => ({
-    ...state,
-    hasSubmitted: true,
+    submittedAnswerId: answerId,
   })),
   on(SocketActions.correctAnswerReceived, (state, { correctAnswerId }) => ({
     ...state,

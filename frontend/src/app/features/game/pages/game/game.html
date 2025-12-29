@@ -10,8 +10,8 @@
 } @else {
   @switch (status()) {
     @case (GameStatus.LOBBY) {
-      @if (details(); as details) {
-        <app-game-lobby [game]="details" />
+      @if (gameDetails(); as gameDetails) {
+        <app-game-lobby [game]="gameDetails" />
       }
     }
     @case (GameStatus.QUESTION) {
@@ -25,8 +25,8 @@
       }
     }
     @case (GameStatus.FINISHED) {
-      @if (details(); as details) {
-        <app-game-summary [game]="details" [summaryId]="summaryId()!" />
+      @if (gameDetails(); as gameDetails) {
+        <app-game-summary [game]="gameDetails" [summaryId]="summaryId()!" />
       }
     }
     @case (GameStatus.ERROR) {

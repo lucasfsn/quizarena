@@ -18,12 +18,10 @@ export const selectQuestion = createSelector(selectGameState, (state) => state.q
 
 export const selectSummaryId = createSelector(selectGameState, (state) => state.summaryId);
 
-export const selectSelectedAnswerId = createSelector(
+export const selectSubmittedAnswerId = createSelector(
   selectGameState,
-  (state) => state.selectedAnswerId,
+  (state) => state.submittedAnswerId,
 );
-
-export const selectHasSubmitted = createSelector(selectGameState, (state) => state.hasSubmitted);
 
 export const selectCorrectAnswerId = createSelector(
   selectGameState,
