@@ -13,7 +13,7 @@ interface ToastOptions {
   providedIn: 'root',
 })
 export class Toast {
-  private messageService = inject(MessageService);
+  private readonly messageService = inject(MessageService);
 
   public show(options: ToastOptions): void {
     this.messageService.add({

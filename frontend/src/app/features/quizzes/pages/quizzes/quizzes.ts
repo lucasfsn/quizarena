@@ -19,9 +19,9 @@ import { lastValueFrom } from 'rxjs';
   styleUrl: './quizzes.scss',
 })
 export class Quizzes implements OnInit {
-  private quizFiltersService = inject(QuizFilters);
-  private quizzesService = inject(QuizzesService);
-  private authorizationService = inject(Authorization);
+  private readonly quizFiltersService = inject(QuizFilters);
+  private readonly quizzesService = inject(QuizzesService);
+  private readonly authorizationService = inject(Authorization);
 
   protected query = injectInfiniteQuery(() => ({
     queryKey: [...getQuizzesQueryKey(), this.quizFiltersService.filters()],

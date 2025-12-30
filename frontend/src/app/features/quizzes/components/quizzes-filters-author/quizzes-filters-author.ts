@@ -19,10 +19,10 @@ import { debounceTime } from 'rxjs';
   styleUrl: './quizzes-filters-author.scss',
 })
 export class QuizzesFiltersAuthor implements OnInit {
-  public disabled = input.required<boolean>();
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly quizFiltersService = inject(QuizFilters);
 
-  private quizFiltersService = inject(QuizFilters);
+  public disabled = input.required<boolean>();
 
   public constructor() {
     effect(() => {

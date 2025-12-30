@@ -9,7 +9,6 @@ import { GameActions } from '@/app/store/actions/game.actions';
 import { selectError } from '@/app/store/selectors/game.selectors';
 import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogModule } from 'primeng/dialog';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -34,7 +33,6 @@ import { InputText } from 'primeng/inputtext';
 })
 export class HomeContent {
   private readonly authorizationService = inject(Authorization);
-  private readonly router = inject(Router);
   private readonly store = inject(Store);
 
   protected isLoggedIn(): boolean {

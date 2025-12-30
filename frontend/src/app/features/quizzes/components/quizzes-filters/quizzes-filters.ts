@@ -11,9 +11,9 @@ import { Component, inject, input } from '@angular/core';
   styleUrl: './quizzes-filters.scss',
 })
 export class QuizzesFilters {
-  public disabled = input.required<boolean>();
+  private readonly quizFiltersService = inject(QuizFilters);
 
-  private quizFiltersService = inject(QuizFilters);
+  public disabled = input.required<boolean>();
 
   protected get showAuthorFilter(): boolean {
     return this.quizFiltersService.showAuthorFilter();

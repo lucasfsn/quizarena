@@ -13,7 +13,7 @@ import { PopoverModule } from 'primeng/popover';
   styleUrl: './header.scss',
 })
 export class Header {
-  private authorizationService = inject(Authorization);
+  private readonly authorizationService = inject(Authorization);
 
   protected onLogin(): void {
     this.authorizationService.login();

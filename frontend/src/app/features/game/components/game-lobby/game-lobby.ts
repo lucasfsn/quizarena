@@ -15,10 +15,10 @@ import { Carousel } from 'primeng/carousel';
   styleUrl: './game-lobby.scss',
 })
 export class GameLobby {
-  public game = input.required<GameDetails>();
-
   private readonly toastService = inject(Toast);
   private readonly store = inject(Store);
+
+  public game = input.required<GameDetails>();
 
   protected readonly isHost = this.store.selectSignal(selectIsHost);
 
