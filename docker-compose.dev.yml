@@ -87,24 +87,24 @@ services:
     depends_on:
       - database
 
-  keycloak:
-    build:
-      context: ./backend/Keycloak/data
-      dockerfile: Dockerfile.kc
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - quizarena-server-network
-      - quizarena-client-network
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_HTTP_PORT=8080
-      # - KC_HOSTNAME=keycloak
-      - KC_HOSTNAME=localhost
-      # - KC_HOSTNAME_STRICT=false
-      # - KC_HOSTNAME_STRICT_HTTPS=false
+  # keycloak:
+  #   build:
+  #     context: ./backend/Keycloak/data
+  #     dockerfile: Dockerfile.kc
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - quizarena-server-network
+  #     - quizarena-client-network
+  #   environment:
+  #     - KEYCLOAK_ADMIN=admin
+  #     - KEYCLOAK_ADMIN_PASSWORD=admin
+  #     - KC_HTTP_PORT=8080
+  #     # - KC_HOSTNAME=keycloak
+  #     - KC_HOSTNAME=localhost
+  #     # - KC_HOSTNAME_STRICT=false
+  #     # - KC_HOSTNAME_STRICT_HTTPS=false
 
 
   database:
@@ -122,7 +122,9 @@ services:
       - quizarena-server-network
 
 networks:
-  quizarena-client-network:
   quizarena-server-network:
+    name: quizarena-server-network
+  quizarena-client-network:
+    name: quizarena-client-network
 volumes:
   quizarena-postgresql-data:

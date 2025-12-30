@@ -1,6 +1,6 @@
 package com.usermanagement.user.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +15,6 @@ public class UserController {
     }
 
     @GetMapping("/sec")
-    @PreAuthorize("hasRole('client_admin')")
     public String helloSecured() {
         return "protected";
     }

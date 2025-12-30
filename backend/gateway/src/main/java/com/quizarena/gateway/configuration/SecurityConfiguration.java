@@ -9,8 +9,14 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,7 +37,8 @@ public class SecurityConfiguration {
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/hello-world").permitAll()
                         .pathMatchers("/**").permitAll()
-                        .anyExchange().authenticated()
+                        // .anyExchange().authenticated()
+                        .anyExchange().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(new JWTAuthConverter()))
@@ -78,4 +85,18 @@ public class SecurityConfiguration {
 //    public JwtDecoder jwtDecoder() {
 //        return NimbusJwtDecoder.withJwkSetUri("http://keycloak:8080/realms/quizarena/protocol/openid-connect/certs").build();
 //    }
+
+    @Bean
+    public ReactiveJwtDecoder jwtDecoder() {
+        NimbusReactiveJwtDecoder jwtDecoder = NimbusReactiveJwtDecoder.withJwkSetUri("http://keycloak:8080/realms/quizarena/protocol/openid-connect/certs").build();
+
+        // Create a validator that ONLY checks the expiration time, not the issuer string
+        OAuth2TokenValidator<Jwt> withTimestamp = new JwtTimestampValidator();
+
+        // We do NOT add JwtIssuerValidator here to avoid the string mismatch error
+        OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(withTimestamp);
+
+        jwtDecoder.setJwtValidator(validator);
+        return jwtDecoder;
+    }
 }

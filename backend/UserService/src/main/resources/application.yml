@@ -13,12 +13,12 @@ spring:
       minimum-idle: 2
       maximum-pool-size: 10
       auto-commit: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://keycloak:8080/realms/quizarena
-          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  # security:
+  #   oauth2:
+  #     resourceserver:
+  #       jwt:
+  #         issuer-uri: http://keycloak:8080/realms/quizarena
+  #         jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 server:
   port: 8086
