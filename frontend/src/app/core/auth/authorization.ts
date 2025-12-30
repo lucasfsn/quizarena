@@ -13,7 +13,7 @@ export class Authorization {
 
   public logout(): void {
     this.keycloak.logout({
-      redirectUri: window.location.origin
+      redirectUri: window.location.origin,
     });
   }
 
