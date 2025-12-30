@@ -1,22 +1,22 @@
 services:
-    keycloak:
-        build:
-            context: ./data
-            dockerfile: Dockerfile.kc
-        restart: always
-        ports:
-            - "8080:8080"
-        networks:
-            - quizarena-server-network
-            - quizarena-client-network
-        environment:
-            - KEYCLOAK_ADMIN=admin
-            - KEYCLOAK_ADMIN_PASSWORD=admin
-            - KC_HOSTNAME=localhost
-            - KC_HTTP_PORT=8080
+  keycloak:
+    build:
+      context: ./data
+      dockerfile: Dockerfile.kc
+    restart: always
+    ports:
+      - '8080:8080'
+    networks:
+      - quizarena-server-network
+      - quizarena-client-network
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+      - KC_HOSTNAME=${KC_HOSTNAME}
+      - KC_HTTP_PORT=8080
 
 networks:
-    quizarena-server-network:
-        name: quizarena-server-network
-    quizarena-client-network:
-        name: quizarena-client-network
+  quizarena-server-network:
+    name: quizarena-server-network
+  quizarena-client-network:
+    name: quizarena-client-network
