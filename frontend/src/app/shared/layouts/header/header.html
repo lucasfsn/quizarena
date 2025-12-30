@@ -1,41 +1,46 @@
-<div class="flex gap-2 justify-between items-center px-2.5 py-2 sm:px-4 sm:py-3">
+<div
+  class="flex items-center justify-between gap-2 px-2.5 py-2 sm:px-4 sm:py-3">
   <a
     routerLink="/"
-    class="text-2xl uppercase font-extrabold transition-all flex gap-1.5 group focus-ring"
-  >
+    class="group focus-ring flex gap-1.5 text-2xl font-extrabold uppercase transition-all">
     <img
       ngSrc="/assets/images/logo.webp"
       alt="Quizarena logo"
       width="355"
       height="355"
       priority
-      class="size-8 group-hover:opacity-95"
-    />
-    <span class="hidden sm:block group-hover:text-brand-dark">Quizarena</span>
+      class="size-8 group-hover:opacity-95" />
+    <span class="group-hover:text-brand-dark hidden sm:block">Quizarena</span>
   </a>
   @if (isLoggedIn()) {
-  <p-popover #menu>
-    <div class="flex flex-col gap-1.5">
-      <button
-        class="flex items-center gap-2 hover:text-secondary transition-colors focus-ring px-0.5 rounded-sm"
-        routerLink="/settings"
-      >
-        <i class="pi pi-cog" aria-hidden="true"></i>
-        <span class="text-sm sm:text-base">Settings</span>
-      </button>
-      <button
-        class="flex items-center gap-2 hover:text-secondary transition-colors focus-ring px-0.5 rounded-sm"
-        (click)="onLogout()"
-      >
-        <i class="pi pi-sign-out" aria-hidden="true"></i>
-        <span class="text-sm sm:text-base">Logout</span>
-      </button>
-    </div>
-  </p-popover>
-  <app-user-button (handleClick)="menu.toggle($event)" />
+    <p-popover #menu>
+      <div class="flex flex-col gap-1.5">
+        <button
+          class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
+          routerLink="/settings">
+          <i
+            class="pi pi-cog"
+            aria-hidden="true"></i>
+          <span class="text-sm sm:text-base">Settings</span>
+        </button>
+        <button
+          class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
+          (click)="onLogout()">
+          <i
+            class="pi pi-sign-out"
+            aria-hidden="true"></i>
+          <span class="text-sm sm:text-base">Logout</span>
+        </button>
+      </div>
+    </p-popover>
+    <app-user-button (handleClick)="menu.toggle($event)" />
   } @else {
-  <app-button variant="ghost" size="lg" customClasses="!py-1" (handleClick)="onLogin()"
-    >Login</app-button
-  >
+    <app-button
+      variant="ghost"
+      size="lg"
+      customClasses="!py-1"
+      (handleClick)="onLogin()"
+      >Login</app-button
+    >
   }
 </div>

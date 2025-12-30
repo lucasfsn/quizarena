@@ -36,7 +36,8 @@ export function provideKeycloakAuth(): EnvironmentProviders {
       if (isPlatformBrowser(platformId))
         return keycloak.init({
           onLoad: 'check-sso',
-          silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+          silentCheckSsoRedirectUri:
+            window.location.origin + '/assets/silent-check-sso.html',
         });
 
       return Promise.resolve();

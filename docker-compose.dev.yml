@@ -1,68 +1,69 @@
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-    restart: always
-    environment:
-      - NG_APP_API_URL=${NG_APP_API_URL}
-      - NG_APP_KEYCLOAK_AUTHORITY=${NG_APP_KEYCLOAK_AUTHORITY}
-      - NG_APP_KEYCLOAK_CLIENT_ID=${NG_APP_KEYCLOAK_CLIENT_ID}
-      - NG_APP_KEYCLOAK_REALM=${NG_APP_KEYCLOAK_REALM}
-    develop:
-      watch:
-        - action: rebuild
-          path: ./frontend/package.json
-        - action: sync
-          path: ./frontend
-          target: /app
-          ignore:
-            - node_modules
-    ports:
-      - "4200:4200"
-    networks:
-      - quizarena-client-network
-    # depends_on:
-    #   - gateway # Gateway will run on port 8080
-  quiz-service:
-    build:
-      context: ./backend/QuizService
-      dockerfile: Dockerfile.dev
-    restart: always
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${POSTGRES_DB}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-    develop:
-      watch:
-        - action: rebuild
-          path: ./backend/QuizService/build.gradle.kts
-        - action: sync+restart
-          path: ./backend/QuizService
-          target: /opt
-    ports:
-      - "8081:8080"
-    networks:
-      - quizarena-server-network
-    depends_on:
-      - database
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.dev
+        restart: always
+        environment:
+            - NG_APP_API_URL=${NG_APP_API_URL}
+            - NG_APP_WS_URL=${NG_APP_WS_URL}
+            - NG_APP_KEYCLOAK_AUTHORITY=${NG_APP_KEYCLOAK_AUTHORITY}
+            - NG_APP_KEYCLOAK_CLIENT_ID=${NG_APP_KEYCLOAK_CLIENT_ID}
+            - NG_APP_KEYCLOAK_REALM=${NG_APP_KEYCLOAK_REALM}
+        develop:
+            watch:
+                - action: rebuild
+                  path: ./frontend/package.json
+                - action: sync
+                  path: ./frontend
+                  target: /app
+                  ignore:
+                      - node_modules
+        ports:
+            - "4200:4200"
+        networks:
+            - quizarena-client-network
+        # depends_on:
+        #   - gateway # Gateway will run on port 8080
+    quiz-service:
+        build:
+            context: ./backend/QuizService
+            dockerfile: Dockerfile.dev
+        restart: always
+        environment:
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${POSTGRES_DB}
+            - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+            - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+        develop:
+            watch:
+                - action: rebuild
+                  path: ./backend/QuizService/build.gradle.kts
+                - action: sync+restart
+                  path: ./backend/QuizService
+                  target: /opt
+        ports:
+            - "8081:8080"
+        networks:
+            - quizarena-server-network
+        depends_on:
+            - database
 
-  database:
-    image: postgres:18-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    ports:
-      - "5432:5432"
-    volumes:
-      - quizarena-postgresql-data:/var/lib/postgresql/data
-    networks:
-      - quizarena-server-network
+    database:
+        image: postgres:18-alpine
+        restart: always
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        ports:
+            - "5432:5432"
+        volumes:
+            - quizarena-postgresql-data:/var/lib/postgresql/data
+        networks:
+            - quizarena-server-network
 
 networks:
-  quizarena-client-network:
-  quizarena-server-network:
+    quizarena-client-network:
+    quizarena-server-network:
 volumes:
-  quizarena-postgresql-data:
+    quizarena-postgresql-data:

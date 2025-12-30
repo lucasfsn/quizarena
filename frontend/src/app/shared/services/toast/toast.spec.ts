@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
 import { Toast } from '@/app/shared/services/toast/toast';
+import { TestBed } from '@angular/core/testing';
 
 describe('Toast', () => {
   let service: Toast;
