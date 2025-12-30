@@ -9,8 +9,18 @@ import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
-import { selectGameStatus, selectSummaryId } from '@/app/store/selectors/game.selectors';
-import { Component, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  selectGameStatus,
+  selectSummaryId,
+} from '@/app/store/selectors/game.selectors';
+import {
+  Component,
+  effect,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -19,7 +29,14 @@ import { take } from 'rxjs';
 
 @Component({
   selector: 'app-game',
-  imports: [GamePlay, GameLobby, GameSummary, ProgressSpinner, FallbackUi, FetchErrorImage],
+  imports: [
+    GamePlay,
+    GameLobby,
+    GameSummary,
+    ProgressSpinner,
+    FallbackUi,
+    FetchErrorImage,
+  ],
   templateUrl: './game.html',
   styleUrl: './game.scss',
 })

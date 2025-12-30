@@ -21,27 +21,31 @@ export const routes: Routes = [
             title: 'Browse Quizzes',
             resolve: { quizzesResolver },
             loadComponent: () =>
-              import('@/app/features/quizzes/pages/quizzes/quizzes').then((m) => m.Quizzes),
+              import('@/app/features/quizzes/pages/quizzes/quizzes').then(
+                (m) => m.Quizzes
+              ),
           },
           {
             path: 'new',
             title: 'Create New Quiz',
             loadComponent: () =>
-              import('@/app/features/quizzes/pages/quiz-create/quiz-create').then(
-                (m) => m.QuizCreate,
-              ),
+              import(
+                '@/app/features/quizzes/pages/quiz-create/quiz-create'
+              ).then((m) => m.QuizCreate),
           },
         ],
       },
       {
         path: 'game/:roomCode',
         title: 'Game',
-        loadComponent: () => import('@/app/features/game/pages/game/game').then((m) => m.Game),
+        loadComponent: () =>
+          import('@/app/features/game/pages/game/game').then((m) => m.Game),
       },
       {
         path: 'not-found',
         title: 'Page Not Found',
-        loadComponent: () => import('@/app/features/not-found/not-found').then((m) => m.NotFound),
+        loadComponent: () =>
+          import('@/app/features/not-found/not-found').then((m) => m.NotFound),
       },
     ],
   },

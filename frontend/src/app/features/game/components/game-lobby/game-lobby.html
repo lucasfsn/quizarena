@@ -1,41 +1,46 @@
-<div class="flex flex-col gap-4 md:gap-8 items-center w-full h-full">
-  <div class="self-start flex flex-col gap-1">
-    <div class="flex flex-col sm:flex-row gap-1 sm:gap-3 items-center">
-      <h1 class="text-2xl xs:text-3xl sm:text-5xl font-bold text-center">
+<div class="flex h-full w-full flex-col items-center gap-4 md:gap-8">
+  <div class="flex flex-col gap-1 self-start">
+    <div class="flex flex-col items-center gap-1 sm:flex-row sm:gap-3">
+      <h1 class="xs:text-3xl text-center text-2xl font-bold sm:text-5xl">
         {{ game().quiz.title }}
       </h1>
       <div
-        class="self-start sm:self-center bg-accent rounded-full text-xs sm:text-base w-fit px-2 py-0.5 sm:px-3 sm:py-1 text-on-accent shadow-sm shrink-0"
-      >
+        class="bg-accent text-on-accent w-fit shrink-0 self-start rounded-full px-2 py-0.5 text-xs shadow-sm sm:self-center sm:px-3 sm:py-1 sm:text-base">
         {{ game().quiz.questionsCount }} questions
       </div>
     </div>
-    <h2 class="text-secondary text-sm sm:text-lg">{{ game().quiz.category }}</h2>
+    <h2 class="text-secondary text-sm sm:text-lg">
+      {{ game().quiz.category }}
+    </h2>
   </div>
-  <div class="flex flex-col gap-8 w-full bg-surface rounded-4xl shadow-md px-6 py-4">
-    <div class="flex gap-4 justify-center">
-      <svg si-game-lobby-image class="scale-x-[-1] max-h-115 shrink-0 hidden sm:flex"></svg>
-      <div class="flex flex-col gap-2.5 sm:gap-4 items-center justify-center">
+  <div
+    class="bg-surface flex w-full flex-col gap-8 rounded-4xl px-6 py-4 shadow-md">
+    <div class="flex justify-center gap-4">
+      <svg
+        si-game-lobby-image
+        class="hidden max-h-115 shrink-0 scale-x-[-1] sm:flex"></svg>
+      <div class="flex flex-col items-center justify-center gap-2.5 sm:gap-4">
         <div class="flex items-center gap-4">
-          <p class="uppercase font-extrabold text-4xl sm:text-5xl lg:text-7xl">
+          <p class="text-4xl font-extrabold uppercase sm:text-5xl lg:text-7xl">
             {{ game().roomCode }}
           </p>
           <app-button
             variant="primary"
             size="md"
-            class="hidden sm:flex shrink-0"
+            class="hidden shrink-0 sm:flex"
             (handleClick)="copyRoomCode()"
             >Copy code</app-button
           >
           <app-button
             variant="primary"
             size="sm"
-            class="flex sm:hidden shrink-0"
+            class="flex shrink-0 sm:hidden"
             (handleClick)="copyRoomCode()"
             >Copy code</app-button
           >
         </div>
-        <p class="text-accent font-medium text-base sm:text-lg cursor-default select-none">
+        <p
+          class="text-accent cursor-default text-base font-medium select-none sm:text-lg">
           Share this code with your friends!
         </p>
         <p-carousel
@@ -47,41 +52,60 @@
           [responsiveOptions]="responsiveOptions"
           [autoplayInterval]="2000"
           contentClass="p-2"
-          class="max-w-2xs xs:max-w-sm md:max-w-md lg:max-w-2xl"
-        >
-          <ng-template let-player #item>
-            <div class="flex gap-2 items-center justify-center p-1">
+          class="xs:max-w-sm max-w-2xs md:max-w-md lg:max-w-2xl">
+          <ng-template
+            let-player
+            #item>
+            <div class="flex items-center justify-center gap-2 p-1">
               <div
-                class="aspect-square size-6 sm:size-8 rounded-full flex items-center justify-center focus-ring text-on-accent text-xs sm:text-base cursor-default select-none"
+                class="focus-ring text-on-accent flex aspect-square size-6 cursor-default items-center justify-center rounded-full text-xs select-none sm:size-8 sm:text-base"
                 [class.bg-tertiary]="isHost()"
-                [class.bg-primary]="!isHost()"
-              >
+                [class.bg-primary]="!isHost()">
                 {{ player.firstName.charAt(0) + player.lastName.charAt(0) }}
               </div>
               <p
-                class="text-base sm:text-lg text-shadow-sm cursor-default select-none"
-                [class.text-tertiary]="isHost()"
-              >
+                class="cursor-default text-base select-none text-shadow-sm sm:text-lg"
+                [class.text-tertiary]="isHost()">
                 {{ player.firstName }} {{ player.lastName }}
               </p>
             </div>
           </ng-template>
         </p-carousel>
-        <span class="text-shadow-xs font-medium"
+        <span class="font-medium text-shadow-xs"
           >{{ game().players.length }}/{{ game().maxPlayers }}</span
         >
       </div>
     </div>
-    <div class="hidden sm:flex gap-2 self-center items-center">
-      <app-button variant="ghost" size="lg" (handleClick)="leave()">Leave</app-button>
+    <div class="hidden items-center gap-2 self-center sm:flex">
+      <app-button
+        variant="ghost"
+        size="lg"
+        (handleClick)="leave()"
+        >Leave</app-button
+      >
       @if (isHost()) {
-        <app-button variant="primary" size="lg" (handleClick)="startGame()">Start game</app-button>
+        <app-button
+          variant="primary"
+          size="lg"
+          (handleClick)="startGame()"
+          >Start game</app-button
+        >
       }
     </div>
-    <div class="flex sm:hidden gap-2 self-center items-center">
-      <app-button variant="ghost" size="md" (handleClick)="leave()">Leave</app-button>
+    <div class="flex items-center gap-2 self-center sm:hidden">
+      <app-button
+        variant="ghost"
+        size="md"
+        (handleClick)="leave()"
+        >Leave</app-button
+      >
       @if (isHost()) {
-        <app-button variant="primary" size="md" (handleClick)="startGame()">Start game</app-button>
+        <app-button
+          variant="primary"
+          size="md"
+          (handleClick)="startGame()"
+          >Start game</app-button
+        >
       }
     </div>
   </div>

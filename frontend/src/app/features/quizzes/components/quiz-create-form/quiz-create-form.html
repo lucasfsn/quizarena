@@ -1,28 +1,35 @@
-<form [formGroup]="form" class="flex flex-col gap-2.5 md:gap-4.5 w-full" (ngSubmit)="createQuiz()">
+<form
+  [formGroup]="form"
+  class="flex w-full flex-col gap-2.5 md:gap-4.5"
+  (ngSubmit)="createQuiz()">
   <app-quiz-create-form-title
-    class="bg-surface shadow-sm rounded-lg flex flex-col p-4 gap-3 sm:gap-5"
-    [control]="form.controls.title"
-  />
+    class="bg-surface flex flex-col gap-3 rounded-lg p-4 shadow-sm sm:gap-5"
+    [control]="form.controls.title" />
   <div class="flex flex-col gap-2 md:gap-4">
-    <p class="text-lg sm:text-xl self-start font-medium">
+    <p class="self-start text-lg font-medium sm:text-xl">
       Questions ({{ form.controls.questions.length }} / 20)
     </p>
-    @for (question of form.controls.questions.controls; track question; let index = $index) {
+    @for (
+      question of form.controls.questions.controls;
+      track question;
+      let index = $index
+    ) {
       <app-quiz-create-form-question
         [isLoading]="isLoading()"
         [data]="getQuestionData(question, index)"
         (addAnswer)="addAnswer(index)"
         (removeAnswer)="removeAnswer(index, $event)"
-        (removeQuestion)="removeQuestion(index)"
-      />
+        (removeQuestion)="removeQuestion(index)" />
     }
   </div>
-  <div class="flex sm:hidden gap-2 justify-between">
+  <div class="flex justify-between gap-2 sm:hidden">
     <app-button
       variant="secondary"
       size="md"
       (handleClick)="addQuestion()"
-      [disabled]="form.controls.questions.length >= limits.MAX_QUESTIONS || isLoading()"
+      [disabled]="
+        form.controls.questions.length >= limits.MAX_QUESTIONS || isLoading()
+      "
       >Add question</app-button
     >
     <app-button
@@ -33,12 +40,14 @@
       >{{ isLoading() ? 'Loading...' : 'Create quiz' }}</app-button
     >
   </div>
-  <div class="hidden sm:flex gap-2 justify-between">
+  <div class="hidden justify-between gap-2 sm:flex">
     <app-button
       variant="secondary"
       size="lg"
       (handleClick)="addQuestion()"
-      [disabled]="form.controls.questions.length >= limits.MAX_QUESTIONS || isLoading()"
+      [disabled]="
+        form.controls.questions.length >= limits.MAX_QUESTIONS || isLoading()
+      "
       >Add question</app-button
     >
     <app-button

@@ -4,8 +4,12 @@
 
 @theme inline {
   /* Main color palette */
-  --color-background-app: var(--background-app); /* Main application background*/
-  --color-surface: var(--surface); /* Background for cards, modals, and panels */
+  --color-background-app: var(
+    --background-app
+  ); /* Main application background*/
+  --color-surface: var(
+    --surface
+  ); /* Background for cards, modals, and panels */
   --color-brand-dark: var(--brand-dark); /* Dark UI accent, headings */
   --color-primary: var(--primary); /* Main text color */
   --color-secondary: var(--secondary); /* Secondary text, descriptions */
@@ -80,13 +84,13 @@
 @utility focus-ring {
   outline: none;
   &:focus-visible {
-    @apply ring-2 ring-accent;
+    @apply ring-accent ring-2;
   }
 }
 
 @utility focus-ring-inset {
   outline: none;
   &:focus-visible {
-    @apply ring-2 ring-accent ring-inset;
+    @apply ring-accent ring-2 ring-inset;
   }
 }

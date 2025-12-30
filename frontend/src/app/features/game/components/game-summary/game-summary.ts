@@ -22,13 +22,17 @@ export class GameSummary {
 
   protected query = injectQuery(() => ({
     queryKey: getGameResultQueryKey(this.summaryId()),
-    queryFn: async () => lastValueFrom(this.gameService.getGameResult(this.summaryId())),
+    queryFn: async () =>
+      lastValueFrom(this.gameService.getGameResult(this.summaryId())),
     staleTime: Infinity,
   }));
 
   protected get loggedInPlayer(): GameResultPlayer | undefined {
     return this.query
       .data()
-      ?.players.find((player) => player.player.id === MOCK_GAME_RESULT.players.at(5)?.player.id);
+      ?.players.find(
+        (player) =>
+          player.player.id === MOCK_GAME_RESULT.players.at(5)?.player.id
+      );
   } // TODO: Replace with actual logged-in player ID
 }

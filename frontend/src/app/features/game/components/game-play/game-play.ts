@@ -8,7 +8,14 @@ import {
   selectSubmittedAnswerId,
 } from '@/app/store/selectors/game.selectors';
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ProgressBar } from 'primeng/progressbar';
 
@@ -23,9 +30,13 @@ export class GamePlay {
 
   public readonly question = input.required<Question>();
 
-  protected readonly submittedAnswerId = this.store.selectSignal(selectSubmittedAnswerId);
+  protected readonly submittedAnswerId = this.store.selectSignal(
+    selectSubmittedAnswerId
+  );
   protected readonly status = this.store.selectSignal(selectGameStatus);
-  protected readonly correctAnswerId = this.store.selectSignal(selectCorrectAnswerId);
+  protected readonly correctAnswerId = this.store.selectSignal(
+    selectCorrectAnswerId
+  );
 
   private intervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -59,9 +70,13 @@ export class GamePlay {
     return {
       'border-secondary': !hasReceivedCorrectAnswer && isSelected,
       '!bg-border-light':
-        !hasReceivedCorrectAnswer && !isSelected && this.submittedAnswerId() !== null,
-      'border-status-success': hasReceivedCorrectAnswer && this.isCorrectAnswer(answerId),
-      'border-status-error': hasReceivedCorrectAnswer && !this.isCorrectAnswer(answerId),
+        !hasReceivedCorrectAnswer &&
+        !isSelected &&
+        this.submittedAnswerId() !== null,
+      'border-status-success':
+        hasReceivedCorrectAnswer && this.isCorrectAnswer(answerId),
+      'border-status-error':
+        hasReceivedCorrectAnswer && !this.isCorrectAnswer(answerId),
     };
   }
 
@@ -69,7 +84,10 @@ export class GamePlay {
     if (this.isLocked()) return;
 
     this.store.dispatch(
-      GameActions.submitAnswer({ questionId: this.question().id, answerId: answer.id }),
+      GameActions.submitAnswer({
+        questionId: this.question().id,
+        answerId: answer.id,
+      })
     );
   }
 
@@ -94,7 +112,7 @@ export class GamePlay {
           GameActions.submitAnswer({
             questionId: this.question().id,
             answerId: this.submittedAnswerId(),
-          }),
+          })
         );
       }
     }, 1000);

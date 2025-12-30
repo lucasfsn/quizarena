@@ -86,7 +86,11 @@ export class GameSocket implements OnDestroy {
   }
 
   public submitAnswer(questionId: string, answerId: string | null): void {
-    this.send('/app/game/answer', { roomCode: this.roomCode, questionId, answerId });
+    this.send('/app/game/answer', {
+      roomCode: this.roomCode,
+      questionId,
+      answerId,
+    });
   }
 
   private send(destination: string, body: unknown): void {

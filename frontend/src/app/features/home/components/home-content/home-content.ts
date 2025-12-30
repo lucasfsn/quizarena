@@ -69,6 +69,8 @@ export class HomeContent {
     const code = this.roomControl.value;
     if (!code) return;
 
-    this.store.dispatch(GameActions.joinLobby({ roomCode: code.toUpperCase() }));
+    this.store.dispatch(
+      GameActions.joinLobby({ roomCode: code.toUpperCase() })
+    );
   }
 }

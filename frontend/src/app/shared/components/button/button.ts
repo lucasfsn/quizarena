@@ -52,16 +52,36 @@ export class Button {
     };
 
     const variants: Record<Exclude<Variant, 'skeleton'>, string[]> = {
-      primary: ['bg-accent', 'text-on-accent', 'hover:opacity-95', 'active:opacity-90'],
-      secondary: ['bg-surface', 'text-primary', 'hover:opacity-95', 'active:opacity-90'],
-      ghost: ['bg-transparent', 'text-primary', 'hover:opacity-95', 'active:opacity-90'],
+      primary: [
+        'bg-accent',
+        'text-on-accent',
+        'hover:opacity-95',
+        'active:opacity-90',
+      ],
+      secondary: [
+        'bg-surface',
+        'text-primary',
+        'hover:opacity-95',
+        'active:opacity-90',
+      ],
+      ghost: [
+        'bg-transparent',
+        'text-primary',
+        'hover:opacity-95',
+        'active:opacity-90',
+      ],
     };
 
     const variantClasses = this.disabled()
       ? ['bg-gray-300', 'text-gray-500', 'opacity-80', 'cursor-not-allowed']
-      : [...variants[this.variant() as Exclude<Variant, 'skeleton'>], 'cursor-pointer'];
+      : [
+          ...variants[this.variant() as Exclude<Variant, 'skeleton'>],
+          'cursor-pointer',
+        ];
 
-    const custom = this.customClasses() ? this.customClasses().split(/\s+/).filter(Boolean) : [];
+    const custom = this.customClasses()
+      ? this.customClasses().split(/\s+/).filter(Boolean)
+      : [];
 
     return [...base, ...sizes[this.size()], ...variantClasses, ...custom];
   }

@@ -20,7 +20,7 @@ export class Quizzes {
   public getQuizzes(
     page: number = 0,
     pageSize: number = 10,
-    filters?: QuizzesFilters,
+    filters?: QuizzesFilters
   ): Observable<Page<QuizPreview>> {
     if (this.useMock) return getMockQuizzes(page, pageSize, filters);
 
@@ -39,7 +39,11 @@ export class Quizzes {
       .pipe(map((res: Response<QuizPreview>) => res.data));
   }
 
-  private getQuizzesParams(page: number, pageSize: number, filters?: QuizzesFilters): HttpParams {
+  private getQuizzesParams(
+    page: number,
+    pageSize: number,
+    filters?: QuizzesFilters
+  ): HttpParams {
     let params = new HttpParams().set('page', page).set('pageSize', pageSize);
 
     if (filters?.category) params = params.set('category', filters.category);

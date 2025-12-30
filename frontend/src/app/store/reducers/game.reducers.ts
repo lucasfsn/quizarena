@@ -42,17 +42,25 @@ export const gameReducer = createReducer(
     status: GameStatus.LOADING,
     isHost: true,
   })),
-  on(GameActions.createLobbySuccess, GameActions.joinLobbySuccess, (state, { gameDetails }) => ({
-    ...state,
-    gameDetails,
-    status: GameStatus.LOBBY,
-    error: null,
-  })),
-  on(GameActions.createLobbyFailure, GameActions.joinLobbyFailure, (state, { error }) => ({
-    ...state,
-    status: GameStatus.ERROR,
-    error,
-  })),
+  on(
+    GameActions.createLobbySuccess,
+    GameActions.joinLobbySuccess,
+    (state, { gameDetails }) => ({
+      ...state,
+      gameDetails,
+      status: GameStatus.LOBBY,
+      error: null,
+    })
+  ),
+  on(
+    GameActions.createLobbyFailure,
+    GameActions.joinLobbyFailure,
+    (state, { error }) => ({
+      ...state,
+      status: GameStatus.ERROR,
+      error,
+    })
+  ),
   on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
     ...state,
     gameDetails,
@@ -85,5 +93,5 @@ export const gameReducer = createReducer(
     error: message,
     status: GameStatus.ERROR,
   })),
-  on(GameActions.reset, () => initialState),
+  on(GameActions.reset, () => initialState)
 );

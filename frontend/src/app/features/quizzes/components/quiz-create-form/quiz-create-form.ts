@@ -5,15 +5,29 @@ import {
 import { QuizCreateFormTitle } from '@/app/features/quizzes/components/quiz-create-form-title/quiz-create-form-title';
 import { QUIZ_FORM_CONSTRAINTS } from '@/app/features/quizzes/constants/quiz-form-consts';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
-import { AnswerForm, QuestionForm, QuizForm } from '@/app/features/quizzes/types/quiz-form';
+import {
+  AnswerForm,
+  QuestionForm,
+  QuizForm,
+} from '@/app/features/quizzes/types/quiz-form';
 import { QuizFormConsts } from '@/app/features/quizzes/types/quiz-form-consts';
 import { Button } from '@/app/shared/components/button/button';
 import { Component, input, OnInit, output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-quiz-create-form',
-  imports: [Button, ReactiveFormsModule, QuizCreateFormTitle, QuizCreateFormQuestion],
+  imports: [
+    Button,
+    ReactiveFormsModule,
+    QuizCreateFormTitle,
+    QuizCreateFormQuestion,
+  ],
   templateUrl: './quiz-create-form.html',
   styleUrl: './quiz-create-form.scss',
 })
@@ -26,18 +40,25 @@ export class QuizCreateForm implements OnInit {
   private readonly formBuilder = new FormBuilder();
   protected readonly form = this.formBuilder.group<QuizForm>({
     title: this.formBuilder.control('', {
-      validators: [Validators.required, Validators.minLength(this.limits.MIN_TEXT_LENGTH)],
+      validators: [
+        Validators.required,
+        Validators.minLength(this.limits.MIN_TEXT_LENGTH),
+      ],
       nonNullable: true,
     }),
     questions: this.formBuilder.array<FormGroup<QuestionForm>>([]),
   });
 
   protected addQuestion(): void {
-    if (this.form.controls.questions.length >= this.limits.MAX_QUESTIONS) return;
+    if (this.form.controls.questions.length >= this.limits.MAX_QUESTIONS)
+      return;
 
     const question = this.formBuilder.group<QuestionForm>({
       text: this.formBuilder.control('', {
-        validators: [Validators.required, Validators.minLength(this.limits.MIN_TEXT_LENGTH)],
+        validators: [
+          Validators.required,
+          Validators.minLength(this.limits.MIN_TEXT_LENGTH),
+        ],
         nonNullable: true,
       }),
       answers: this.formBuilder.array<FormGroup<AnswerForm>>([
@@ -50,14 +71,21 @@ export class QuizCreateForm implements OnInit {
   }
 
   protected removeQuestion(index: number): void {
-    if (this.form.controls.questions.length <= this.limits.MIN_QUESTIONS) return;
+    if (this.form.controls.questions.length <= this.limits.MIN_QUESTIONS)
+      return;
     this.form.controls.questions.removeAt(index);
   }
 
-  protected createAnswer(text: string = '', isCorrect: boolean = false): FormGroup<AnswerForm> {
+  protected createAnswer(
+    text: string = '',
+    isCorrect: boolean = false
+  ): FormGroup<AnswerForm> {
     return this.formBuilder.group<AnswerForm>({
       text: this.formBuilder.control(text, {
-        validators: [Validators.required, Validators.minLength(this.limits.MIN_TEXT_LENGTH)],
+        validators: [
+          Validators.required,
+          Validators.minLength(this.limits.MIN_TEXT_LENGTH),
+        ],
         nonNullable: true,
       }),
       isCorrect: this.formBuilder.control(isCorrect, { nonNullable: true }),
@@ -66,7 +94,7 @@ export class QuizCreateForm implements OnInit {
 
   protected getQuestionData(
     form: FormGroup<QuestionForm>,
-    index: number,
+    index: number
   ): QuizCreateFormQuestionData {
     return {
       form,

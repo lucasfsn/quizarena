@@ -20,7 +20,9 @@ export class QuizzesQuizItem {
 
   protected readonly status = this.store.selectSignal(selectGameStatus);
 
-  protected categoryImagePath = computed(() => getCategoryImagePath(this.quiz().category));
+  protected categoryImagePath = computed(() =>
+    getCategoryImagePath(this.quiz().category)
+  );
 
   protected readonly GameStatus = GameStatus;
 

@@ -9,7 +9,16 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { Action, Store } from '@ngrx/store';
-import { catchError, map, merge, Observable, of, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  catchError,
+  map,
+  merge,
+  Observable,
+  of,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 @Injectable()
 export class GameEffects {
@@ -29,28 +38,30 @@ export class GameEffects {
             this.establishGameSession(
               res.roomCode,
               GameActions.createLobbySuccess({ gameDetails: res }),
-              GameActions.createLobbyFailure,
-            ),
+              GameActions.createLobbyFailure
+            )
           ),
           catchError((err) =>
             of(
               GameActions.createLobbyFailure({
                 error: err.message ?? 'An unexpected error occurred',
-              }),
-            ),
-          ),
-        ),
-      ),
-    ),
+              })
+            )
+          )
+        )
+      )
+    )
   );
 
   public createLobbyFailure$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(GameActions.createLobbyFailure),
-        tap(({ error }) => this.toastService.error(error, 'Failed to create game.')),
+        tap(({ error }) =>
+          this.toastService.error(error, 'Failed to create game.')
+        )
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   public joinLobby$ = createEffect(() =>
@@ -62,46 +73,48 @@ export class GameEffects {
             this.establishGameSession(
               res.roomCode,
               GameActions.joinLobbySuccess({ gameDetails: res }),
-              GameActions.joinLobbyFailure,
-            ),
+              GameActions.joinLobbyFailure
+            )
           ),
-          catchError((err) => of(GameActions.joinLobbyFailure({ error: err.message }))),
-        ),
-      ),
-    ),
+          catchError((err) =>
+            of(GameActions.joinLobbyFailure({ error: err.message }))
+          )
+        )
+      )
+    )
   );
 
   public joinLobbyFailure$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(GameActions.joinLobbyFailure),
-        tap(() => this.router.navigate(['/'])),
+        tap(() => this.router.navigate(['/']))
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   private establishGameSession(
     roomCode: string,
     successAction: Action,
-    errorActionCreator: (props: { error: string }) => Action,
+    errorActionCreator: (props: { error: string }) => Action
   ): Observable<Action> {
     return this.gameSocketService.connect(roomCode).pipe(
       switchMap(() =>
         merge(
           of(successAction),
           this.gameSocketService.loadedMessages.pipe(
-            map((message) => this.mapMessageToAction(message)),
-          ),
-        ),
+            map((message) => this.mapMessageToAction(message))
+          )
+        )
       ),
       takeUntil(this.actions$.pipe(ofType(GameActions.reset))),
       catchError((err) =>
         of(
           errorActionCreator({
             error: err.message ?? 'Socket connection failed',
-          }),
-        ),
-      ),
+          })
+        )
+      )
     );
   }
 
@@ -109,8 +122,10 @@ export class GameEffects {
     this.actions$.pipe(
       ofType(GameActions.leave),
       concatLatestFrom(() => this.store.select(selectIsHost)),
-      map(([, isHost]) => (isHost ? GameActions.closeLobby() : GameActions.leaveLobby())),
-    ),
+      map(([, isHost]) =>
+        isHost ? GameActions.closeLobby() : GameActions.leaveLobby()
+      )
+    )
   );
 
   public closeLobby$ = createEffect(
@@ -121,9 +136,9 @@ export class GameEffects {
           this.gameSocketService.closeLobby();
           this.gameSocketService.disconnect();
         }),
-        map(() => GameActions.reset()),
+        map(() => GameActions.reset())
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   public leaveLobby$ = createEffect(() =>
@@ -133,17 +148,17 @@ export class GameEffects {
         this.gameSocketService.leaveGame();
         this.gameSocketService.disconnect();
       }),
-      map(() => GameActions.reset()),
-    ),
+      map(() => GameActions.reset())
+    )
   );
 
   public startGame$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(GameActions.startGame),
-        tap(() => this.gameSocketService.startGame()),
+        tap(() => this.gameSocketService.startGame())
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   public submitAnswer$ = createEffect(
@@ -151,10 +166,10 @@ export class GameEffects {
       this.actions$.pipe(
         ofType(GameActions.submitAnswer),
         tap(({ questionId, answerId }) =>
-          this.gameSocketService.submitAnswer(questionId, answerId),
-        ),
+          this.gameSocketService.submitAnswer(questionId, answerId)
+        )
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   public lobbyClosed$ = createEffect(
@@ -164,13 +179,13 @@ export class GameEffects {
         tap(() => {
           this.toastService.info('Host has left the game.');
           this.router.navigate(['/quizzes']);
-        }),
+        })
       ),
-    { dispatch: false },
+    { dispatch: false }
   );
 
   private mapMessageToAction(
-    message: ServerMessage,
+    message: ServerMessage
   ): ReturnType<(typeof SocketActions)[keyof typeof SocketActions]> {
     switch (message.type) {
       case 'LOBBY_UPDATE':
@@ -184,7 +199,9 @@ export class GameEffects {
           correctAnswerId: message.payload.correctAnswerId,
         });
       case 'GAME_FINISHED':
-        return SocketActions.gameFinished({ summaryId: message.payload.summaryId });
+        return SocketActions.gameFinished({
+          summaryId: message.payload.summaryId,
+        });
       case 'ERROR':
         return SocketActions.error({ message: message.payload.message });
       default:

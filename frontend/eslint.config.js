@@ -29,14 +29,14 @@ module.exports = tseslint.config(
         { allowSameFolder: false, rootDir: 'src', prefix: '@' },
       ],
       'arrow-parens': ['error', 'always'],
-      complexity: ['error', 8],
+      'complexity': ['error', 8],
       'no-else-return': 'error',
       'no-nested-ternary': 'error',
       'max-depth': ['error', 2],
       'max-nested-callbacks': ['error', 3],
       'newline-before-return': 'error',
       'prefer-const': 'error',
-      semi: ['error', 'always'],
+      'semi': ['error', 'always'],
       '@angular-eslint/component-selector': [
         'error',
         {
@@ -126,7 +126,13 @@ module.exports = tseslint.config(
           format: ['UPPER_CASE'],
         },
         {
-          selector: ['class', 'enum', 'interface', 'typeAlias', 'typeParameter'],
+          selector: [
+            'class',
+            'enum',
+            'interface',
+            'typeAlias',
+            'typeParameter',
+          ],
           format: ['StrictPascalCase'],
         },
       ],
@@ -170,7 +176,10 @@ module.exports = tseslint.config(
   },
   {
     files: ['**/*.html'],
-    extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
     rules: {},
-  },
+  }
 );

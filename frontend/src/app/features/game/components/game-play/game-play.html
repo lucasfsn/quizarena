@@ -1,31 +1,38 @@
-<div class="flex flex-col gap-10 h-full">
-  <div class="flex flex-col-reverse xs:flex-row items-center gap-x-4 gap-y-2 sm:relative">
+<div class="flex h-full flex-col gap-10">
+  <div
+    class="xs:flex-row flex flex-col-reverse items-center gap-x-4 gap-y-2 sm:relative">
     <span class="font-medium"
-      >Question {{ question().currentIndex }}/{{ question().totalQuestions }}</span
+      >Question {{ question().currentIndex }}/{{
+        question().totalQuestions
+      }}</span
     >
     <div
-      class="flex-1 w-full max-w-xs md:max-w-md lg:max-w-2xl sm:absolute sm:left-1/2 sm:-translate-x-1/2"
-    >
+      class="w-full max-w-xs flex-1 sm:absolute sm:left-1/2 sm:-translate-x-1/2 md:max-w-md lg:max-w-2xl">
       <p-progressBar [value]="progressValue()">
-        <ng-template #content let-value>
+        <ng-template
+          #content
+          let-value>
           <span>{{ remainingTime() }}s</span>
         </ng-template>
       </p-progressBar>
     </div>
   </div>
-  <div class="flex flex-col items-center gap-6 flex-1 justify-center">
-    <div class="flex flex-col gap-3.5 items-center">
-      <p class="text-2xl md:text-3xl font-medium text-break">{{ question().text }}</p>
-      <i class="pi pi-question-circle" style="font-size: 2.5rem"></i>
+  <div class="flex flex-1 flex-col items-center justify-center gap-6">
+    <div class="flex flex-col items-center gap-3.5">
+      <p class="text-break text-2xl font-medium md:text-3xl">
+        {{ question().text }}
+      </p>
+      <i
+        class="pi pi-question-circle"
+        style="font-size: 2.5rem"></i>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+    <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
       @for (answer of question().answers; track answer.id; let i = $index) {
         <button
-          class="bg-surface rounded-3xl border-border-light border-3 text-lg md:text-xl px-4 py-2 cursor-pointer hover:text-shadow-2xs active:text-shadow-2xs text-break transition-all focus-ring disabled:cursor-default"
+          class="bg-surface border-border-light text-break focus-ring cursor-pointer rounded-3xl border-3 px-4 py-2 text-lg transition-all hover:text-shadow-2xs active:text-shadow-2xs disabled:cursor-default md:text-xl"
           (click)="onAnswerSelect(answer)"
           [disabled]="isLocked()"
-          [ngClass]="answerClass(answer.id)"
-        >
+          [ngClass]="answerClass(answer.id)">
           {{ i + 1 }}. {{ answer.label }}
         </button>
       }

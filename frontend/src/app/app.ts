@@ -1,3 +1,4 @@
+import { ProgressBar } from '@/app/shared/components/progress-bar/progress-bar';
 import { Component, inject, signal } from '@angular/core';
 import {
   NavigationCancel,
@@ -8,7 +9,6 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { Toast } from 'primeng/toast';
-import { ProgressBar } from '@/app/shared/components/progress-bar/progress-bar';
 
 @Component({
   selector: 'app-root',

@@ -12,12 +12,12 @@ export const GameActions = createActionGroup({
     'Join Lobby': props<{ roomCode: string }>(),
     'Join Lobby Success': props<{ gameDetails: GameDetails }>(),
     'Join Lobby Failure': props<{ error: string }>(),
-    Leave: emptyProps(),
+    'Leave': emptyProps(),
     'Close Lobby': emptyProps(),
     'Leave Lobby': emptyProps(),
     'Start Game': emptyProps(),
     'Submit Answer': props<{ questionId: string; answerId: string | null }>(),
-    Reset: emptyProps(),
+    'Reset': emptyProps(),
   },
 });
 
@@ -30,6 +30,6 @@ export const SocketActions = createActionGroup({
     'Question Received': props<{ question: Question }>(),
     'Correct Answer Received': props<{ correctAnswerId: string }>(),
     'Game Finished': props<{ summaryId: string }>(),
-    Error: props<{ message: string }>(),
+    'Error': props<{ message: string }>(),
   },
 });
