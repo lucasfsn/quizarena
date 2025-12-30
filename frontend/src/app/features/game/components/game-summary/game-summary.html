@@ -11,50 +11,69 @@
     </div>
     <h2 class="text-secondary sm:text-xl">{{ game().quiz.title }}</h2>
   </div>
-  <div
-    class="bg-surface flex w-full flex-col gap-8 rounded-4xl px-6 py-4 shadow-md">
-    @if (query.data(); as summary) {
-      <p-table
-        [value]="summary.players"
-        [frozenValue]="loggedInPlayer ? [loggedInPlayer] : []"
-        [scrollable]="true"
-        scrollHeight="500px">
-        <ng-template #header>
-          <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Answers</th>
-            <th>Score</th>
-          </tr>
-        </ng-template>
-        <ng-template
-          #frozenbody
-          let-player
-          let-index="rowIndex">
-          <tr class="font-bold">
-            <td class="text-tertiary text-shadow-xs">{{ player.position }}</td>
-            <td class="text-tertiary text-shadow-xs">
-              {{ player.player.firstName }} {{ player.player.lastName }}
-            </td>
-            <td class="text-tertiary text-shadow-xs">
-              {{ player.correctAnswers }}/{{ game().quiz.questionsCount }}
-            </td>
-            <td class="text-tertiary text-shadow-xs">{{ player.score }}</td>
-          </tr>
-        </ng-template>
-        <ng-template
-          #body
-          let-player>
-          <tr>
-            <td>{{ player.position }}</td>
-            <td>{{ player.player.firstName }} {{ player.player.lastName }}</td>
-            <td>
-              {{ player.correctAnswers }}/{{ game().quiz.questionsCount }}
-            </td>
-            <td>{{ player.score }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    }
-  </div>
+  @if (query.isError()) {
+    <app-fallback-ui
+      title="Something went wrong"
+      description="Oops! We couldn't load the game summary."
+      class="h-full w-full"
+      redirectTo="/">
+      <svg
+        icon
+        class="xs:min-w-32 max-w-64 min-w-16"
+        si-fetch-error-image />
+    </app-fallback-ui>
+  } @else {
+    <div
+      class="bg-surface flex w-full flex-col gap-8 rounded-4xl px-6 py-4 shadow-md">
+      @if (query.isPending()) {
+        <app-game-summary-skeleton />
+      } @else if (query.data(); as summary) {
+        <p-table
+          [value]="summary.players"
+          [frozenValue]="loggedInPlayer ? [loggedInPlayer] : []"
+          [scrollable]="true"
+          scrollHeight="500px">
+          <ng-template #header>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Answers</th>
+              <th>Score</th>
+            </tr>
+          </ng-template>
+          <ng-template
+            #frozenbody
+            let-player
+            let-index="rowIndex">
+            <tr class="font-bold">
+              <td class="text-tertiary text-shadow-xs">
+                {{ player.position }}
+              </td>
+              <td class="text-tertiary text-shadow-xs">
+                {{ player.player.firstName }} {{ player.player.lastName }}
+              </td>
+              <td class="text-tertiary text-shadow-xs">
+                {{ player.correctAnswers }}/{{ game().quiz.questionsCount }}
+              </td>
+              <td class="text-tertiary text-shadow-xs">{{ player.score }}</td>
+            </tr>
+          </ng-template>
+          <ng-template
+            #body
+            let-player>
+            <tr>
+              <td>{{ player.position }}</td>
+              <td>
+                {{ player.player.firstName }} {{ player.player.lastName }}
+              </td>
+              <td>
+                {{ player.correctAnswers }}/{{ game().quiz.questionsCount }}
+              </td>
+              <td>{{ player.score }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      }
+    </div>
+  }
 </div>

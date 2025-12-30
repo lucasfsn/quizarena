@@ -1,4 +1,5 @@
 import { Response } from '@/app/core/types/response';
+import { getMockSummary } from '@/app/dev/get-mock-summary';
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { GameResult } from '@/app/features/game/types/game-result';
 import { environment } from '@/environments/environment';
@@ -11,6 +12,8 @@ import { map, Observable } from 'rxjs';
 })
 export class Game {
   private readonly http = inject(HttpClient);
+
+  private useMock = true;
 
   public createGame(quizId: string): Observable<GameDetails> {
     return this.http
@@ -29,6 +32,8 @@ export class Game {
   }
 
   public getGameResult(summaryId: string): Observable<GameResult> {
+    if (this.useMock) return getMockSummary();
+
     return this.http
       .get<Response<GameResult>>(`${environment.apiUrl}/results/${summaryId}`)
       .pipe(map((res: Response<GameResult>) => res.data));
