@@ -28,13 +28,9 @@ services:
 
     apigateway:
         build:
-            context: ./backend/Gateway
+            context: ./backend/gateway
             dockerfile: Dockerfile.dev
         restart: always
-        depends_on:
-            - user-service
-            - quiz-service
-            # - keycloak
         ports:
             - "8085:8085"
         networks:
@@ -45,6 +41,10 @@ services:
                 - action: sync+restart
                   path: ./backend/Gateway
                   target: /opt/
+        depends_on:
+            - user-service
+            - quiz-service
+            - keycloak
 
     user-service:
         build:
@@ -55,18 +55,20 @@ services:
             - quizarena-server-network
         ports:
             - "8086:8086"
-        depends_on:
-            - database
-            # - keycloak
         environment:
             - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${POSTGRES_DB}
             - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
             - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
         develop:
             watch:
+                - action: rebuild
+                  path: ./backend/UserService/build.gradle.kts
                 - action: sync+restart
                   path: ./backend/UserService
                   target: /opt/
+        depends_on:
+            - database
+            - keycloak
 
     quiz-service:
         build:
@@ -85,11 +87,28 @@ services:
                   path: ./backend/QuizService
                   target: /opt
         ports:
-            - "8081:8081"
+            - "8087:8087"
         networks:
             - quizarena-server-network
         depends_on:
             - database
+            - keycloak
+
+    keycloak:
+        build:
+            context: ./backend/Keycloak/data
+            dockerfile: Dockerfile.kc
+        restart: always
+        environment:
+            - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+            - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+            - KC_HOSTNAME=${KC_HOSTNAME}
+            - KC_HTTP_PORT=8080
+        ports:
+            - "8080:8080"
+        networks:
+            - quizarena-server-network
+            - quizarena-client-network
 
     database:
         image: postgres:18-alpine
@@ -107,8 +126,6 @@ services:
 
 networks:
     quizarena-server-network:
-        name: quizarena-server-network
     quizarena-client-network:
-        name: quizarena-client-network
 volumes:
     quizarena-postgresql-data:

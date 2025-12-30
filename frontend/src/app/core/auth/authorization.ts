@@ -12,7 +12,9 @@ export class Authorization {
   }
 
   public logout(): void {
-    this.keycloak.logout();
+    this.keycloak.logout({
+      redirectUri: window.location.origin
+    });
   }
 
   public isLoggedIn(): boolean {
