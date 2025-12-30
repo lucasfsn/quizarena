@@ -1,17 +1,16 @@
+import { QuizCreateFormTitle } from '@/app/features/quizzes/components/quiz-create-form-title/quiz-create-form-title';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Title } from '@/app/features/quizzes/components/quiz-create-form-title/quiz-create-form-title';
-
 describe('Title', () => {
-  let component: Title;
-  let fixture: ComponentFixture<Title>;
+  let component: QuizCreateFormTitle;
+  let fixture: ComponentFixture<QuizCreateFormTitle>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Title],
+      imports: [QuizCreateFormTitle],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Title);
+    fixture = TestBed.createComponent(QuizCreateFormTitle);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

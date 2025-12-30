@@ -1,5 +1,12 @@
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
-import { Component, DestroyRef, effect, inject, input, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputGroup } from 'primeng/inputgroup';
@@ -9,7 +16,13 @@ import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-quizzes-filters-title',
-  imports: [ReactiveFormsModule, InputGroup, InputGroupAddon, FloatLabel, InputText],
+  imports: [
+    ReactiveFormsModule,
+    InputGroup,
+    InputGroupAddon,
+    FloatLabel,
+    InputText,
+  ],
   templateUrl: './quizzes-filters-title.html',
   styleUrl: './quizzes-filters-title.scss',
 })
@@ -29,9 +42,11 @@ export class QuizzesFiltersTitle implements OnInit {
   protected form = new FormControl<string>('');
 
   public ngOnInit(): void {
-    const subscription = this.form.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
-      this.quizFiltersService.setTitle(value || undefined);
-    });
+    const subscription = this.form.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((value) => {
+        this.quizFiltersService.setTitle(value || undefined);
+      });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }

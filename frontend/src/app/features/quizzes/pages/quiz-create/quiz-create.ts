@@ -2,7 +2,7 @@ import { Toast } from '@/app/core/services/toast/toast';
 import { QuizCreateForm } from '@/app/features/quizzes/components/quiz-create-form/quiz-create-form';
 import { Quizzes } from '@/app/features/quizzes/services/quizzes/quizzes';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
-import { QuizDetails } from '@/app/features/quizzes/types/quiz-details';
+import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { injectMutation } from '@tanstack/angular-query-experimental';
@@ -20,12 +20,14 @@ export class QuizCreate {
   private toastService = inject(Toast);
 
   protected query = injectMutation(() => ({
-    mutationFn: (data: QuizCreatePayload) => lastValueFrom(this.quizzesService.createQuiz(data)),
-    onSuccess: (res: QuizDetails) => {
+    mutationFn: (data: QuizCreatePayload) =>
+      lastValueFrom(this.quizzesService.createQuiz(data)),
+    onSuccess: (res: QuizPreview) => {
       this.toastService.success('Quiz created successfully!');
       this.router.navigate(['/quizzes', res.id]);
     },
-    onError: () => this.toastService.error('Failed to create quiz. Please try again.'),
+    onError: () =>
+      this.toastService.error('Failed to create quiz. Please try again.'),
   }));
 
   protected isLoading(): boolean {

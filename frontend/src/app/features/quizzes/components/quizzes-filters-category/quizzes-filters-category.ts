@@ -1,6 +1,13 @@
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
-import { Component, DestroyRef, effect, inject, input, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Select } from 'primeng/select';
@@ -28,7 +35,9 @@ export class QuizzesFiltersCategory implements OnInit {
     });
   }
 
-  protected readonly categories: CategoryOption[] = Object.values(QuizCategory).map((category) => ({
+  protected readonly categories: CategoryOption[] = Object.values(
+    QuizCategory
+  ).map((category) => ({
     name: category,
   }));
 

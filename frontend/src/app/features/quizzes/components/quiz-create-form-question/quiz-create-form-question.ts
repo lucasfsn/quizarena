@@ -17,7 +17,14 @@ export interface QuizCreateFormQuestionData {
 
 @Component({
   selector: 'app-quiz-create-form-question',
-  imports: [Textarea, FloatLabel, ReactiveFormsModule, Checkbox, InputText, Button],
+  imports: [
+    Textarea,
+    FloatLabel,
+    ReactiveFormsModule,
+    Checkbox,
+    InputText,
+    Button,
+  ],
   templateUrl: './quiz-create-form-question.html',
   styleUrl: './quiz-create-form-question.scss',
 })
@@ -30,5 +37,7 @@ export class QuizCreateFormQuestion {
   public removeAnswer = output<number>();
   public removeQuestion = output<void>();
 
-  protected readonly answers = computed(() => this.data().form.controls.answers);
+  protected readonly answers = computed(
+    () => this.data().form.controls.answers
+  );
 }

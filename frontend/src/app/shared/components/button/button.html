@@ -1,5 +1,8 @@
 @if (variant() === 'skeleton') {
-  <p-skeleton [width]="skeletonWidth()" [height]="skeletonHeight" borderRadius="9999px" />
+  <p-skeleton
+    [width]="skeletonWidth()"
+    [height]="skeletonHeight"
+    borderRadius="9999px" />
 } @else {
   <button
     [ngClass]="classes"
@@ -7,8 +10,7 @@
     [attr.aria-disabled]="disabled()"
     [attr.tabindex]="disabled() ? -1 : 0"
     [routerLink]="redirectTo()"
-    (click)="onClick()"
-  >
+    (click)="onClick()">
     <ng-content />
   </button>
 }

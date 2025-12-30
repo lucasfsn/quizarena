@@ -1,5 +1,12 @@
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
-import { Component, DestroyRef, effect, inject, input, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
@@ -27,9 +34,11 @@ export class QuizzesFiltersAuthor implements OnInit {
   protected form = new FormControl<string>('');
 
   public ngOnInit(): void {
-    const subscription = this.form.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
-      this.quizFiltersService.setAuthor(value || undefined);
-    });
+    const subscription = this.form.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe((value) => {
+        this.quizFiltersService.setAuthor(value || undefined);
+      });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }

@@ -25,16 +25,24 @@ export class Quizzes implements OnInit {
     queryKey: [...getQuizzesQueryKey(), this.quizFiltersService.filters()],
     queryFn: async ({ pageParam }) =>
       lastValueFrom(
-        this.quizzesService.getQuizzes(pageParam, PAGE_SIZE, this.quizFiltersService.filters()),
+        this.quizzesService.getQuizzes(
+          pageParam,
+          PAGE_SIZE,
+          this.quizFiltersService.filters()
+        )
       ),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => (lastPage.last ? undefined : lastPage.number + 1),
+    getNextPageParam: (lastPage) =>
+      lastPage.last ? undefined : lastPage.number + 1,
     staleTime: 10 * 60 * 1000, // 10 minutes
   }));
 
   protected skeletonCount = computed(() => {
     const pages = this.query.data()?.pages ?? [];
-    const loaded = pages.reduce((prev, curr) => prev + curr.numberOfElements, 0);
+    const loaded = pages.reduce(
+      (prev, curr) => prev + curr.numberOfElements,
+      0
+    );
     const total = pages[0]?.totalElements ?? 0;
 
     if (loaded === 0) return PAGE_SIZE;
