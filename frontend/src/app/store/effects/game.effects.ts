@@ -48,7 +48,7 @@ export class GameEffects {
     () =>
       this.actions$.pipe(
         ofType(GameActions.createLobbyFailure),
-        tap(({ error }) => this.toastService.error(error, 'Failed to create game')),
+        tap(({ error }) => this.toastService.error(error, 'Failed to create game.')),
       ),
     { dispatch: false },
   );

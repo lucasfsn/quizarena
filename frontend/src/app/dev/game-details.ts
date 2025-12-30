@@ -1,7 +1,7 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
 
-export const MOCK_GAME_LOBBY: GameDetails = {
+export const MOCK_GAME_DETAILS: GameDetails = {
   roomCode: 'ABC123',
   quiz: {
     id: '1',
@@ -10,6 +10,7 @@ export const MOCK_GAME_LOBBY: GameDetails = {
     category: QuizCategory.COMMUNITY,
     author: 'John Doe',
   },
+  maxPlayers: 20,
   players: [
     {
       id: '79d544be-253c-4a71-abbe-225fcc25b5e8',
@@ -69,5 +70,4 @@ export const MOCK_GAME_LOBBY: GameDetails = {
       lastName: 'Davis',
     },
   ],
-  hostId: '79d544be-253c-4a71-abbe-225fcc25b5e8',
 };
