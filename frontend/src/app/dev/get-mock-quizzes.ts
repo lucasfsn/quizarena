@@ -7,21 +7,23 @@ import { delay, Observable, of } from 'rxjs';
 export function getMockQuizzes(
   page: number,
   pageSize: number,
-  filters?: QuizzesFilters,
+  filters?: QuizzesFilters
 ): Observable<Page<QuizPreview>> {
   let filteredQuizzes = MOCK_QUIZZES;
 
   if (filters?.category)
-    filteredQuizzes = filteredQuizzes.filter((quiz) => quiz.category === filters.category);
+    filteredQuizzes = filteredQuizzes.filter(
+      (quiz) => quiz.category === filters.category
+    );
 
   if (filters?.title)
     filteredQuizzes = filteredQuizzes.filter((quiz) =>
-      quiz.title.toLowerCase().includes(filters.title!.toLowerCase()),
+      quiz.title.toLowerCase().includes(filters.title!.toLowerCase())
     );
 
   if (filters?.author)
     filteredQuizzes = filteredQuizzes.filter((quiz) =>
-      quiz.author?.toLowerCase().includes(filters.author!.toLowerCase()),
+      quiz.author?.toLowerCase().includes(filters.author!.toLowerCase())
     );
 
   const start = page * pageSize;

@@ -1,0 +1,40 @@
+# Artifacts and Build Outputs
+dist/
+.angular/
+tmp/
+out-tsc/
+bazel-out/
+
+# Dependencies
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Logs and Coverage
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coverage/
+.nyc_output
+
+# System and IDE files
+.vscode/
+.idea/
+.DS_Store
+.zed/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environments
+# We often ignore these because they contain long auto-generated keys
+src/environments/environment*.ts
+
+# Angular specific
+/.nx/
+/.cache/

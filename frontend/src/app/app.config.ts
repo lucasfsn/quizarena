@@ -1,19 +1,33 @@
 import { routes } from '@/app/app.routes';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { apiErrorInterceptor } from '@/app/core/interceptors/api-error-interceptor';
+import { GameEffects } from '@/app/store/effects/game.effects';
+import { gameReducer } from '@/app/store/reducers/game.reducers';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
+import { provideEffects } from '@ngrx/effects';
+import { provideStore } from '@ngrx/store';
 import Aura from '@primeuix/themes/aura';
-import { QueryClient, provideTanStackQuery } from '@tanstack/angular-query-experimental';
+import {
+  QueryClient,
+  provideTanStackQuery,
+} from '@tanstack/angular-query-experimental';
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
-import { apiErrorInterceptor } from '@/app/core/interceptors/api-error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,8 +45,10 @@ export const appConfig: ApplicationConfig = {
           },
         },
       }),
-      withDevtools(),
+      withDevtools()
     ),
+    provideStore({ game: gameReducer }),
+    provideEffects([GameEffects]),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {

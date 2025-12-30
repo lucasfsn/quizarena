@@ -17,7 +17,13 @@ export const quizzesResolver: ResolveFn<void> = () => {
   return queryClient.prefetchInfiniteQuery({
     queryKey: [...getQuizzesQueryKey(), quizFiltersService.filters()],
     queryFn: async ({ pageParam }) =>
-      lastValueFrom(quizzesService.getQuizzes(pageParam, PAGE_SIZE, quizFiltersService.filters())),
+      lastValueFrom(
+        quizzesService.getQuizzes(
+          pageParam,
+          PAGE_SIZE,
+          quizFiltersService.filters()
+        )
+      ),
     initialPageParam: 0,
     getNextPageParam: (lastPage: Page<QuizPreview>) =>
       lastPage.last ? undefined : lastPage.number + 1,

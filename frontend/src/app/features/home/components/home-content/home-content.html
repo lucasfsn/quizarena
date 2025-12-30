@@ -1,58 +1,114 @@
-<div class="flex flex-col gap-10 h-full px-5">
-  <div class="flex-col-reverse sm:flex-row flex gap-2 items-center justify-between flex-1">
-    <div class="flex flex-col gap-4 items-center grow">
+<div class="flex h-full flex-col gap-10 px-5">
+  <div
+    class="flex flex-1 flex-col-reverse items-center justify-between gap-2 sm:flex-row">
+    <div class="flex grow flex-col items-center gap-4">
       <div class="flex flex-col gap-0.5">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-break">
+        <h1 class="text-break text-2xl font-extrabold sm:text-3xl">
           Unlock Fun Quizzess & Challenge Friends!
         </h1>
-        <p class="text-base sm:text-xl">Join now and start your quiz adventure - it's free.</p>
+        <p class="text-base sm:text-xl">
+          Join now and start your quiz adventure - it's free.
+        </p>
       </div>
-      <div class="flex md:hidden gap-1.5">
+      <div class="flex gap-1.5 md:hidden">
         @if (isLoading()) {
-        <app-button size="md" variant="skeleton" skeletonWidth="9rem" />
+          <app-button
+            size="md"
+            variant="skeleton"
+            skeletonWidth="9rem" />
         } @else {
+          <app-button
+            (handleClick)="handleShowJoinQuizDialog()"
+            size="md"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
+          >
+        }
         <app-button
-          [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
+          redirectTo="/quizzes"
           size="md"
-          variant="primary"
+          variant="secondary"
           customClasses="shadow-sm"
-          >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
-        >
-        }
-        <app-button redirectTo="/quizzes" size="md" variant="secondary" customClasses="shadow-sm"
           >Explore quizzes</app-button
         >
       </div>
-      <div class="hidden md:flex gap-2.5">
+      <div class="hidden gap-2.5 md:flex">
         @if (isLoading()) {
-        <app-button size="lg" variant="skeleton" skeletonWidth="10rem" />
+          <app-button
+            size="lg"
+            variant="skeleton"
+            skeletonWidth="10rem" />
         } @else {
-        <app-button
-          [redirectTo]="isLoggedIn() ? '/quizzes/new' : '/signup'"
-          size="lg"
-          variant="primary"
-          customClasses="shadow-sm"
-          >{{ isLoggedIn() ? 'Create your quiz' : 'Start your journey' }}</app-button
-        >
+          <app-button
+            (handleClick)="handleShowJoinQuizDialog()"
+            size="lg"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
+          >
         }
-        <app-button redirectTo="/quizzes" size="lg" variant="secondary" customClasses="shadow-sm"
+        <app-button
+          redirectTo="/quizzes"
+          size="lg"
+          variant="secondary"
+          customClasses="shadow-sm"
           >Explore quizzes</app-button
         >
       </div>
+      <p-dialog
+        header="Join Quiz"
+        [modal]="true"
+        [(visible)]="joinQuizDialogVisible">
+        <div class="flex flex-col items-center gap-2">
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                [formControl]="roomControl"
+                id="roomCode"
+                class="uppercase"
+                autocomplete="off"
+                maxlength="6" />
+              <label for="roomCode">Room code</label>
+            </p-floatlabel>
+            @if (error()) {
+              <span class="text-status-error text-xs">{{ error() }}</span>
+            }
+          </div>
+          <app-button
+            variant="ghost"
+            size="lg"
+            class="w-full"
+            customClasses="w-full"
+            (handleClick)="handleEnterQuizByCodeClick()"
+            [disabled]="roomControl.invalid"
+            >Enter</app-button
+          >
+        </div>
+      </p-dialog>
     </div>
-    <svg class="min-w-16 xs:min-w-32 max-w-96" si-home-question-image></svg>
+    <svg
+      class="xs:min-w-32 max-w-96 min-w-16"
+      si-home-question-image></svg>
   </div>
-  <div class="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
+  <div class="flex flex-col flex-wrap justify-center gap-3 sm:flex-row">
     <app-home-card>
-      <svg class="size-12" si-ranking-icon></svg>
+      <svg
+        class="size-12"
+        si-ranking-icon></svg>
       <p class="text-sm sm:text-base">Climb the leaderboard</p>
     </app-home-card>
     <app-home-card>
-      <svg class="size-12" si-knowledge-icon></svg>
+      <svg
+        class="size-12"
+        si-knowledge-icon></svg>
       <p class="text-sm sm:text-base">Test your knowledge</p>
     </app-home-card>
     <app-home-card>
-      <svg class="size-12" si-friends-icon></svg>
+      <svg
+        class="size-12"
+        si-friends-icon></svg>
       <p class="text-sm sm:text-base">Compete with friends</p>
     </app-home-card>
   </div>

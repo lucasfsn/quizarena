@@ -1,29 +1,33 @@
-<div class="mx-auto flex items-center justify-between sm:justify-around gap-4 max-w-96">
+<div
+  class="mx-auto flex max-w-96 items-center justify-between gap-4 sm:justify-around">
   <a
     routerLink="/"
     routerLinkActive="active"
-    class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset flex-1"
-    [routerLinkActiveOptions]="{ exact: true }"
-  >
-    <i class="pi pi-home" aria-hidden="true"></i>
+    class="border-y-surface focus-ring-inset flex flex-1 grow flex-col items-center justify-center gap-0.5 border-y-2 px-3 pt-1 pb-0.5 uppercase"
+    [routerLinkActiveOptions]="{ exact: true }">
+    <i
+      class="pi pi-home"
+      aria-hidden="true"></i>
     <p class="text-xs">Home</p>
   </a>
   <a
     routerLink="/quizzes"
     routerLinkActive="active"
-    class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset flex-1"
-    [routerLinkActiveOptions]="{ exact: true }"
-  >
-    <i class="pi pi-list" aria-hidden="true"></i>
+    class="border-y-surface focus-ring-inset flex flex-1 grow flex-col items-center justify-center gap-0.5 border-y-2 px-3 pt-1 pb-0.5 uppercase"
+    [routerLinkActiveOptions]="{ exact: true }">
+    <i
+      class="pi pi-list"
+      aria-hidden="true"></i>
     <p class="text-xs">Quizzes</p>
   </a>
   <a
     routerLink="/leaderboard"
     routerLinkActive="active"
-    class="px-3 pb-0.5 pt-1 flex items-center flex-col justify-center uppercase gap-0.5 border-y-surface border-y-2 grow focus-ring-inset flex-1"
-    [routerLinkActiveOptions]="{ exact: true }"
-  >
-    <i class="pi pi-crown" aria-hidden="true"></i>
+    class="border-y-surface focus-ring-inset flex flex-1 grow flex-col items-center justify-center gap-0.5 border-y-2 px-3 pt-1 pb-0.5 uppercase"
+    [routerLinkActiveOptions]="{ exact: true }">
+    <i
+      class="pi pi-crown"
+      aria-hidden="true"></i>
     <p class="text-xs">Leaderboard</p>
   </a>
 </div>

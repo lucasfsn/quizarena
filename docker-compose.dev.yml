@@ -6,6 +6,7 @@ services:
     restart: always
     environment:
       - NG_APP_API_URL=${NG_APP_API_URL}
+      - NG_APP_WS_URL=${NG_APP_WS_URL}
     develop:
       watch:
         - action: rebuild
@@ -108,4 +109,4 @@ networks:
   quizarena-client-network:
     name: quizarena-client-network
 volumes:
-  quizarena-postgresql-data:
+    quizarena-postgresql-data:
