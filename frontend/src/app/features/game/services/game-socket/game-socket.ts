@@ -69,6 +69,7 @@ export class GameSocket implements OnDestroy {
     this.messages$ = new Subject<ServerMessage>();
     this.loadedMessages = this.messages$.asObservable();
   }
+
   public joinGame(roomCode: string): void {
     this.send('/app/game/join', { roomCode });
   }

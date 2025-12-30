@@ -103,18 +103,7 @@ export class GamePlay {
     this.intervalId = setInterval(() => {
       this.remainingTime.update((prev) => Math.max(0, prev - 1));
 
-      if (this.remainingTime() === 0) {
-        this.clearTimer();
-
-        if (this.submittedAnswerId() !== null) return;
-
-        this.store.dispatch(
-          GameActions.submitAnswer({
-            questionId: this.question().id,
-            answerId: this.submittedAnswerId(),
-          })
-        );
-      }
+      if (this.remainingTime() === 0) this.clearTimer();
     }, 1000);
   }
 
