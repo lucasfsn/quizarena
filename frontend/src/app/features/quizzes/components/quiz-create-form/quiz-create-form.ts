@@ -12,7 +12,7 @@ import {
 } from '@/app/features/quizzes/types/quiz-form';
 import { QuizFormConsts } from '@/app/features/quizzes/types/quiz-form-consts';
 import { Button } from '@/app/shared/components/button/button';
-import { Component, input, OnInit, output } from '@angular/core';
+import { Component, inject, input, OnInit, output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -32,12 +32,13 @@ import {
   styleUrl: './quiz-create-form.scss',
 })
 export class QuizCreateForm implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+
   public handleSubmit = output<QuizCreatePayload>();
   public isLoading = input<boolean>(false);
 
   protected readonly limits: QuizFormConsts = QUIZ_FORM_CONSTRAINTS;
 
-  private readonly formBuilder = new FormBuilder();
   protected readonly form = this.formBuilder.group<QuizForm>({
     title: this.formBuilder.control('', {
       validators: [
