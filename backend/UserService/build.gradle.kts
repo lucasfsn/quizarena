@@ -37,6 +37,7 @@ dependencies {
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 //	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testImplementation("com.h2database:h2")
 }
 
 tasks.withType<Test> {
