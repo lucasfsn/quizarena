@@ -8,7 +8,10 @@ import { UserUpdatePayload } from '@/app/features/user/types/user-update-payload
 import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { queryOptions } from '@tanstack/angular-query-experimental';
+import {
+  CreateQueryOptions,
+  queryOptions,
+} from '@tanstack/angular-query-experimental';
 import { lastValueFrom, map, Observable } from 'rxjs';
 
 @Injectable({
@@ -20,8 +23,12 @@ export class User {
 
   private useMock = true;
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
-  public userOptions() {
+  public userOptions(): CreateQueryOptions<
+    UserDetails,
+    Error,
+    UserDetails,
+    ReturnType<typeof getUserQueryKey>
+  > {
     return queryOptions({
       queryKey: getUserQueryKey(CURRENT_USER_QUERY_KEY),
       queryFn: () => lastValueFrom(this.getLoggedInUser()),

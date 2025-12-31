@@ -1,6 +1,17 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-// eslint-disable-next-line complexity
+const areAllPasswordFieldsEmpty = (
+  current: string,
+  next: string,
+  confirm: string
+): boolean => !current && !next && !confirm;
+
+const isAnyPasswordFieldMissing = (
+  current: string,
+  next: string,
+  confirm: string
+): boolean => !current || !next || !confirm;
+
 export const passwordMatchValidator: ValidatorFn = (
   control: AbstractControl
 ): ValidationErrors | null => {
@@ -8,9 +19,10 @@ export const passwordMatchValidator: ValidatorFn = (
   const next = control.get('newPassword')?.value;
   const confirm = control.get('confirmNewPassword')?.value;
 
-  if (!current && !next && !confirm) return null;
+  if (areAllPasswordFieldsEmpty(current, next, confirm)) return null;
 
-  if (!current || !next || !confirm) return { passwordIncomplete: true };
+  if (isAnyPasswordFieldMissing(current, next, confirm))
+    return { passwordIncomplete: true };
 
   return next === confirm ? null : { passwordsMismatch: true };
 };
