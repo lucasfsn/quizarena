@@ -1,4 +1,5 @@
 import { routes } from '@/app/app.routes';
+import { provideKeycloakAuth } from '@/app/core/auth/keycloak';
 import { apiErrorInterceptor } from '@/app/core/interceptors/api-error-interceptor';
 import { GameEffects } from '@/app/store/effects/game.effects';
 import { gameReducer } from '@/app/store/reducers/game.reducers';
@@ -26,6 +27,7 @@ import {
   provideTanStackQuery,
 } from '@tanstack/angular-query-experimental';
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
+import { includeBearerTokenInterceptor } from 'keycloak-angular';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 
@@ -36,7 +38,11 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch(), withInterceptors([apiErrorInterceptor])),
+    provideKeycloakAuth(),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([apiErrorInterceptor, includeBearerTokenInterceptor])
+    ),
     provideTanStackQuery(
       new QueryClient({
         defaultOptions: {

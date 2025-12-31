@@ -17,10 +17,10 @@ import { lastValueFrom } from 'rxjs';
   styleUrl: './game-summary.scss',
 })
 export class GameSummary {
+  private readonly gameService = inject(Game);
+
   public readonly game = input.required<GameDetails>();
   public readonly summaryId = input.required<string | null>();
-
-  private readonly gameService = inject(Game);
 
   protected query = injectQuery(() => ({
     queryKey: getGameResultQueryKey(this.summaryId()!),

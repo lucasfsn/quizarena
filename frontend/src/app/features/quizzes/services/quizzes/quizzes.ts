@@ -13,7 +13,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class Quizzes {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   private useMock = true;
 

@@ -6,7 +6,7 @@
 ├── core
 │ ├── interceptors/
 │ ├── guards/
-│ └── auth.service.ts
+│ └── auth/
 ├── shared
 │ ├── components
 │ │ └── navbar/

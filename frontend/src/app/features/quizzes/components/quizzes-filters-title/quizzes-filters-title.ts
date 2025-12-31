@@ -27,10 +27,10 @@ import { debounceTime } from 'rxjs';
   styleUrl: './quizzes-filters-title.scss',
 })
 export class QuizzesFiltersTitle implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  public disabled = input.required<boolean>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly quizFiltersService = inject(QuizFilters);
 
-  protected quizFiltersService = inject(QuizFilters);
+  public disabled = input.required<boolean>();
 
   public constructor() {
     effect(() => {

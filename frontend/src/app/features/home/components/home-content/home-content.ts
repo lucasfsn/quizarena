@@ -1,3 +1,4 @@
+import { Authorization } from '@/app/core/auth/authorization';
 import { HomeCard } from '@/app/features/home/components/home-card/home-card';
 import { Button } from '@/app/shared/components/button/button';
 import { FriendsIcon } from '@/app/shared/components/svg/friends-icon';
@@ -6,9 +7,8 @@ import { KnowledgeIcon } from '@/app/shared/components/svg/knowledge-icon';
 import { RankingIcon } from '@/app/shared/components/svg/ranking-icon';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { selectError } from '@/app/store/selectors/game.selectors';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DialogModule } from 'primeng/dialog';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -32,11 +32,12 @@ import { InputText } from 'primeng/inputtext';
   styleUrl: './home-content.scss',
 })
 export class HomeContent {
-  private readonly router = inject(Router);
+  private readonly authorizationService = inject(Authorization);
   private readonly store = inject(Store);
 
-  protected readonly isLoggedIn = signal<boolean>(true);
-  protected readonly isLoading = signal<boolean>(false);
+  protected isLoggedIn(): boolean {
+    return this.authorizationService.isLoggedIn();
+  }
 
   protected readonly error = this.store.selectSignal(selectError);
 
@@ -54,7 +55,7 @@ export class HomeContent {
 
   protected handleShowJoinQuizDialog(): void {
     if (!this.isLoggedIn()) {
-      this.router.navigate(['/signup']);
+      this.authorizationService.login();
 
       return;
     }

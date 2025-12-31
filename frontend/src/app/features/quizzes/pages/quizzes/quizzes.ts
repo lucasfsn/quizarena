@@ -1,3 +1,4 @@
+import { Authorization } from '@/app/core/auth/authorization';
 import { QuizzesFilters } from '@/app/features/quizzes/components/quizzes-filters/quizzes-filters';
 import { QuizzesList } from '@/app/features/quizzes/components/quizzes-list/quizzes-list';
 import { PAGE_SIZE } from '@/app/features/quizzes/constants/quizzes-page-size';
@@ -18,8 +19,9 @@ import { lastValueFrom } from 'rxjs';
   styleUrl: './quizzes.scss',
 })
 export class Quizzes implements OnInit {
-  protected quizFiltersService = inject(QuizFilters);
-  protected quizzesService = inject(QuizzesService);
+  private readonly quizFiltersService = inject(QuizFilters);
+  private readonly quizzesService = inject(QuizzesService);
+  private readonly authorizationService = inject(Authorization);
 
   protected query = injectInfiniteQuery(() => ({
     queryKey: [...getQuizzesQueryKey(), this.quizFiltersService.filters()],
@@ -57,6 +59,10 @@ export class Quizzes implements OnInit {
 
     return pages.flatMap((page) => page.content);
   });
+
+  protected isLoggedIn(): boolean {
+    return this.authorizationService.isLoggedIn();
+  }
 
   public ngOnInit(): void {
     this.quizFiltersService.reset();

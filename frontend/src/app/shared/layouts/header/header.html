@@ -12,25 +12,35 @@
       class="size-8 group-hover:opacity-95" />
     <span class="group-hover:text-brand-dark hidden sm:block">Quizarena</span>
   </a>
-  <p-popover #menu>
-    <div class="flex flex-col gap-1.5">
-      <button
-        class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
-        routerLink="/settings">
-        <i
-          class="pi pi-cog"
-          aria-hidden="true"></i>
-        <span class="text-sm sm:text-base">Settings</span>
-      </button>
-      <button
-        class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
-        (click)="onLogout()">
-        <i
-          class="pi pi-sign-out"
-          aria-hidden="true"></i>
-        <span class="text-sm sm:text-base">Logout</span>
-      </button>
-    </div>
-  </p-popover>
-  <app-user-button (handleClick)="menu.toggle($event)" />
+  @if (isLoggedIn()) {
+    <p-popover #menu>
+      <div class="flex flex-col gap-1.5">
+        <button
+          class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
+          routerLink="/settings">
+          <i
+            class="pi pi-cog"
+            aria-hidden="true"></i>
+          <span class="text-sm sm:text-base">Settings</span>
+        </button>
+        <button
+          class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
+          (click)="onLogout()">
+          <i
+            class="pi pi-sign-out"
+            aria-hidden="true"></i>
+          <span class="text-sm sm:text-base">Logout</span>
+        </button>
+      </div>
+    </p-popover>
+    <app-user-button (handleClick)="menu.toggle($event)" />
+  } @else {
+    <app-button
+      variant="ghost"
+      size="lg"
+      customClasses="!py-1"
+      (handleClick)="onLogin()"
+      >Login</app-button
+    >
+  }
 </div>

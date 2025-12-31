@@ -11,20 +11,13 @@
         </p>
       </div>
       <div class="flex gap-1.5 md:hidden">
-        @if (isLoading()) {
-          <app-button
-            size="md"
-            variant="skeleton"
-            skeletonWidth="9rem" />
-        } @else {
-          <app-button
-            (handleClick)="handleShowJoinQuizDialog()"
-            size="md"
-            variant="primary"
-            customClasses="shadow-sm"
-            >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
-          >
-        }
+        <app-button
+          (handleClick)="handleShowJoinQuizDialog()"
+          size="md"
+          variant="primary"
+          customClasses="shadow-sm"
+          >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
+        >
         <app-button
           redirectTo="/quizzes"
           size="md"
@@ -34,20 +27,13 @@
         >
       </div>
       <div class="hidden gap-2.5 md:flex">
-        @if (isLoading()) {
-          <app-button
-            size="lg"
-            variant="skeleton"
-            skeletonWidth="10rem" />
-        } @else {
-          <app-button
-            (handleClick)="handleShowJoinQuizDialog()"
-            size="lg"
-            variant="primary"
-            customClasses="shadow-sm"
-            >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
-          >
-        }
+        <app-button
+          (handleClick)="handleShowJoinQuizDialog()"
+          size="lg"
+          variant="primary"
+          customClasses="shadow-sm"
+          >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
+        >
         <app-button
           redirectTo="/quizzes"
           size="lg"

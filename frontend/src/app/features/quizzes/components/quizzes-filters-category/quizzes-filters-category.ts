@@ -23,10 +23,10 @@ interface CategoryOption {
   styleUrl: './quizzes-filters-category.scss',
 })
 export class QuizzesFiltersCategory implements OnInit {
-  public disabled = input.required<boolean>();
-  private destroyRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly quizFiltersService = inject(QuizFilters);
 
-  protected quizFiltersService = inject(QuizFilters);
+  public disabled = input.required<boolean>();
 
   public constructor() {
     effect(() => {

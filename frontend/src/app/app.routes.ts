@@ -1,3 +1,4 @@
+import { authGuard } from '@/app/core/guards/auth-guard';
 import { Home } from '@/app/features/home/home';
 import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
@@ -32,6 +33,7 @@ export const routes: Routes = [
               import(
                 '@/app/features/quizzes/pages/quiz-create/quiz-create'
               ).then((m) => m.QuizCreate),
+            canActivate: [authGuard],
           },
         ],
       },
@@ -40,6 +42,7 @@ export const routes: Routes = [
         title: 'Game',
         loadComponent: () =>
           import('@/app/features/game/pages/game/game').then((m) => m.Game),
+        canActivate: [authGuard],
       },
       {
         path: 'not-found',
