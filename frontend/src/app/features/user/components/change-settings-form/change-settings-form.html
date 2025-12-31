@@ -15,13 +15,20 @@
             class="w-full" />
           <label for="username">Username</label>
         </p-floatLabel>
-        @if (
-          settingsForm.controls.username.invalid &&
-          settingsForm.controls.username.touched
-        ) {
-          <small class="text-status-error ml-1 text-xs"
-            >Username must be at least 3 characters long.</small
-          >
+        @if (settingsForm.controls.username.errors; as userErrors) {
+          @if (settingsForm.controls.username.touched) {
+            @if (userErrors['required']) {
+              <small class="text-status-error ml-1 text-xs"
+                >Username is required.</small
+              >
+            }
+            @if (userErrors['minlength']) {
+              <small class="text-status-error ml-1 text-xs">
+                Username must be at least
+                {{ userErrors['minlength'].requiredLength }} characters long.
+              </small>
+            }
+          }
         }
       </div>
       <div class="flex flex-col gap-1">
@@ -99,16 +106,20 @@
         </p-floatLabel>
         @if (
           settingsForm.controls.password.controls.newPassword.errors;
-          as errors
+          as passwordErrors
         ) {
-          @if (errors['minlength']) {
+          @if (passwordErrors['minlength']) {
             <small class="text-status-error ml-1 text-xs"
-              >Password must be at least 8 characters long.</small
+              >Password must be at least
+              {{ passwordErrors['minlength'].requiredLength }} characters
+              long.</small
             >
           }
-          @if (errors['maxlength']) {
+          @if (passwordErrors['maxlength']) {
             <small class="text-status-error ml-1 text-xs"
-              >Password cannot exceed 64 characters.</small
+              >Password cannot exceed
+              {{ passwordErrors['maxlength'].requiredLength }}
+              characters.</small
             >
           }
         }

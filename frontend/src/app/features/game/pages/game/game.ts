@@ -34,7 +34,7 @@ import { take } from 'rxjs';
 export class Game implements OnDestroy, OnInit {
   private readonly store = inject(Store);
   private readonly route = inject(ActivatedRoute);
-  private readonly title = inject(Title);
+  private readonly titleService = inject(Title);
 
   protected readonly status = this.store.selectSignal(selectGameStatus);
   protected readonly gameDetails = this.store.selectSignal(selectGameDetails);
@@ -48,7 +48,7 @@ export class Game implements OnDestroy, OnInit {
       const gameDetails = this.gameDetails();
       if (!gameDetails) return;
 
-      this.title.setTitle(gameDetails.quiz.title);
+      this.titleService.setTitle(gameDetails.quiz.title);
     });
   }
 

@@ -1,4 +1,5 @@
 import { CURRENT_USER_QUERY_KEY } from '@/app/features/user/constants/current-user-query-key';
+import { USER_SETTINGS_CONSTRAINTS } from '@/app/features/user/constants/user-settings-consts';
 import { getUserQueryKey } from '@/app/features/user/queries/get-user-query-key';
 import { User } from '@/app/features/user/services/user/user';
 import {
@@ -44,7 +45,7 @@ export class ChangeSettingsForm {
     this.formBuilder.group<SettingsForm>({
       username: this.formBuilder.control('', [
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(USER_SETTINGS_CONSTRAINTS.USERNAME_MIN_LENGTH),
       ]),
       firstName: this.formBuilder.control('', [Validators.required]),
       lastName: this.formBuilder.control('', [Validators.required]),
@@ -56,8 +57,8 @@ export class ChangeSettingsForm {
         {
           currentPassword: this.formBuilder.control(''),
           newPassword: this.formBuilder.control('', [
-            Validators.minLength(8),
-            Validators.maxLength(64),
+            Validators.minLength(USER_SETTINGS_CONSTRAINTS.PASSWORD_MIN_LENGTH),
+            Validators.maxLength(USER_SETTINGS_CONSTRAINTS.PASSWORD_MAX_LENGTH),
           ]),
           confirmNewPassword: this.formBuilder.control(''),
         },
@@ -120,6 +121,8 @@ export class ChangeSettingsForm {
         getUserQueryKey(CURRENT_USER_QUERY_KEY),
         updatedUser
       );
+      this.toastService.success('Settings updated successfully.');
+      this.settingsForm.markAsPristine();
     },
     onError: (error) => this.toastService.error(error.message),
   }));

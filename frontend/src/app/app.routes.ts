@@ -46,7 +46,7 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        title: 'My Settings',
+        title: 'Settings',
         loadComponent: () =>
           import('@/app/features/user/pages/settings/settings').then(
             (m) => m.Settings
