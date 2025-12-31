@@ -6,8 +6,7 @@ export interface UserUpdatePayload {
   password?: PasswordPayload;
 }
 
-export interface PasswordPayload {
-  currentPassword?: string;
-  newPassword?: string;
-  confirmNewPassword?: string;
+interface PasswordPayload {
+  currentPassword: string;
+  newPassword: string;
 }

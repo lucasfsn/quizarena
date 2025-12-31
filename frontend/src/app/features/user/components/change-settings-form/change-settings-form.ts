@@ -86,6 +86,7 @@ export class ChangeSettingsForm {
     if (this.settingsForm.invalid) return;
 
     const payload = this.buildUpdatePayload();
+    console.log(payload);
 
     if (Object.keys(payload).length === 0) return;
 
@@ -104,7 +105,10 @@ export class ChangeSettingsForm {
 
     const { currentPassword, newPassword } = password.controls;
     if (currentPassword.value && newPassword.value)
-      payload.password = password.getRawValue();
+      payload.password = {
+        currentPassword: currentPassword.value,
+        newPassword: newPassword.value,
+      };
 
     return payload;
   }
