@@ -1,5 +1,6 @@
 import { GameSocket } from '@/app/features/game/services/game-socket/game-socket';
 import { Game } from '@/app/features/game/services/game/game';
+import { GameDetails } from '@/app/features/game/types/game-details';
 import { ServerMessage } from '@/app/features/game/types/server-message';
 import { Toast } from '@/app/shared/services/toast/toast';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
@@ -34,7 +35,7 @@ export class GameEffects {
       ofType(GameActions.createLobby),
       switchMap(({ quizId }) =>
         this.gameService.createGame(quizId).pipe(
-          switchMap((res) =>
+          switchMap((res: GameDetails) =>
             this.establishGameSession(
               res.roomCode,
               GameActions.createLobbySuccess({ gameDetails: res }),
@@ -69,7 +70,7 @@ export class GameEffects {
       ofType(GameActions.joinLobby),
       switchMap(({ roomCode }) =>
         this.gameService.joinGame(roomCode).pipe(
-          switchMap((res) =>
+          switchMap((res: GameDetails) =>
             this.establishGameSession(
               res.roomCode,
               GameActions.joinLobbySuccess({ gameDetails: res }),
