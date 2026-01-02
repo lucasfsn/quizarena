@@ -17,6 +17,10 @@ export const serverRoutes: ServerRoute[] = [
     path: 'game/:roomCode',
     renderMode: RenderMode.Client,
   },
+  {
+    path: 'settings',
+    renderMode: RenderMode.Client,
+  },
   { path: 'not-found', renderMode: RenderMode.Prerender },
   {
     path: '**',

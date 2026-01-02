@@ -1,0 +1,165 @@
+<form
+  [formGroup]="settingsForm"
+  (ngSubmit)="changeSettings()"
+  class="bg-surface mx-auto flex w-full max-w-2xl flex-col gap-7 rounded-md p-5 shadow-sm md:p-8">
+  <h2 class="border-b pb-2 text-xl font-bold md:text-2xl">Account Settings</h2>
+  <div class="flex flex-col gap-2">
+    <div class="grid grid-cols-1 gap-2.5 md:grid-cols-2 md:gap-5">
+      <div class="flex flex-col gap-1">
+        <p-floatLabel variant="on">
+          <input
+            id="username"
+            type="text"
+            pInputText
+            formControlName="username"
+            class="w-full" />
+          <label for="username">Username</label>
+        </p-floatLabel>
+        @if (settingsForm.controls.username.errors; as userErrors) {
+          @if (settingsForm.controls.username.touched) {
+            @if (userErrors['required']) {
+              <small class="text-status-error ml-1 text-xs"
+                >Username is required.</small
+              >
+            }
+            @if (userErrors['minlength']) {
+              <small class="text-status-error ml-1 text-xs">
+                Username must be at least
+                {{ userErrors['minlength'].requiredLength }} characters long.
+              </small>
+            }
+          }
+        }
+      </div>
+      <div class="flex flex-col gap-1">
+        <p-floatLabel variant="on">
+          <input
+            id="email"
+            type="email"
+            pInputText
+            formControlName="email"
+            class="w-full" />
+          <label for="email">Email</label>
+        </p-floatLabel>
+        @if (
+          settingsForm.controls.email.invalid &&
+          settingsForm.controls.email.touched
+        ) {
+          <small class="text-status-error ml-1 text-xs"
+            >Please enter a valid email.</small
+          >
+        }
+      </div>
+      <div class="flex flex-col gap-1">
+        <p-floatLabel variant="on">
+          <input
+            id="firstName"
+            type="text"
+            pInputText
+            formControlName="firstName"
+            class="w-full" />
+          <label for="firstName">First Name</label>
+        </p-floatLabel>
+      </div>
+      <div class="flex flex-col gap-1">
+        <p-floatLabel variant="on">
+          <input
+            id="lastName"
+            type="text"
+            pInputText
+            formControlName="lastName"
+            class="w-full" />
+          <label for="lastName">Last Name</label>
+        </p-floatLabel>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2">
+    <span class="text-secondary flex items-center italic">
+      <i class="pi pi-lock mr-2"></i> Security & Password
+    </span>
+    <div
+      formGroupName="password"
+      class="grid grid-cols-1 gap-2.5 md:grid-cols-2 md:gap-5">
+      <div class="flex flex-col gap-1">
+        <p-floatLabel variant="on">
+          <p-password
+            id="currentPassword"
+            formControlName="currentPassword"
+            [feedback]="false"
+            [toggleMask]="true"
+            styleClass="w-full"
+            inputStyleClass="w-full px-3 py-2" />
+          <label for="currentPassword">Current Password</label>
+        </p-floatLabel>
+      </div>
+      <div class="hidden md:block"></div>
+      <div class="flex flex-col gap-1">
+        <p-floatLabel variant="on">
+          <p-password
+            id="newPassword"
+            formControlName="newPassword"
+            [toggleMask]="true"
+            styleClass="w-full"
+            inputStyleClass="w-full px-3 py-2" />
+          <label for="newPassword">New Password</label>
+        </p-floatLabel>
+        @if (
+          settingsForm.controls.password.controls.newPassword.errors;
+          as passwordErrors
+        ) {
+          @if (passwordErrors['minlength']) {
+            <small class="text-status-error ml-1 text-xs"
+              >Password must be at least
+              {{ passwordErrors['minlength'].requiredLength }} characters
+              long.</small
+            >
+          }
+          @if (passwordErrors['maxlength']) {
+            <small class="text-status-error ml-1 text-xs"
+              >Password cannot exceed
+              {{ passwordErrors['maxlength'].requiredLength }}
+              characters.</small
+            >
+          }
+        }
+      </div>
+      <div class="flex flex-col gap-1">
+        <p-floatLabel variant="on">
+          <p-password
+            id="confirmNewPassword"
+            formControlName="confirmNewPassword"
+            [feedback]="false"
+            [toggleMask]="true"
+            styleClass="w-full"
+            inputStyleClass="w-full px-3 py-2" />
+          <label for="confirmNewPassword">Confirm New Password</label>
+        </p-floatLabel>
+        @if (
+          settingsForm.controls.password.hasError('passwordsMismatch') &&
+          settingsForm.controls.password.controls.confirmNewPassword.dirty
+        ) {
+          <small class="text-status-error ml-1 text-xs"
+            >Passwords do not match.</small
+          >
+        }
+      </div>
+    </div>
+  </div>
+  <app-button
+    type="submit"
+    variant="primary"
+    size="lg"
+    class="hidden self-center md:flex"
+    [disabled]="settingsForm.invalid || settingsForm.pristine || isUpdating()"
+    >Save changes</app-button
+  >
+  <app-button
+    type="submit"
+    variant="primary"
+    size="md"
+    class="flex self-center md:hidden"
+    [disabled]="settingsForm.invalid || settingsForm.pristine || isUpdating()"
+    >Save changes</app-button
+  >
+</form>
