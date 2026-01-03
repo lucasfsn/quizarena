@@ -9,8 +9,8 @@ import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
-    CreateQueryOptions,
-    queryOptions,
+  CreateQueryOptions,
+  queryOptions,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom, map, Observable } from 'rxjs';
 
