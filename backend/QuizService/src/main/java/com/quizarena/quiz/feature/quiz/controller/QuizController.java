@@ -62,7 +62,6 @@ public class QuizController {
 
     @GetMapping(ID)
     public ResponseDto<QuizResponseDto> getQuiz(@PathVariable UUID quizId) {
-        log.info(quizService.getQuizById(quizId).toString());
         return new ResponseDto<>(
                 SuccessCode.RESPONSE_SUCCESSFUL,
                 "Successfully fetched quiz",
