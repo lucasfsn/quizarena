@@ -1,0 +1,43 @@
+@if (query.isError()) {
+  <app-fallback-ui
+    title="Something went wrong"
+    description="Oops! We can't load this content right now."
+    redirectTo="/">
+    <svg
+      icon
+      class="xs:min-w-32 max-w-64 min-w-16"
+      si-fetch-error-image />
+  </app-fallback-ui>
+} @else {
+  <div class="flex flex-col items-center gap-3 md:gap-5">
+    <div class="relative flex w-full max-w-3xl items-center justify-center">
+      <h1 class="text-center text-3xl font-bold sm:text-4xl">Quizzes</h1>
+      @if (isLoggedIn()) {
+        <app-button
+          variant="ghost"
+          size="lg"
+          class="absolute right-0"
+          redirectTo="/quizzes/new"
+          >Create quiz</app-button
+        >
+      }
+    </div>
+    <div class="flex w-full max-w-3xl flex-col gap-2.5 md:gap-4.5">
+      <app-quizzes-filters [disabled]="query.isFetching()" />
+      <app-quizzes-list
+        [skeletonCount]="skeletonCount()"
+        [isPending]="query.isPending()"
+        [isFetching]="query.isFetching()"
+        [quizzes]="quizzes()" />
+      @if (!query.isFetching() && query.hasNextPage()) {
+        <app-button
+          variant="secondary"
+          size="lg"
+          customClasses="shadow-sm mx-auto"
+          (handleClick)="query.fetchNextPage()">
+          Load more
+        </app-button>
+      }
+    </div>
+  </div>
+}

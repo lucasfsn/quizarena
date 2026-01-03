@@ -1,0 +1,45 @@
+@if (status() === GameStatus.LOADING) {
+  <div class="flex h-full w-full items-center">
+    <p-progress-spinner
+      strokeWidth="6"
+      fill="transparent"
+      animationDuration="1.5s"
+      [style]="{ width: '50px', height: '50px' }" />
+  </div>
+} @else {
+  @switch (status()) {
+    @case (GameStatus.LOBBY) {
+      @if (gameDetails(); as gameDetails) {
+        <app-game-lobby [game]="gameDetails" />
+      }
+    }
+    @case (GameStatus.QUESTION) {
+      @if (question(); as question) {
+        <app-game-play [question]="question" />
+      }
+    }
+    @case (GameStatus.ANSWER) {
+      @if (question(); as question) {
+        <app-game-play [question]="question" />
+      }
+    }
+    @case (GameStatus.FINISHED) {
+      @if (gameDetails(); as gameDetails) {
+        <app-game-summary
+          [game]="gameDetails"
+          [summaryId]="summaryId()!" />
+      }
+    }
+    @case (GameStatus.ERROR) {
+      <app-fallback-ui
+        title="Something went wrong"
+        description="Oops! We can't load this content right now."
+        redirectTo="/quizzes">
+        <svg
+          icon
+          class="xs:min-w-32 max-w-64 min-w-16"
+          si-fetch-error-image />
+      </app-fallback-ui>
+    }
+  }
+}

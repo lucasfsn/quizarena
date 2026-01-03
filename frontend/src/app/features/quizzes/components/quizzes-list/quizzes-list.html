@@ -1,0 +1,26 @@
+@if (isPending()) {
+  <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 md:gap-4">
+    @for (_ of [].constructor(skeletonCount()); track $index) {
+      <app-quiz-skeleton />
+    }
+  </div>
+} @else if (quizzes().length === 0) {
+  <div
+    class="bg-surface text-secondary flex min-h-40 flex-col items-center justify-center rounded-lg p-4 shadow-sm">
+    <p class="text-xl font-medium">No quizzes found!</p>
+    <p>Try adjusting your filters or browsing a different category.</p>
+  </div>
+} @else {
+  <div class="flex flex-col gap-2.5 md:gap-4.5">
+    <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 md:gap-4">
+      @for (quiz of quizzes(); track quiz.id) {
+        <app-quizzes-quiz-item [quiz]="quiz" />
+      }
+      @if (isFetching()) {
+        @for (_ of [].constructor(skeletonCount()); track $index) {
+          <app-quiz-skeleton />
+        }
+      }
+    </div>
+  </div>
+}

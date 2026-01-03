@@ -6,7 +6,7 @@
 ├── core
 │ ├── interceptors/
 │ ├── guards/
-│ └── auth.service.ts
+│ └── auth/
 ├── shared
 │ ├── components
 │ │ └── navbar/
@@ -31,8 +31,13 @@
 │ │ │ │ └── game.actions.ts
 ```
 
-- **dev**: helper directory for development — contains example usages (e.g. modal demos), mock/dummy data, utility scripts and demo implementations. Not intended for production code.
-- **core**: singleton services (services that are shared across app such as AuthService), guards, interceptors.
-- **shared**: reusable components, directives, pipes, utils, validators, constants, layouts etc.
-- **features**: each feature in its own folder (with its components, services, resolvers, types, route file, page files and so on).
+- **dev**: helper directory for development — contains example usages (e.g.
+  modal demos), mock/dummy data, utility scripts and demo implementations. Not
+  intended for production code.
+- **core**: singleton services (services that are shared across app such as
+  AuthService), guards, interceptors.
+- **shared**: reusable components, directives, pipes, utils, validators,
+  constants, layouts etc.
+- **features**: each feature in its own folder (with its components, services,
+  resolvers, types, route file, page files and so on).
 - features/**state**: application state management with all reducers and actions

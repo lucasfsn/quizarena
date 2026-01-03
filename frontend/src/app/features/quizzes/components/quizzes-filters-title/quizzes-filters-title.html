@@ -1,0 +1,15 @@
+<p-inputgroup>
+  <p-inputgroup-addon
+    (click)="titleInput.focus()"
+    class="cursor-pointer">
+    <i class="pi pi-search"></i>
+  </p-inputgroup-addon>
+  <p-floatlabel variant="on">
+    <input
+      #titleInput
+      id="title"
+      pInputText
+      [formControl]="form" />
+    <label for="title">Search by quiz title</label>
+  </p-floatlabel>
+</p-inputgroup>

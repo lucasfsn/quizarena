@@ -74,6 +74,7 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+  testImplementation("com.h2database:h2")
 }
 
 tasks.withType<Test> {
