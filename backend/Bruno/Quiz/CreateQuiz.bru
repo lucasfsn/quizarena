@@ -1,0 +1,57 @@
+meta {
+  name: CreateQuiz
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8081/quizzes
+  body: json
+  auth: bearer
+}
+
+headers {
+  : 72a8d2e9-5eac-4247-a8f7-3a60f82dfd69
+}
+
+auth:bearer {
+  token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjhmZmQ1ZTMyNGQwNGJmZTdiOGJhYjdkNmRiZjVlMWVmIn0.eyJzdWIiOiI3MmE4ZDJlOS01ZWFjLTQyNDctYThmNy0zYTYwZjgyZGZkNjkiLCJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.xs8rQfdEmLnLWru8BcXd4AXxqdMwDaNvMMOeC7HyWT8pJSBmidrt7TUhyZ1RoT1YgeReDGN6BwuQCKtk3921Uw
+}
+
+body:json {
+  {
+    "title": "tytuł",
+    "description": "opis",
+    "category": "GENERAL_KNOWLEDGE",
+    "questions": [
+      {
+        "text": "lubisz psy?",
+        "answers": [
+          {
+            "text": "tak",
+            "isCorrect": true
+          }, {
+            "text": "nie",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "text": "Kiedy urodził sie Pawus?",
+        "answers": [
+          {
+            "text": "2001",
+            "isCorrect": false
+          }, {
+            "text": "2002",
+            "isCorrect": false
+          },
+          {
+            "text": "2003",
+            "isCorrect": true
+          }
+        ]
+      }
+    ]
+  }
+}
