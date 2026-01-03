@@ -15,7 +15,7 @@ export class Settings {
   private readonly userService = inject(User);
 
   public userQuery = injectQuery(() => ({
-    ...this.userService.userOptions(),
+    ...this.userService.fetchLoggedInUserOptions(),
     select: (user) => user.username,
   }));
 

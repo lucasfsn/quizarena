@@ -7,4 +7,5 @@ export interface Question {
   currentIndex: number;
   totalQuestions: number;
   timeLimitSeconds: number;
+  startedAt: string;
 }

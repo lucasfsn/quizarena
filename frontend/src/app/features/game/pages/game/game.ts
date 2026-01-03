@@ -46,9 +46,7 @@ export class Game implements OnDestroy, OnInit {
   public constructor() {
     effect(() => {
       const gameDetails = this.gameDetails();
-      if (!gameDetails) return;
-
-      this.titleService.setTitle(gameDetails.quiz.title);
+      if (gameDetails) this.titleService.setTitle(gameDetails.quiz.title);
     });
   }
 

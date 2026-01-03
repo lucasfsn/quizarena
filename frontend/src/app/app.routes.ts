@@ -1,6 +1,7 @@
 import { authGuard } from '@/app/core/guards/auth-guard';
 import { Home } from '@/app/features/home/home';
 import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
+import { userResolver } from '@/app/features/user/resolvers/user-resolver';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
 import { Routes } from '@angular/router';
 
@@ -47,6 +48,7 @@ export const routes: Routes = [
       {
         path: 'settings',
         title: 'Settings',
+        resolve: { userResolver },
         loadComponent: () =>
           import('@/app/features/user/pages/settings/settings').then(
             (m) => m.Settings

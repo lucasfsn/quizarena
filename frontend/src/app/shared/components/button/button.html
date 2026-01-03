@@ -1,11 +1,11 @@
 @if (variant() === 'skeleton') {
   <p-skeleton
     [width]="skeletonWidth()"
-    [height]="skeletonHeight"
+    [height]="skeletonHeight()"
     borderRadius="9999px" />
 } @else {
   <button
-    [ngClass]="classes"
+    [ngClass]="classes()"
     [disabled]="disabled()"
     [attr.aria-disabled]="disabled()"
     [attr.tabindex]="disabled() ? -1 : 0"

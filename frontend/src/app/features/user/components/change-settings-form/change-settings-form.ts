@@ -10,7 +10,7 @@ import { UserUpdatePayload } from '@/app/features/user/types/user-update-payload
 import { passwordMatchValidator } from '@/app/features/user/validators/password-match.validator';
 import { Button } from '@/app/shared/components/button/button';
 import { Toast } from '@/app/shared/services/toast/toast';
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import {
   FormGroup,
   NonNullableFormBuilder,
@@ -25,11 +25,19 @@ import {
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { ProgressSpinner } from 'primeng/progressspinner';
 import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-change-settings-form',
-  imports: [ReactiveFormsModule, InputText, FloatLabel, PasswordModule, Button],
+  imports: [
+    ReactiveFormsModule,
+    InputText,
+    FloatLabel,
+    PasswordModule,
+    Button,
+    ProgressSpinner,
+  ],
   templateUrl: './change-settings-form.html',
   styleUrl: './change-settings-form.scss',
 })
@@ -39,7 +47,11 @@ export class ChangeSettingsForm {
   private readonly queryClient = inject(QueryClient);
   private readonly toastService = inject(Toast);
 
-  public userQuery = injectQuery(() => this.userService.userOptions());
+  protected readonly isSaved = signal<boolean>(false);
+
+  public userQuery = injectQuery(() =>
+    this.userService.fetchLoggedInUserOptions()
+  );
 
   protected readonly settingsForm: FormGroup<SettingsForm> =
     this.formBuilder.group<SettingsForm>({
@@ -71,14 +83,18 @@ export class ChangeSettingsForm {
   public constructor() {
     effect(() => {
       const user = this.userQuery.data();
-      if (!user) return;
 
-      this.settingsForm.patchValue({
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      });
+      if (user && !this.settingsForm.dirty) this.settingsForm.patchValue(user);
+    });
+
+    effect((onCleanup) => {
+      if (this.isSaved()) {
+        const timer = setTimeout(() => {
+          this.isSaved.set(false);
+        }, 1000);
+
+        onCleanup(() => clearTimeout(timer));
+      }
     });
   }
 
@@ -86,7 +102,6 @@ export class ChangeSettingsForm {
     if (this.settingsForm.invalid) return;
 
     const payload = this.buildUpdatePayload();
-    console.log(payload);
 
     if (Object.keys(payload).length === 0) return;
 
@@ -113,7 +128,7 @@ export class ChangeSettingsForm {
     return payload;
   }
 
-  protected isUpdating(): boolean {
+  protected isLoading(): boolean {
     return this.updateSettingsMutation.isPending();
   }
 
@@ -121,11 +136,11 @@ export class ChangeSettingsForm {
     mutationFn: (payload: UserUpdatePayload) =>
       lastValueFrom(this.userService.changeSettings(payload)),
     onSuccess: (updatedUser) => {
+      this.isSaved.set(true);
       this.queryClient.setQueryData(
         getUserQueryKey(CURRENT_USER_QUERY_KEY),
         updatedUser
       );
-      this.toastService.success('Settings updated successfully.');
       this.settingsForm.markAsPristine();
     },
     onError: (error) => this.toastService.error(error.message),
