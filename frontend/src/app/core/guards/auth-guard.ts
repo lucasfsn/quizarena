@@ -1,4 +1,3 @@
-import { User } from '@/app/features/user/services/user/user';
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -7,7 +6,6 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { QueryClient } from '@tanstack/angular-query-experimental';
 import { AuthGuardData, createAuthGuard } from 'keycloak-angular';
 
 const isAccessAllowed = async (
@@ -16,20 +14,10 @@ const isAccessAllowed = async (
   authData: AuthGuardData
 ): Promise<boolean | UrlTree> => {
   const router = inject(Router);
-  const queryClient = inject(QueryClient);
-  const userService = inject(User);
 
   const { authenticated, grantedRoles } = authData;
 
   if (!authenticated) return router.createUrlTree(['/']);
-
-  try {
-    await queryClient.ensureQueryData(userService.userOptions());
-  } catch (error) {
-    console.error(error);
-
-    return router.createUrlTree(['/not-found']);
-  }
 
   const requiredRole = route.data['role'];
 

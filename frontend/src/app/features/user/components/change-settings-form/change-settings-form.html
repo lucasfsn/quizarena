@@ -150,16 +150,18 @@
     type="submit"
     variant="primary"
     size="lg"
-    class="hidden self-center md:flex"
-    [disabled]="settingsForm.invalid || settingsForm.pristine || isUpdating()"
-    >Save changes</app-button
-  >
-  <app-button
-    type="submit"
-    variant="primary"
-    size="md"
-    class="flex self-center md:hidden"
-    [disabled]="settingsForm.invalid || settingsForm.pristine || isUpdating()"
-    >Save changes</app-button
+    class="self-center"
+    customClasses="gap-1"
+    [disabled]="settingsForm.invalid || settingsForm.pristine || isLoading()"
+    >
+      @if (isLoading()) {
+        <p-progress-spinner strokeWidth="4" fill="transparent" [style]="{ width: '1.25rem', height: '1.25rem' }" />
+        <span>Saving...</span>
+      } @else if (isSaved()) {
+        <i class="pi pi-check animate-bounce-in text-green-700"></i>
+        <span>Saved</span>
+      } @else {
+        Save changes
+      }</app-button
   >
 </form>

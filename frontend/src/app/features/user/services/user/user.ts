@@ -9,8 +9,8 @@ import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
-  CreateQueryOptions,
-  queryOptions,
+    CreateQueryOptions,
+    queryOptions,
 } from '@tanstack/angular-query-experimental';
 import { lastValueFrom, map, Observable } from 'rxjs';
 
@@ -23,7 +23,7 @@ export class User {
 
   private useMock = true;
 
-  public userOptions(): CreateQueryOptions<
+  public fetchLoggedInUserOptions(): CreateQueryOptions<
     UserDetails,
     Error,
     UserDetails,
@@ -46,8 +46,16 @@ export class User {
   }
 
   public changeSettings(payload: UserUpdatePayload): Observable<UserDetails> {
+    if (this.useMock)
+      return getMockUser().pipe(
+        map((user) => ({
+          ...user,
+          ...payload,
+        }))
+      );
+
     return this.http
-      .post<Response<UserDetails>>(`${environment.apiUrl}/users`, payload)
+      .patch<Response<UserDetails>>(`${environment.apiUrl}/user`, payload)
       .pipe(map((res: Response<UserDetails>) => res.data));
   }
 }
