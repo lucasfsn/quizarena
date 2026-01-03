@@ -1,0 +1,15 @@
+meta {
+  name: GetAllQuizes
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8081/quizzes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjhmZmQ1ZTMyNGQwNGJmZTdiOGJhYjdkNmRiZjVlMWVmIn0.eyJzdWIiOiI3MmE4ZDJlOS01ZWFjLTQyNDctYThmNy0zYTYwZjgyZGZkNjkiLCJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.xs8rQfdEmLnLWru8BcXd4AXxqdMwDaNvMMOeC7HyWT8pJSBmidrt7TUhyZ1RoT1YgeReDGN6BwuQCKtk3921Uw
+}
