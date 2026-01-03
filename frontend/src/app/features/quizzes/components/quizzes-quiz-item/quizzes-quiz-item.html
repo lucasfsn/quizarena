@@ -29,10 +29,12 @@
       </div>
     </div>
   </div>
-  <button
-    class="bg-border-light focus-ring text-accent disabled:text-secondary rounded-b-lg p-2 text-center text-xs font-medium transition-opacity hover:opacity-90 disabled:cursor-not-allowed sm:text-sm"
-    (click)="handleStartQuizClick(quiz().id)"
-    [disabled]="status() === GameStatus.LOADING">
-    Start quiz
-  </button>
+  @if (isLoggedIn()) {
+    <button
+      class="bg-border-light focus-ring text-accent disabled:text-secondary rounded-b-lg p-2 text-center text-xs font-medium transition-opacity hover:opacity-90 disabled:cursor-not-allowed sm:text-sm"
+      (click)="handleStartQuizClick(quiz().id)"
+      [disabled]="status() === GameStatus.LOADING">
+      Start quiz
+    </button>
+  }
 </div>

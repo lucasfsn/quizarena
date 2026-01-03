@@ -15,7 +15,6 @@ export class QuizzesFilters {
 
   public disabled = input.required<boolean>();
 
-  protected get showAuthorFilter(): boolean {
-    return this.quizFiltersService.showAuthorFilter();
-  }
+  protected readonly showAuthorFilter =
+    this.quizFiltersService.showAuthorFilter;
 }

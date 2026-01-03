@@ -18,4 +18,5 @@ export const MOCK_GAME_QUESTION: Question = {
   timeLimitSeconds: 30,
   currentIndex: 8,
   totalQuestions: 20,
+  startedAt: new Date().toISOString(),
 };

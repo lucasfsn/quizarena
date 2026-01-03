@@ -11,7 +11,7 @@
     </div>
     <h2 class="text-secondary sm:text-xl">{{ game().quiz.title }}</h2>
   </div>
-  @if (query.isError()) {
+  @if (gameQuery.isError()) {
     <app-fallback-ui
       title="Something went wrong"
       description="Oops! We couldn't load the game summary."
@@ -25,10 +25,10 @@
   } @else {
     <div
       class="bg-surface flex w-full flex-col gap-8 rounded-4xl px-6 py-4 shadow-md">
-      @if (query.data(); as summary) {
+      @if (gameQuery.data(); as summary) {
         <p-table
           [value]="summary.players"
-          [frozenValue]="loggedInPlayer ? [loggedInPlayer] : []"
+          [frozenValue]="loggedInPlayer() ? [loggedInPlayer()] : []"
           [scrollable]="true"
           scrollHeight="500px">
           <ng-template #header>
@@ -71,7 +71,7 @@
             </tr>
           </ng-template>
         </p-table>
-      } @else if (query.isPending()) {
+      } @else if (gameQuery.isPending()) {
         <app-game-summary-skeleton />
       }
     </div>

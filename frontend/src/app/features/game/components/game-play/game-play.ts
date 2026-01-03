@@ -8,16 +8,11 @@ import {
   selectSubmittedAnswerId,
 } from '@/app/store/selectors/game.selectors';
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { ProgressBar } from 'primeng/progressbar';
+import { map, switchMap, takeWhile, timer } from 'rxjs';
 
 @Component({
   selector: 'app-game-play',
@@ -38,19 +33,7 @@ export class GamePlay {
     selectCorrectAnswerId
   );
 
-  private intervalId: ReturnType<typeof setInterval> | null = null;
-
-  public constructor() {
-    effect((onCleanup) => {
-      this.remainingTime.set(this.question().timeLimitSeconds);
-      this.startTimer();
-
-      onCleanup(() => this.clearTimer());
-    });
-  }
-
   private readonly totalTime = computed(() => this.question().timeLimitSeconds);
-  protected readonly remainingTime = signal(0);
   protected readonly progressValue = computed(() => {
     const total = this.totalTime();
     const remaining = this.remainingTime();
@@ -58,6 +41,26 @@ export class GamePlay {
 
     return Math.max(0, (remaining / total) * 100);
   });
+  public readonly remainingTime = toSignal(
+    toObservable(this.question).pipe(
+      switchMap((question) => {
+        const startTime = new Date(question.startedAt).getTime();
+        const endTime = startTime + question.timeLimitSeconds * 1000;
+
+        return timer(0, 1000).pipe(
+          map(() => {
+            const now = Date.now();
+            const remainingMs = endTime - now;
+
+            return Math.ceil(remainingMs / 1000);
+          }),
+          map((seconds) => Math.max(0, seconds)),
+          takeWhile((seconds) => seconds > 0, true)
+        );
+      })
+    ),
+    { initialValue: 0 }
+  );
 
   protected readonly isLocked = computed(() => {
     return this.remainingTime() <= 0 || this.submittedAnswerId();
@@ -95,22 +98,5 @@ export class GamePlay {
     const correctId = this.correctAnswerId();
 
     return !!correctId && answerId === correctId;
-  }
-
-  private startTimer(): void {
-    this.clearTimer();
-
-    this.intervalId = setInterval(() => {
-      this.remainingTime.update((prev) => Math.max(0, prev - 1));
-
-      if (this.remainingTime() === 0) this.clearTimer();
-    }, 1000);
-  }
-
-  private clearTimer(): void {
-    if (!this.intervalId) return;
-
-    clearInterval(this.intervalId);
-    this.intervalId = null;
   }
 }

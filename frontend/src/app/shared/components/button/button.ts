@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Skeleton } from 'primeng/skeleton';
 
@@ -21,7 +21,7 @@ export class Button {
   public redirectTo = input<string | null>(null);
   public handleClick = output<void>();
 
-  protected get skeletonHeight(): string {
+  protected skeletonHeight = computed(() => {
     switch (this.size()) {
       case 'sm':
         return '1.5rem';
@@ -29,10 +29,12 @@ export class Button {
         return '2rem';
       case 'lg':
         return '2.5rem';
+      default:
+        return '2rem';
     }
-  }
+  });
 
-  protected get classes(): string[] {
+  protected classes = computed(() => {
     const base = [
       'focus-ring',
       'flex',
@@ -84,7 +86,7 @@ export class Button {
       : [];
 
     return [...base, ...sizes[this.size()], ...variantClasses, ...custom];
-  }
+  });
 
   protected onClick(): void {
     if (this.redirectTo() !== null || this.disabled()) return;

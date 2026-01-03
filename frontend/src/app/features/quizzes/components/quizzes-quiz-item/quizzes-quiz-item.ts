@@ -1,3 +1,4 @@
+import { Authorization } from '@/app/core/auth/authorization';
 import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { getCategoryImagePath } from '@/app/shared/utils/get-category-image-path';
 import { GameActions } from '@/app/store/actions/game.actions';
@@ -15,6 +16,7 @@ import { Store } from '@ngrx/store';
 })
 export class QuizzesQuizItem {
   private readonly store = inject(Store);
+  private readonly authorizationService = inject(Authorization);
 
   public quiz = input.required<QuizPreview>();
 
@@ -25,6 +27,10 @@ export class QuizzesQuizItem {
   );
 
   protected readonly GameStatus = GameStatus;
+
+  protected isLoggedIn(): boolean {
+    return this.authorizationService.isLoggedIn();
+  }
 
   protected handleStartQuizClick(quizId: string): void {
     this.store.dispatch(GameActions.createLobby({ quizId }));

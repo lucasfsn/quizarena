@@ -2,10 +2,10 @@ import { GameSummarySkeleton } from '@/app/features/game/components/game-summary
 import { getGameResultQueryKey } from '@/app/features/game/queries/get-game-result-query-key';
 import { Game } from '@/app/features/game/services/game/game';
 import { GameDetails } from '@/app/features/game/types/game-details';
-import { GameResultPlayer } from '@/app/features/game/types/game-result';
+import { User } from '@/app/features/user/services/user/user';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { TableModule } from 'primeng/table';
 import { lastValueFrom } from 'rxjs';
@@ -18,11 +18,12 @@ import { lastValueFrom } from 'rxjs';
 })
 export class GameSummary {
   private readonly gameService = inject(Game);
+  private readonly userService = inject(User);
 
   public readonly game = input.required<GameDetails>();
   public readonly summaryId = input.required<string | null>();
 
-  protected query = injectQuery(() => ({
+  protected gameQuery = injectQuery(() => ({
     queryKey: getGameResultQueryKey(this.summaryId()!),
     queryFn: async () =>
       lastValueFrom(this.gameService.getGameResult(this.summaryId()!)),
@@ -30,9 +31,17 @@ export class GameSummary {
     enabled: !!this.summaryId(),
   }));
 
-  protected get loggedInPlayer(): GameResultPlayer | undefined {
-    return this.query
-      .data()
-      ?.players.find((player) => player.player.id === 'logged-in-player-id');
-  } // TODO: Replace with actual logged-in player ID
+  public userQuery = injectQuery(() => ({
+    ...this.userService.fetchLoggedInUserOptions(),
+    select: (user) => user.id,
+  }));
+
+  protected loggedInPlayer = computed(() => {
+    const userId = this.userQuery.data();
+    const gameData = this.gameQuery.data();
+
+    if (!userId || !gameData) return;
+
+    return gameData.players.find((player) => player.player.id === userId);
+  });
 }
