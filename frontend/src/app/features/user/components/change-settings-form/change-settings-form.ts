@@ -1,3 +1,4 @@
+import { ErrorResponse } from '@/app/core/types/error-response';
 import { CURRENT_USER_QUERY_KEY } from '@/app/features/user/constants/current-user-query-key';
 import { USER_SETTINGS_CONSTRAINTS } from '@/app/features/user/constants/user-settings-consts';
 import { getUserQueryKey } from '@/app/features/user/queries/get-user-query-key';
@@ -143,6 +144,6 @@ export class ChangeSettingsForm {
       );
       this.settingsForm.markAsPristine();
     },
-    onError: (error) => this.toastService.error(error.message),
+    onError: (error: ErrorResponse) => this.toastService.error(error.message),
   }));
 }

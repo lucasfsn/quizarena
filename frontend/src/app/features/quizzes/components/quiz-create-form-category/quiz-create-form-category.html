@@ -2,9 +2,10 @@
   <p-select
     id="category"
     [options]="categories"
-    [formControl]="form"
+    [formControl]="control()"
     [showClear]="true"
     optionLabel="label"
+    optionValue="value"
     class="w-full" />
-  <label for="category">Filter by category</label>
+  <label for="category">Quiz category</label>
 </p-floatlabel>

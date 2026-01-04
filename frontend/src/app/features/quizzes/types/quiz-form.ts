@@ -1,3 +1,4 @@
+import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export interface AnswerForm {
@@ -12,5 +13,6 @@ export interface QuestionForm {
 
 export interface QuizForm {
   title: FormControl<string>;
+  category: FormControl<QuizCategory>;
   questions: FormArray<FormGroup<QuestionForm>>;
 }

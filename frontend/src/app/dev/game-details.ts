@@ -7,7 +7,7 @@ export const MOCK_GAME_DETAILS: GameDetails = {
     id: '1',
     title: 'The World of AI Ethics',
     questionsCount: 10,
-    category: QuizCategory.COMMUNITY,
+    category: QuizCategory.TECHNOLOGY,
     author: 'John Doe',
   },
   maxPlayers: 20,
