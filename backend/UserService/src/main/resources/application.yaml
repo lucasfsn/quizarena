@@ -20,5 +20,13 @@ spring:
   #         issuer-uri: http://keycloak:8080/realms/quizarena
   #         jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
+app:
+  keycloak:
+    admin:
+      clientId: quizarena-rest-api
+      clientSecret: iDmNXc7fMcUBLMUm4tyVPkv0FTAjtQBN
+    realm: quizarena
+    serverUrl: http://keycloak:8080
+
 server:
   port: 8086
