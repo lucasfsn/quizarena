@@ -11,7 +11,6 @@ import java.util.UUID;
 public class QuizResponseDto {
     private UUID id;
     private String title;
-    private String description;
     private QuizCategory category;
     private UUID authorId;
     private int questionCount;

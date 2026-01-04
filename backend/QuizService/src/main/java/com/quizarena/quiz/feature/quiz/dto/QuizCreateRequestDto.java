@@ -12,7 +12,6 @@ import java.util.List;
 
 public record QuizCreateRequestDto(
         @NotBlank String title,
-        @NotBlank String description,
         @NotNull @JsonProperty("category") QuizCategory category,
         @Size (max=20) @Valid List<QuestionCreateRequestDto> questions
 ) {

@@ -38,9 +38,6 @@ public class Quiz {
     private String title;
 
     @Column(nullable = false)
-    private String description;
-
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private QuizCategory category;
 

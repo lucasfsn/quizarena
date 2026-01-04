@@ -10,8 +10,7 @@ public enum QuizCategory {
     ART_AND_LITERATURE("Art & Literature"),
     TECHNOLOGY("Technology"),
     MATHEMATICS("Mathematics"),
-    POP_CULTURE("Pop Culture"),
-    COMMUNITY("Community");
+    POP_CULTURE("Pop Culture");
 
     private final String displayName;
 

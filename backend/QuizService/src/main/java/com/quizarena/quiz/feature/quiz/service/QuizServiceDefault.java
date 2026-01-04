@@ -35,7 +35,6 @@ public class QuizServiceDefault implements QuizService {
         Quiz quiz = Quiz.builder()
                 .title(quizCreateRequestDto.title())
                 .category(quizCreateRequestDto.category())
-                .description(quizCreateRequestDto.description())
                 .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
        Quiz savedQuiz = quizRepository.save(quiz);
