@@ -1,4 +1,5 @@
 import { Authorization } from '@/app/core/auth/authorization';
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/types/quiz-category';
 import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { getCategoryImagePath } from '@/app/shared/utils/get-category-image-path';
 import { GameActions } from '@/app/store/actions/game.actions';
@@ -19,6 +20,8 @@ export class QuizzesQuizItem {
   private readonly authorizationService = inject(Authorization);
 
   public quiz = input.required<QuizPreview>();
+
+  protected readonly categoryLabels = QUIZ_CATEGORY_LABELS;
 
   protected readonly status = this.store.selectSignal(selectGameStatus);
 

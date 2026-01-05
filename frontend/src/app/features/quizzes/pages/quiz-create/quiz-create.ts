@@ -1,3 +1,4 @@
+import { ErrorResponse } from '@/app/core/types/error-response';
 import { QuizCreateForm } from '@/app/features/quizzes/components/quiz-create-form/quiz-create-form';
 import { Quizzes } from '@/app/features/quizzes/services/quizzes/quizzes';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
@@ -25,8 +26,7 @@ export class QuizCreate {
       this.toastService.success('Quiz created successfully!');
       this.router.navigate(['/quizzes']);
     },
-    onError: () =>
-      this.toastService.error('Failed to create quiz. Please try again.'),
+    onError: (error: ErrorResponse) => this.toastService.error(error.message),
   }));
 
   protected isLoading(): boolean {

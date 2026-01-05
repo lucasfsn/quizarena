@@ -13,7 +13,7 @@ export function getMockQuizzes(
     {
       id: '1',
       title: 'The World of AI Ethics',
-      category: QuizCategory.COMMUNITY,
+      category: QuizCategory.TECHNOLOGY,
       author: 'John Doe',
       questionsCount: 10,
     },
@@ -21,70 +21,70 @@ export function getMockQuizzes(
       id: '2',
       title: 'Ancient Civilizations',
       category: QuizCategory.HISTORY,
-      author: null,
+      author: 'Jane Smith',
       questionsCount: 15,
     },
     {
       id: '3',
       title: 'Quantum Physics Basics',
       category: QuizCategory.SCIENCE_AND_NATURE,
-      author: null,
+      author: 'Albert Newton',
       questionsCount: 20,
     },
     {
       id: '4',
       title: 'Modern Art Movements',
       category: QuizCategory.ART_AND_LITERATURE,
-      author: null,
+      author: 'Emily Clark',
       questionsCount: 20,
     },
     {
       id: '5',
       title: 'World Geography Challenge',
       category: QuizCategory.GEOGRAPHY,
-      author: null,
+      author: 'Michael Brown',
       questionsCount: 12,
     },
     {
       id: '6',
       title: 'Entertainment Trivia',
       category: QuizCategory.ENTERTAINMENT,
-      author: null,
+      author: 'Sarah Johnson',
       questionsCount: 18,
     },
     {
       id: '7',
       title: 'Tech Innovations',
       category: QuizCategory.TECHNOLOGY,
-      author: null,
+      author: 'David Wilson',
       questionsCount: 14,
     },
     {
       id: '8',
       title: 'Mathematics Fundamentals',
       category: QuizCategory.MATHEMATICS,
-      author: null,
+      author: 'Laura Martinez',
       questionsCount: 16,
     },
     {
       id: '9',
       title: 'Sports Legends',
       category: QuizCategory.SPORTS,
-      author: null,
+      author: 'John Doe',
       questionsCount: 13,
     },
     {
       id: '10',
       title: 'Music Through the Decades',
       category: QuizCategory.POP_CULTURE,
-      author: null,
+      author: 'Jane Smith',
       questionsCount: 17,
     },
     {
       id: '11',
       title: 'General Knowledge Quiz',
       category: QuizCategory.GENERAL_KNOWLEDGE,
-      author: null,
+      author: 'Alex Turner',
       questionsCount: 20,
     },
   ];
@@ -101,7 +101,7 @@ export function getMockQuizzes(
 
   if (filters?.author)
     filteredQuizzes = filteredQuizzes.filter((quiz) =>
-      quiz.author?.toLowerCase().includes(filters.author!.toLowerCase())
+      quiz.author.toLowerCase().includes(filters.author!.toLowerCase())
     );
 
   const start = page * pageSize;

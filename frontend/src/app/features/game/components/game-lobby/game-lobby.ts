@@ -1,4 +1,5 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/types/quiz-category';
 import { Button } from '@/app/shared/components/button/button';
 import { GameLobbyImage } from '@/app/shared/components/svg/game-lobby-image';
 import { Toast } from '@/app/shared/services/toast/toast';
@@ -19,6 +20,8 @@ export class GameLobby {
   private readonly store = inject(Store);
 
   public game = input.required<GameDetails>();
+
+  protected readonly categoryLabels = QUIZ_CATEGORY_LABELS;
 
   protected readonly isHost = this.store.selectSignal(selectIsHost);
 
