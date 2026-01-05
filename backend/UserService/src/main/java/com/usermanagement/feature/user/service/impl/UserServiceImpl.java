@@ -4,11 +4,14 @@ import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.model.User;
 import com.usermanagement.feature.user.repository.UserRepository;
 import com.usermanagement.feature.user.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User createFromToken(Jwt jwt) {
         User user = new User();
         user.setId(jwt.getSubject());
@@ -33,15 +37,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(Jwt jwt, UserUpdateRequestDto userUpdateRequestDto) {
+    public Set<User> getAllUsers() {
+        return new HashSet<>(userRepository.findAll());
+    }
 
-        User user = getLocalUser(jwt.getSubject()).orElse(null);
+    @Override
+    @Transactional
+    public User updateUser(Jwt jwt, UserUpdateRequestDto dto) {
 
-        user.setUserName(userUpdateRequestDto.username());
-        user.setFirstName(userUpdateRequestDto.firstName());
-        user.setLastName(userUpdateRequestDto.lastName());
-        user.setEmail(userUpdateRequestDto.email());
+        User user = userRepository.findById(jwt.getSubject()).orElse(
+                null // TODO: Error handling
+        );
 
-        return user;
+        //TODO: Refactor
+        if (dto.username() != null) user.setUserName(dto.username());
+        if (dto.firstName() != null) user.setFirstName(dto.firstName());
+        if (dto.lastName() != null) user.setLastName(dto.lastName());
+        if (dto.email() != null) user.setEmail(dto.email());
+
+        return userRepository.save(user);
     }
 }

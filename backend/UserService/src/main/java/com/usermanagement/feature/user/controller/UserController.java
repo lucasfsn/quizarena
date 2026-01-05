@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -29,6 +31,11 @@ public class UserController {
         String userId = jwt.getSubject(); // ID użytkownika z Keycloak
         String email = jwt.getClaimAsString("email");
         return ResponseEntity.ok("User ID: " + userId + ", Email: " + email);
+    }
+
+    @GetMapping("/all-users")
+    public ResponseDto<Set<UserResponseDto>> getAllUsers() {
+        return new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", userFacade.getAllUsers());
     }
 
     @GetMapping("/get")
