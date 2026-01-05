@@ -21,11 +21,11 @@ public class KeycloakClient {
     @Bean
     public Keycloak keycloak() {
         return KeycloakBuilder.builder()
-                .clientSecret(clientSecret)
-                .clientId(clientId)
+                .clientSecret("wpWfiXCGLuNC7KKCLBCMr5ajeY86rE92")
+                .clientId("quizarena-rest-api")
                 .grantType("client_credentials")
-                .realm(realm)
-                .serverUrl(serverUrl)
+                .realm("quizarena")
+                .serverUrl("http://keycloak:8080")
                 .build();
     }
 }

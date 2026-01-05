@@ -1,5 +1,6 @@
 package com.usermanagement.feature.user.service.impl;
 
+import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.model.User;
 import com.usermanagement.feature.user.repository.UserRepository;
 import com.usermanagement.feature.user.service.UserService;
@@ -31,4 +32,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User updateUser(Jwt jwt, UserUpdateRequestDto userUpdateRequestDto) {
+
+        User user = getLocalUser(jwt.getSubject()).orElse(null);
+
+        user.setUserName(userUpdateRequestDto.username());
+        user.setFirstName(userUpdateRequestDto.firstName());
+        user.setLastName(userUpdateRequestDto.lastName());
+        user.setEmail(userUpdateRequestDto.email());
+
+        return user;
+    }
 }

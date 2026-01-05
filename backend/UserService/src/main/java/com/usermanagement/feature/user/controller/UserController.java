@@ -2,6 +2,7 @@ package com.usermanagement.feature.user.controller;
 
 import com.usermanagement.feature.user.UserFacade;
 import com.usermanagement.feature.user.dto.UserResponseDto;
+import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.model.User;
 import com.usermanagement.feature.user.service.UserService;
 import com.usermanagement.shared.dto.ResponseDto;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,4 +36,12 @@ public class UserController {
         UserResponseDto user = userFacade.getAndSyncUser(jwt);
         return new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", user);
     }
+
+    @PatchMapping("/update")
+    public ResponseDto<UserResponseDto> updateUser(@AuthenticationPrincipal Jwt jwt, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        UserResponseDto user = userFacade.updateUser(jwt, userUpdateRequestDto);
+
+        return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Successfully updated user", user);
+    }
+
 }
