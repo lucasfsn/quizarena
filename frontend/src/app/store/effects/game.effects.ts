@@ -1,6 +1,7 @@
 import { GameSocket } from '@/app/features/game/services/game-socket/game-socket';
 import { Game } from '@/app/features/game/services/game/game';
 import { GameDetails } from '@/app/features/game/types/game-details';
+import { GameSession } from '@/app/features/game/types/game-session';
 import { ServerMessage } from '@/app/features/game/types/server-message';
 import { Toast } from '@/app/shared/services/toast/toast';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
@@ -70,10 +71,10 @@ export class GameEffects {
       ofType(GameActions.joinLobby),
       switchMap(({ roomCode }) =>
         this.gameService.joinGame(roomCode).pipe(
-          switchMap((res: GameDetails) =>
+          switchMap((session: GameSession) =>
             this.establishGameSession(
-              res.roomCode,
-              GameActions.joinLobbySuccess({ gameDetails: res }),
+              session.gameDetails.roomCode,
+              GameActions.joinLobbySuccess({ gameSession: session }),
               GameActions.joinLobbyFailure
             )
           ),
@@ -166,9 +167,7 @@ export class GameEffects {
     () =>
       this.actions$.pipe(
         ofType(GameActions.submitAnswer),
-        tap(({ questionId, answerId }) =>
-          this.gameSocketService.submitAnswer(questionId, answerId)
-        )
+        tap(({ answerId }) => this.gameSocketService.submitAnswer(answerId))
       ),
     { dispatch: false }
   );
@@ -188,7 +187,7 @@ export class GameEffects {
   private mapMessageToAction(
     message: ServerMessage
   ): ReturnType<(typeof SocketActions)[keyof typeof SocketActions]> {
-    switch (message.type) {
+    switch (message.eventType) {
       case 'LOBBY_UPDATE':
         return SocketActions.lobbyUpdated({ gameDetails: message.payload });
       case 'LOBBY_CLOSE':

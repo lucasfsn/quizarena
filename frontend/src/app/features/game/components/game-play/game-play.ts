@@ -1,4 +1,3 @@
-import { Answer } from '@/app/features/game/types/answer';
 import { Question } from '@/app/features/game/types/question';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
@@ -66,7 +65,7 @@ export class GamePlay {
     return this.remainingTime() <= 0 || this.submittedAnswerId();
   });
 
-  protected answerClass(answerId: string): Record<string, boolean> {
+  protected answerClass(answerId: number): Record<string, boolean> {
     const hasReceivedCorrectAnswer = this.status() === GameStatus.ANSWER;
     const isSelected = this.submittedAnswerId() === answerId;
 
@@ -83,18 +82,17 @@ export class GamePlay {
     };
   }
 
-  protected onAnswerSelect(answer: Answer): void {
+  protected onAnswerSelect(answerId: number): void {
     if (this.isLocked()) return;
 
     this.store.dispatch(
       GameActions.submitAnswer({
-        questionId: this.question().id,
-        answerId: answer.id,
+        answerId,
       })
     );
   }
 
-  private isCorrectAnswer(answerId: string): boolean {
+  private isCorrectAnswer(answerId: number): boolean {
     const correctId = this.correctAnswerId();
 
     return !!correctId && answerId === correctId;

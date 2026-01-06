@@ -2,9 +2,9 @@ import { GameDetails } from '@/app/features/game/types/game-details';
 import { Question } from '@/app/features/game/types/question';
 
 export type ServerMessage =
-  | { type: 'LOBBY_UPDATE'; payload: GameDetails }
-  | { type: 'LOBBY_CLOSE'; payload: null }
-  | { type: 'QUESTION'; payload: Question }
-  | { type: 'CORRECT_ANSWER'; payload: { correctAnswerId: string } }
-  | { type: 'GAME_FINISHED'; payload: { summaryId: string } }
-  | { type: 'ERROR'; payload: { message: string } };
+  | { eventType: 'LOBBY_UPDATE'; payload: GameDetails }
+  | { eventType: 'LOBBY_CLOSE'; payload: null }
+  | { eventType: 'QUESTION'; payload: Question }
+  | { eventType: 'CORRECT_ANSWER'; payload: { correctAnswerId: number } }
+  | { eventType: 'GAME_FINISHED'; payload: { summaryId: string } }
+  | { eventType: 'ERROR'; payload: { message: string } };

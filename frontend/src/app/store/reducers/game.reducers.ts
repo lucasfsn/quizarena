@@ -18,8 +18,8 @@ export interface GameState {
   isHost: boolean;
   gameDetails: GameDetails | null;
   question: Question | null;
-  submittedAnswerId: string | null;
-  correctAnswerId: string | null;
+  submittedAnswerId: number | null;
+  correctAnswerId: number | null;
   summaryId: string | null;
   error: string | null;
 }
@@ -42,16 +42,20 @@ export const gameReducer = createReducer(
     status: GameStatus.LOADING,
     isHost: true,
   })),
-  on(
-    GameActions.createLobbySuccess,
-    GameActions.joinLobbySuccess,
-    (state, { gameDetails }) => ({
-      ...state,
-      gameDetails,
-      status: GameStatus.LOBBY,
-      error: null,
-    })
-  ),
+  on(GameActions.createLobbySuccess, (state, { gameDetails }) => ({
+    ...state,
+    gameDetails,
+    status: GameStatus.LOBBY,
+    error: null,
+  })),
+  on(GameActions.joinLobbySuccess, (state, { gameSession }) => ({
+    ...state,
+    gameDetails: gameSession.gameDetails,
+    status: gameSession.status,
+    question: gameSession.currentQuestion || null,
+    correctAnswerId: gameSession.correctAnswerId || null,
+    error: null,
+  })),
   on(
     GameActions.createLobbyFailure,
     GameActions.joinLobbyFailure,

@@ -1,4 +1,5 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
+import { GameSession } from '@/app/features/game/types/game-session';
 import { Question } from '@/app/features/game/types/question';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
@@ -10,13 +11,13 @@ export const GameActions = createActionGroup({
     'Create Lobby Success': props<{ gameDetails: GameDetails }>(),
     'Create Lobby Failure': props<{ error: string }>(),
     'Join Lobby': props<{ roomCode: string }>(),
-    'Join Lobby Success': props<{ gameDetails: GameDetails }>(),
+    'Join Lobby Success': props<{ gameSession: GameSession }>(),
     'Join Lobby Failure': props<{ error: string }>(),
     'Leave': emptyProps(),
     'Close Lobby': emptyProps(),
     'Leave Lobby': emptyProps(),
     'Start Game': emptyProps(),
-    'Submit Answer': props<{ questionId: string; answerId: string | null }>(),
+    'Submit Answer': props<{ answerId: number }>(),
     'Reset': emptyProps(),
   },
 });
@@ -28,7 +29,7 @@ export const SocketActions = createActionGroup({
     'Lobby Updated': props<{ gameDetails: GameDetails }>(),
     'Lobby Closed': emptyProps(),
     'Question Received': props<{ question: Question }>(),
-    'Correct Answer Received': props<{ correctAnswerId: string }>(),
+    'Correct Answer Received': props<{ correctAnswerId: number }>(),
     'Game Finished': props<{ summaryId: string }>(),
     'Error': props<{ message: string }>(),
   },
