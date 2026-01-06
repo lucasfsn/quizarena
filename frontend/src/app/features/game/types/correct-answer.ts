@@ -1,6 +1,6 @@
-import { Scores } from '@/app/features/game/types/scores';
+import { Score } from '@/app/features/game/types/score';
 
 export interface CorrectAnswer {
   answerId: number;
-  scores: Scores[];
+  scores: Score[];
 }

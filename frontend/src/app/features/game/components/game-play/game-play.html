@@ -1,13 +1,13 @@
 <div class="flex h-full flex-col gap-10">
   <div
-    class="xs:flex-row flex flex-col-reverse items-center gap-x-4 gap-y-2 sm:relative">
-    <span class="font-medium"
+    class="xs:flex-row flex flex-col items-center justify-between gap-x-4 gap-y-2 sm:relative">
+    <span class="xs:order-1 order-2 font-medium"
       >Question {{ question().currentIndex }}/{{
         question().totalQuestions
       }}</span
     >
     <div
-      class="w-full max-w-xs flex-1 sm:absolute sm:left-1/2 sm:-translate-x-1/2 md:max-w-md lg:max-w-2xl">
+      class="xs:order-2 order-1 w-full max-w-xs flex-1 sm:absolute sm:left-1/2 sm:-translate-x-1/2 md:max-w-md lg:max-w-2xl">
       <p-progressBar [value]="progressValue()">
         <ng-template
           #content
@@ -16,6 +16,7 @@
         </ng-template>
       </p-progressBar>
     </div>
+    <span class="order-3 font-medium">Score: {{ playerScore().score }}</span>
   </div>
   <div class="flex flex-1 flex-col items-center justify-center gap-6">
     <div class="flex flex-col items-center gap-3.5">

@@ -1,6 +1,6 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { Question } from '@/app/features/game/types/question';
-import { Scores } from '@/app/features/game/types/scores';
+import { Score } from '@/app/features/game/types/score';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
 import { createReducer, on } from '@ngrx/store';
 
@@ -22,7 +22,7 @@ export interface GameState {
   submittedAnswerId: number | null;
   correctAnswerId: number | null;
   summaryId: string | null;
-  scores: Scores[] | null;
+  scores: Score[] | null;
   error: string | null;
 }
 
