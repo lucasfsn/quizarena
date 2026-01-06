@@ -1,5 +1,6 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { Question } from '@/app/features/game/types/question';
+import { Scores } from '@/app/features/game/types/scores';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
 import { createReducer, on } from '@ngrx/store';
 
@@ -21,6 +22,7 @@ export interface GameState {
   submittedAnswerId: number | null;
   correctAnswerId: number | null;
   summaryId: string | null;
+  scores: Scores[] | null;
   error: string | null;
 }
 
@@ -32,6 +34,7 @@ export const initialState: GameState = {
   submittedAnswerId: null,
   correctAnswerId: null,
   summaryId: null,
+  scores: null,
   error: null,
 };
 
@@ -82,9 +85,11 @@ export const gameReducer = createReducer(
     ...state,
     submittedAnswerId: answerId,
   })),
-  on(SocketActions.correctAnswerReceived, (state, { correctAnswerId }) => ({
+
+  on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
-    correctAnswerId,
+    correctAnswerId: correctAnswer.answerId,
+    scores: correctAnswer.scores,
     status: GameStatus.ANSWER,
   })),
   on(SocketActions.gameFinished, (state, { summaryId }) => ({

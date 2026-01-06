@@ -1,3 +1,4 @@
+import { CorrectAnswer } from '@/app/features/game/types/correct-answer';
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { GameSession } from '@/app/features/game/types/game-session';
 import { Question } from '@/app/features/game/types/question';
@@ -29,7 +30,7 @@ export const SocketActions = createActionGroup({
     'Lobby Updated': props<{ gameDetails: GameDetails }>(),
     'Lobby Closed': emptyProps(),
     'Question Received': props<{ question: Question }>(),
-    'Correct Answer Received': props<{ correctAnswerId: number }>(),
+    'Correct Answer Received': props<{ correctAnswer: CorrectAnswer }>(),
     'Game Finished': props<{ summaryId: string }>(),
     'Error': props<{ message: string }>(),
   },

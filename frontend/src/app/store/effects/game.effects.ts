@@ -196,7 +196,7 @@ export class GameEffects {
         return SocketActions.questionReceived({ question: message.payload });
       case 'CORRECT_ANSWER':
         return SocketActions.correctAnswerReceived({
-          correctAnswerId: message.payload.correctAnswerId,
+          correctAnswer: message.payload,
         });
       case 'GAME_FINISHED':
         return SocketActions.gameFinished({

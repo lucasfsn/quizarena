@@ -43,6 +43,11 @@ export const selectCorrectAnswerId = createSelector(
   (state) => state.correctAnswerId
 );
 
+export const selectScores = createSelector(
+  selectGameState,
+  (state) => state.scores
+);
+
 export const selectError = createSelector(
   selectGameState,
   (state) => state.error
