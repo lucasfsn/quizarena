@@ -47,19 +47,18 @@
         [modal]="true"
         [(visible)]="joinQuizDialogVisible">
         <div class="flex flex-col items-center gap-2">
-          <div>
+          <div class="flex flex-col gap-1">
             <p-floatlabel variant="in">
-              <input
-                pInputText
+              <p-inputnumber
                 [formControl]="roomControl"
                 id="roomCode"
-                class="uppercase"
-                autocomplete="off"
-                maxlength="6" />
+                [useGrouping]="false"
+                [minlength]="limits.MIN.toString().length"
+                [maxlength]="limits.MAX.toString().length" />
               <label for="roomCode">Room code</label>
             </p-floatlabel>
             @if (error()) {
-              <span class="text-status-error text-xs">{{ error() }}</span>
+              <span class="text-status-error pl-1 text-xs">{{ error() }}</span>
             }
           </div>
           <app-button

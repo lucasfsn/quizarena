@@ -1,5 +1,6 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { Question } from '@/app/features/game/types/question';
+import { Score } from '@/app/features/game/types/score';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
 import { createReducer, on } from '@ngrx/store';
 
@@ -18,9 +19,10 @@ export interface GameState {
   isHost: boolean;
   gameDetails: GameDetails | null;
   question: Question | null;
-  submittedAnswerId: string | null;
-  correctAnswerId: string | null;
+  submittedAnswerId: number | null;
+  correctAnswerId: number | null;
   summaryId: string | null;
+  scores: Score[] | null;
   error: string | null;
 }
 
@@ -32,6 +34,7 @@ export const initialState: GameState = {
   submittedAnswerId: null,
   correctAnswerId: null,
   summaryId: null,
+  scores: null,
   error: null,
 };
 
@@ -42,16 +45,20 @@ export const gameReducer = createReducer(
     status: GameStatus.LOADING,
     isHost: true,
   })),
-  on(
-    GameActions.createLobbySuccess,
-    GameActions.joinLobbySuccess,
-    (state, { gameDetails }) => ({
-      ...state,
-      gameDetails,
-      status: GameStatus.LOBBY,
-      error: null,
-    })
-  ),
+  on(GameActions.createLobbySuccess, (state, { gameDetails }) => ({
+    ...state,
+    gameDetails,
+    status: GameStatus.LOBBY,
+    error: null,
+  })),
+  on(GameActions.joinLobbySuccess, (state, { gameSession }) => ({
+    ...state,
+    gameDetails: gameSession.gameDetails,
+    status: gameSession.status,
+    question: gameSession.currentQuestion || null,
+    correctAnswerId: gameSession.correctAnswerId || null,
+    error: null,
+  })),
   on(
     GameActions.createLobbyFailure,
     GameActions.joinLobbyFailure,
@@ -78,9 +85,11 @@ export const gameReducer = createReducer(
     ...state,
     submittedAnswerId: answerId,
   })),
-  on(SocketActions.correctAnswerReceived, (state, { correctAnswerId }) => ({
+
+  on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
-    correctAnswerId,
+    correctAnswerId: correctAnswer.answerId,
+    scores: correctAnswer.scores,
     status: GameStatus.ANSWER,
   })),
   on(SocketActions.gameFinished, (state, { summaryId }) => ({
