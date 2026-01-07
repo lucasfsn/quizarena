@@ -57,9 +57,8 @@ export class Game implements OnDestroy, OnInit {
       .select(selectGameStatus)
       .pipe(take(1))
       .subscribe((status) => {
-        if (status !== GameStatus.IDLE) return;
-
-        if (roomCode) this.store.dispatch(GameActions.joinLobby({ roomCode }));
+        if (status === GameStatus.IDLE && roomCode)
+          this.store.dispatch(GameActions.joinLobby({ roomCode }));
       });
   }
 
