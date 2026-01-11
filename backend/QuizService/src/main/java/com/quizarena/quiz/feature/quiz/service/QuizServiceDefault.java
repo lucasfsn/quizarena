@@ -3,7 +3,7 @@ package com.quizarena.quiz.feature.quiz.service;
 import com.quizarena.quiz.core.handler.BusinessException;
 import com.quizarena.quiz.core.handler.BusinessExceptionReason;
 import com.quizarena.quiz.feature.quiz.dto.QuizCreateRequestDto;
-import com.quizarena.quiz.feature.quiz.dto.QuizListResponseDto;
+import com.quizarena.quiz.feature.quiz.dto.QuizDetailsResponseDto;
 import com.quizarena.quiz.feature.quiz.dto.QuizResponseDto;
 import com.quizarena.quiz.feature.quiz.mapper.QuizMapper;
 import com.quizarena.quiz.feature.quiz.model.Quiz;
@@ -59,8 +59,8 @@ public class QuizServiceDefault implements QuizService {
     }
 
     @Override
-    public Page<QuizListResponseDto> getAllQuizzes(QuizCategory category, String title, String author, Pageable pageable) {
-        return quizRepository.findAllWithFilters(category, title, author, pageable).map(quizMapper::quizToQuizListItemDto);
+    public Page<QuizResponseDto> getAllQuizzes(QuizCategory category, String title, String author, Pageable pageable) {
+        return quizRepository.findAllWithFilters(category, title, author, pageable).map(quizMapper::quizToQuizResponseDto);
     }
 
     @Override
@@ -68,5 +68,9 @@ public class QuizServiceDefault implements QuizService {
         return quizRepository.findById(quizId).map(quizMapper::quizToQuizResponseDto).orElseThrow(() -> new BusinessException(BusinessExceptionReason.QUIZ_NOT_FOUND));
     }
 
+    @Override
+    public QuizDetailsResponseDto getDetailedQuiz(UUID quizId) {
+        return quizRepository.findById(quizId).map(quizMapper::quizToQuizDetailsResponseDto).orElseThrow(() -> new BusinessException(BusinessExceptionReason.QUIZ_NOT_FOUND));
+    }
 
 }

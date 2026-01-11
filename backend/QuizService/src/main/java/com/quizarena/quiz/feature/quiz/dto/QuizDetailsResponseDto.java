@@ -1,20 +1,19 @@
 package com.quizarena.quiz.feature.quiz.dto;
 
 import com.quizarena.quiz.feature.quiz.model.QuizCategory;
+import com.quizarena.quiz.feature.quiz.question.dto.QuestionResponseDto;
 import com.quizarena.quiz.feature.quiz.user.dto.UserResponseDto;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
-public class QuizListResponseDto {
+@Data
+public class QuizDetailsResponseDto {
     private UUID id;
     private String title;
     private QuizCategory category;
     private UserResponseDto author;
-    private int questionCount;
+    private int questionsCount;
+    private List<QuestionResponseDto> questions;
 }
-
-

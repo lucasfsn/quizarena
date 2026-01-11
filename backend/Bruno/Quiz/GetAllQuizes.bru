@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:8081/quizzes
+  url: http://localhost:8087/quizzes?author=firstname
   body: none
   auth: bearer
+}
+
+params:query {
+  author: firstname
 }
 
 auth:bearer {
