@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,6 +50,14 @@ public class UserController {
         UserResponseDto user = userFacade.updateUser(jwt, userUpdateRequestDto);
 
         return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Successfully updated user", user);
+    }
+
+    @PutMapping
+    public ResponseDto<Void> resetPassword(@AuthenticationPrincipal Jwt jwt, @RequestBody String password) {
+
+        userFacade.resetPassword(jwt, password);
+
+        return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Password has been changed", null);
     }
 
 }

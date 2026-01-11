@@ -6,7 +6,6 @@ import com.usermanagement.feature.user.mappers.UserMapper;
 import com.usermanagement.feature.user.model.User;
 import com.usermanagement.feature.user.service.KeycloakUserService;
 import com.usermanagement.feature.user.service.UserService;
-import com.usermanagement.feature.user.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -54,4 +53,9 @@ public class UserFacade {
     public Set<UserResponseDto> getAllUsers() {
         return userService.getAllUsers().stream().map(userMapper::toDto).collect(Collectors.toSet());
     }
+
+    public void resetPassword(Jwt jwt, String password) {
+        keycloakUserService.resetPassword(jwt, password);
+    }
+
 }

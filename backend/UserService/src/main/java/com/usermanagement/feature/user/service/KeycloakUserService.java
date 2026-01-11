@@ -6,4 +6,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 public interface KeycloakUserService {
 
     void updateUser(Jwt jwt, UserUpdateRequestDto userUpdateRequestDto);
+
+    void resetPassword(Jwt jwt, String password);
 }

@@ -1,5 +1,7 @@
 package com.usermanagement.feature.user.service.impl;
 
+import com.usermanagement.core.handler.BusinessException;
+import com.usermanagement.core.handler.enums.BusinessExceptionReason;
 import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.model.User;
 import com.usermanagement.feature.user.repository.UserRepository;
@@ -45,8 +47,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User updateUser(Jwt jwt, UserUpdateRequestDto dto) {
 
-        User user = userRepository.findById(jwt.getSubject()).orElse(
-                null // TODO: Error handling
+        User user = userRepository.findById(jwt.getSubject()).orElseThrow(
+                () -> new BusinessException(BusinessExceptionReason.USER_NOT_FOUND)
         );
 
         //TODO: Refactor

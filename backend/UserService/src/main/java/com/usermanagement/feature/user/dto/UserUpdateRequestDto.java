@@ -1,23 +1,13 @@
 package com.usermanagement.feature.user.dto;
 
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
 public record UserUpdateRequestDto(
-       String username,
+       @Min(2) String username,
        String email,
        String firstName,
        String lastName,
        String password
-) {
-}
-
-
-//username?: string;
-//email?: string;
-//firstName?: string;
-//lastName?: string;
-//password?: {
-//currentPassword: string;
-//newPassword: string;
-//  };
+) {}

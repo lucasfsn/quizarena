@@ -51,4 +51,8 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
 
     }
 
+    public void resetPassword(Jwt jwt, String password) {
+
+    }
+
 }
