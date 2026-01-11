@@ -120,7 +120,7 @@ services:
       - quizarena-postgresql-data:/var/lib/postgresql/data
     networks:
       - quizarena-server-network
-  gameservice:
+  game-service:
     build:
       context: ./backend/gameservice
       dockerfile: Dockerfile.dev
@@ -132,7 +132,14 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - SERVICES_USERSERVICE_URL=http://gateway:8085/users
-      - SERVICES_QUIZSERVICE_URL=http://gateway:8085/quiz
+      - SERVICES_QUIZSERVICE_URL=http://gateway:8085/quizzes
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend/gameservice/pom.xml
+        - action: sync+restart
+          path: ./backend/gameservice
+          target: /opt
     depends_on:
       - redis-server
     networks:

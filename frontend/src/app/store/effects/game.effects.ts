@@ -95,6 +95,28 @@ export class GameEffects {
     { dispatch: false }
   );
 
+  public navigateToGameCreate$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(GameActions.createLobbySuccess),
+        tap(({ gameDetails }) => {
+          this.router.navigate(['/game', gameDetails.roomCode]);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  public navigateToGameJoin$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(GameActions.joinLobbySuccess),
+        tap(({ gameSession }) => {
+          this.router.navigate(['/game', gameSession.gameDetails.roomCode]);
+        })
+      ),
+    { dispatch: false }
+  );
+
   private establishGameSession(
     roomCode: string,
     successAction: Action,
