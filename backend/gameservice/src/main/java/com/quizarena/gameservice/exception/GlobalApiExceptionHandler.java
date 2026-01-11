@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -162,6 +163,20 @@ public class GlobalApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({DataAccessException.class})
     public ResponseEntity<Object> handleDataAccessException(DataAccessException exception) {
         return handleStandardException(exception, ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<ErrorResponseDto> handleAccessDeniedException(
+            final AccessDeniedException exception, final ServletWebRequest request) {
+        if (log.isWarnEnabled()) {
+            log.warn("Access denied: {}", exception.getMessage());
+        }
+        final ErrorCode code = ErrorCode.FORBIDDEN;
+        final ErrorResponseDto errorResponseDto =
+                ErrorResponseBuilder.build(
+                        code.getName(),
+                        "You do not have permission to access this resource");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponseDto);
     }
 
     @NotNull

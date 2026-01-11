@@ -1,8 +1,8 @@
-package com.quizarena.gameservice.quizsession.dto;
+package com.quizarena.gameservice.game.dto;
 
 import com.quizarena.gameservice.communication.dto.QuestionResponse;
-import com.quizarena.gameservice.quizsession.enums.GameState;
-import com.quizarena.gameservice.quizsession.model.Game;
+import com.quizarena.gameservice.game.enums.GameState;
+import com.quizarena.gameservice.game.model.Game;
 import lombok.Builder;
 import lombok.Value;
 

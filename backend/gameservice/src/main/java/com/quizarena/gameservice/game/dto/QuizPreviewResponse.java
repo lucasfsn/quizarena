@@ -1,4 +1,4 @@
-package com.quizarena.gameservice.quizsession.dto;
+package com.quizarena.gameservice.game.dto;
 
 import com.quizarena.gameservice.communication.dto.Quiz;
 import lombok.Builder;

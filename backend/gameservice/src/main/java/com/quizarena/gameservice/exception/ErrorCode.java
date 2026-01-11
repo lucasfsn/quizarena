@@ -17,7 +17,8 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(
             HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong, try again later!"),
     CONFLICT(HttpStatus.CONFLICT, "Cannot execute. Try again later!"),
-    INVALID_STATE(HttpStatus.BAD_REQUEST, "Invalid state"),;
+    INVALID_STATE(HttpStatus.BAD_REQUEST, "Invalid state"),
+    FORBIDDEN(HttpStatus.FORBIDDEN, "Forbidden"),;
     private final String name = name();
     private final HttpStatus httpStatus;
     private final String message;

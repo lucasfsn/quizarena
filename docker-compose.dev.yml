@@ -131,8 +131,8 @@ services:
       - REDIS_HOST=redis-server
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-      - SERVICES_USERSERVICE_URL=http://gateway:8085/users
-      - SERVICES_QUIZSERVICE_URL=http://gateway:8085/quiz
+      - SERVICES_QUIZSERVICE_URL=http://gateway:8085/quizzes
+      - SERVICES_FRONTEND_URL=${FRONTEND_URL}
     depends_on:
       - redis-server
     networks:

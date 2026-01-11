@@ -1,4 +1,4 @@
-package com.quizarena.gameservice.quizsession.util;
+package com.quizarena.gameservice.game.util;
 
 import java.util.Random;
 

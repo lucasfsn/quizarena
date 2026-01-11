@@ -1,14 +1,14 @@
-package com.quizarena.gameservice.quizsession.controller.rest;
+package com.quizarena.gameservice.game.controller.rest;
 
-import com.quizarena.gameservice.quizsession.dto.CreateGameRequest;
-import com.quizarena.gameservice.quizsession.dto.GameDetailsResponse;
-import com.quizarena.gameservice.quizsession.dto.GameResultResponse;
-import com.quizarena.gameservice.quizsession.dto.GameSession;
-import com.quizarena.gameservice.quizsession.model.Game;
-import com.quizarena.gameservice.quizsession.service.GameService;
+import com.quizarena.gameservice.game.dto.*;
+import com.quizarena.gameservice.game.enums.SuccessCode;
+import com.quizarena.gameservice.game.model.Game;
+import com.quizarena.gameservice.game.service.GameService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,27 +21,46 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping
-    public ResponseEntity<GameDetailsResponse> createGame(@RequestBody @Valid final CreateGameRequest request, @RequestParam final UUID userId) {
-        Game game = gameService.createGame(request, userId);
-        return ResponseEntity.created(URI.create("/games/" + game.getId())).body(GameDetailsResponse.from(game));
+    public ResponseEntity<ResponseDto<GameDetailsResponse>> createGame(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody @Valid final CreateGameRequest request) {
+        Game game = gameService.createGame(request, jwt);
+        GameDetailsResponse data = GameDetailsResponse.from(game);
+
+        return ResponseEntity
+                .created(URI.create("/games/" + game.getId()))
+                .body(new ResponseDto<>(SuccessCode.RESOURCE_CREATED, "Game created successfully", data));
     }
 
     @GetMapping("/{roomCode}")
-    public ResponseEntity<GameSession> getGameSession(@PathVariable final String roomCode) {
-        Game game = gameService.getGameByRoomCode(roomCode);
-        return ResponseEntity.ok(GameSession.from(game));
+    public ResponseEntity<ResponseDto<GameSession>> getGameSession(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable final String roomCode) {
+        Game game = gameService.getGameByRoomCode(roomCode, jwt);
+        GameSession data = GameSession.from(game);
+
+        return ResponseEntity.ok(new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Game session retrieved", data));
     }
 
     @GetMapping("/{id}/results")
-    public ResponseEntity<GameResultResponse> getGameResults(@PathVariable final UUID id) {
-        Game game = gameService.getGame(id);
-        return ResponseEntity.ok(GameResultResponse.from(game.getPlayers()));
+    public ResponseEntity<ResponseDto<GameResultResponse>> getGameResults(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable final UUID id) {
+        Game game = gameService.getGame(id, jwt);
+        GameResultResponse data = GameResultResponse.from(game.getPlayers());
+
+        return ResponseEntity.ok(new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Game results retrieved", data));
     }
 
     @PostMapping("/join")
-    public ResponseEntity<GameDetailsResponse> joinGame(@RequestParam final String roomCode, @RequestParam final UUID userId) {
-        Game game = gameService.addPlayerToGame(roomCode, userId);
-        return ResponseEntity.created(URI.create("/games/" + game.getId()))
-                .body(GameDetailsResponse.from(game));
+    public ResponseEntity<ResponseDto<GameDetailsResponse>> joinGame(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestParam final String roomCode) {
+        Game game = gameService.addPlayerToGame(roomCode, jwt);
+        GameDetailsResponse data = GameDetailsResponse.from(game);
+
+        return ResponseEntity
+                .created(URI.create("/games/" + game.getId()))
+                .body(new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Joined the game successfully", data));
     }
 }

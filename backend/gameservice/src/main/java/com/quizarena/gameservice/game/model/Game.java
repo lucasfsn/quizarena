@@ -1,9 +1,9 @@
-package com.quizarena.gameservice.quizsession.model;
+package com.quizarena.gameservice.game.model;
 
 import com.quizarena.gameservice.communication.dto.Question;
 import com.quizarena.gameservice.communication.dto.Quiz;
+import com.quizarena.gameservice.game.enums.GameState;
 import com.quizarena.gameservice.player.model.Player;
-import com.quizarena.gameservice.quizsession.enums.GameState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
