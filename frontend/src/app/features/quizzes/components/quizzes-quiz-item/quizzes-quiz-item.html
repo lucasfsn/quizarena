@@ -22,7 +22,9 @@
           <i
             class="pi pi-user"
             style="font-size: 0.75rem"></i>
-          <p class="text-break">By {{ quiz().author }}</p>
+          <p class="text-break">
+            By {{ quiz().author.firstName }} {{ quiz().author.lastName }}
+          </p>
         </div>
       </div>
     </div>

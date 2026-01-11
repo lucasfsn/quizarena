@@ -36,6 +36,7 @@ export class Quizzes implements OnInit {
     initialPageParam: 0,
     getNextPageParam: (lastPage) =>
       lastPage.last ? undefined : lastPage.number + 1,
+    retry: 3,
     staleTime: 10 * 60 * 1000, // 10 minutes
   }));
 
