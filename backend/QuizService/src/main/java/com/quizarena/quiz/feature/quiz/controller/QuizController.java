@@ -1,7 +1,7 @@
 package com.quizarena.quiz.feature.quiz.controller;
 
 import com.quizarena.quiz.feature.quiz.dto.QuizCreateRequestDto;
-import com.quizarena.quiz.feature.quiz.dto.QuizListResponseDto;
+import com.quizarena.quiz.feature.quiz.dto.QuizDetailsResponseDto;
 import com.quizarena.quiz.feature.quiz.dto.QuizResponseDto;
 import com.quizarena.quiz.feature.quiz.model.QuizCategory;
 import com.quizarena.quiz.feature.quiz.service.QuizService;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -30,22 +29,21 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/quizzes")
 public class QuizController {
     private static final String ID = "/{quizId}";
     private final QuizService quizService;
 
-    @GetMapping
-    public ResponseDto<Page<QuizListResponseDto>> getAllQuizzes(
+    @GetMapping("/quizzes")
+    public ResponseDto<Page<QuizResponseDto>> getAllQuizzes(
             @RequestParam(required = false) QuizCategory category,
             @RequestParam(required = false) String title,
-//            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String author,
             Pageable pageable) {
-        Page<QuizListResponseDto> quizzes = quizService.getAllQuizzes(category, title, pageable);
+        Page<QuizResponseDto> quizzes = quizService.getAllQuizzes(category, title, author, pageable);
         return new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched quizzes", quizzes);
     }
 
-    @PostMapping
+    @PostMapping("/quizzes")
     public ResponseEntity<ResponseDto<QuizResponseDto>> createQuiz(
             @AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid QuizCreateRequestDto quizCreateRequestDto
@@ -60,12 +58,21 @@ public class QuizController {
         return ResponseEntity.created(uri).body(new ResponseDto<>(SuccessCode.RESOURCE_CREATED, "Quiz created successfully", quizResponseDto));
     }
 
-    @GetMapping(ID)
+    @GetMapping("/quizzes"+ID)
     public ResponseDto<QuizResponseDto> getQuiz(@PathVariable UUID quizId) {
         return new ResponseDto<>(
                 SuccessCode.RESPONSE_SUCCESSFUL,
                 "Successfully fetched quiz",
                 quizService.getQuizById(quizId)
+        );
+    }
+
+    @GetMapping("internal/quizzes"+ID)
+    public ResponseDto<QuizDetailsResponseDto> getQuizDetails(@PathVariable UUID quizId) {
+        return new ResponseDto<>(
+                SuccessCode.RESPONSE_SUCCESSFUL,
+                "Successfully fetched quiz",
+                quizService.getDetailedQuiz(quizId)
         );
     }
 }

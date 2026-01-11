@@ -30,7 +30,7 @@ public final class ErrorResponseBuilder {
         errorResponseDetails.setMessage(message);
         errorResponseDetails.setTimestamp(LocalDateTime.now());
         if (!CollectionUtils.isEmpty(errors)) {
-            errorResponseDetails.setErrors(errors);
+            errorResponseDetails.setData(errors);
         }
         return errorResponseDetails;
     }
