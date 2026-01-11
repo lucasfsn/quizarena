@@ -16,15 +16,20 @@ public interface QuizRepository extends JpaRepository<Quiz, UUID> {
 
     @Query("""
     SELECT q FROM Quiz q
+      JOIN q.user u
     WHERE (:category IS NULL OR q.category = :category)
       AND (
         :title IS NULL OR
         q.title ILIKE CONCAT('%', CAST(:title AS string), '%')
       )
+       AND (:author IS NULL OR (
+                  LOWER(u.firstName || ' ' || u.lastName) ILIKE LOWER(CONCAT('%', CAST(:author AS string), '%'))
+                ))
 """)
     Page<Quiz> findAllWithFilters(
             @Param("category") QuizCategory category,
             @Param("title") String title,
+            @Param("author") String author,
             Pageable pageable
     );
 }
