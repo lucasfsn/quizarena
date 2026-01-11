@@ -39,9 +39,9 @@ public class QuizController {
     public ResponseDto<Page<QuizListResponseDto>> getAllQuizzes(
             @RequestParam(required = false) QuizCategory category,
             @RequestParam(required = false) String title,
-//            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String author,
             Pageable pageable) {
-        Page<QuizListResponseDto> quizzes = quizService.getAllQuizzes(category, title, pageable);
+        Page<QuizListResponseDto> quizzes = quizService.getAllQuizzes(category, title, author, pageable);
         return new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched quizzes", quizzes);
     }
 

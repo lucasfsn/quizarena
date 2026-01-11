@@ -9,8 +9,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface QuizMapper {
     @Mapping(target = "questionCount", expression = "java(quiz.getQuestions() == null ? 0 : quiz.getQuestions().size())")
+    @Mapping(target = "author", source = "user")
     QuizListResponseDto quizToQuizListItemDto(Quiz quiz);
 
     @Mapping(target = "questionCount", expression = "java(quiz.getQuestions() == null ? 0 : quiz.getQuestions().size())")
+    @Mapping(target = "author", source = "user")
     QuizResponseDto quizToQuizResponseDto(Quiz quiz);
 }

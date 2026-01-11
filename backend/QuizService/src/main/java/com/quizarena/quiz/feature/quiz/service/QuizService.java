@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface QuizService {
     QuizResponseDto createQuiz(Jwt jwt, QuizCreateRequestDto quizCreateRequestDto);
 
-    Page<QuizListResponseDto> getAllQuizzes(QuizCategory category, String title, Pageable pageable);
+    Page<QuizListResponseDto> getAllQuizzes(QuizCategory category, String title, String author, Pageable pageable);
 
     QuizResponseDto getQuizById(UUID quizId);
 }

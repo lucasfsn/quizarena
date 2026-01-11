@@ -12,6 +12,8 @@ import com.quizarena.quiz.feature.quiz.question.model.Question;
 import com.quizarena.quiz.feature.quiz.question.repository.QuestionRepository;
 import com.quizarena.quiz.feature.quiz.question.service.QuestionService;
 import com.quizarena.quiz.feature.quiz.repository.QuizRepository;
+import com.quizarena.quiz.feature.quiz.user.model.User;
+import com.quizarena.quiz.feature.quiz.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,13 +31,26 @@ public class QuizServiceDefault implements QuizService {
     private final QuizRepository quizRepository;
     private final QuestionService questionService;
     private final QuestionRepository questionRepository;
+    private final UserRepository userRepository;
+
     @Override
     @Transactional
     public QuizResponseDto createQuiz(Jwt jwt, QuizCreateRequestDto quizCreateRequestDto) {
+        UUID userId = UUID.fromString(jwt.getSubject());
+
+        User author = userRepository.findById(userId)
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .id(userId)
+                            .firstName((String) jwt.getClaims().get("given_name"))
+                            .lastName((String) jwt.getClaims().get("family_name"))
+                            .build();
+                    return userRepository.save(newUser);
+                });
         Quiz quiz = Quiz.builder()
                 .title(quizCreateRequestDto.title())
                 .category(quizCreateRequestDto.category())
-                .authorId(UUID.fromString(jwt.getSubject()))
+                .user(author)
                 .build();
        Quiz savedQuiz = quizRepository.save(quiz);
         List<Question> questions = questionRepository.saveAll(questionService.createQuestionsForQuiz(quizCreateRequestDto.questions(), savedQuiz));
@@ -44,8 +59,8 @@ public class QuizServiceDefault implements QuizService {
     }
 
     @Override
-    public Page<QuizListResponseDto> getAllQuizzes(QuizCategory category, String title, Pageable pageable) {
-        return quizRepository.findAllWithFilters(category, title, pageable).map(quizMapper::quizToQuizListItemDto);
+    public Page<QuizListResponseDto> getAllQuizzes(QuizCategory category, String title, String author, Pageable pageable) {
+        return quizRepository.findAllWithFilters(category, title, author, pageable).map(quizMapper::quizToQuizListItemDto);
     }
 
     @Override
