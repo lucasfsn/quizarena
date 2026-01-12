@@ -1,16 +1,17 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { Question } from '@/app/features/game/types/question';
+import { Score } from '@/app/features/game/types/score';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export enum GameStatus {
-  IDLE = 'idle',
-  LOADING = 'loading',
-  LOBBY = 'lobby',
-  QUESTION = 'question',
-  ANSWER = 'answer',
-  FINISHED = 'finished',
-  ERROR = 'error',
+  IDLE = 'IDLE',
+  LOADING = 'LOADING',
+  LOBBY = 'LOBBY',
+  QUESTION = 'QUESTION',
+  ANSWER = 'ANSWER',
+  FINISHED = 'FINISHED',
+  ERROR = 'ERROR',
 }
 
 export interface GameState {
@@ -18,9 +19,10 @@ export interface GameState {
   isHost: boolean;
   gameDetails: GameDetails | null;
   question: Question | null;
-  submittedAnswerId: string | null;
-  correctAnswerId: string | null;
+  submittedAnswerId: number | null;
+  correctAnswerId: number | null;
   summaryId: string | null;
+  scores: Score[] | null;
   error: string | null;
 }
 
@@ -32,15 +34,21 @@ export const initialState: GameState = {
   submittedAnswerId: null,
   correctAnswerId: null,
   summaryId: null,
+  scores: null,
   error: null,
 };
 
 export const gameReducer = createReducer(
   initialState,
-  on(GameActions.createLobby, GameActions.joinLobby, (state) => ({
+  on(GameActions.createLobby, (state) => ({
     ...state,
     status: GameStatus.LOADING,
     isHost: true,
+  })),
+  on(GameActions.getGameSession, GameActions.joinLobby, (state) => ({
+    ...state,
+    status: GameStatus.LOADING,
+    isHost: false,
   })),
   on(
     GameActions.createLobbySuccess,
@@ -61,6 +69,14 @@ export const gameReducer = createReducer(
       error,
     })
   ),
+  on(GameActions.getGameSessionSuccess, (state, { gameSession }) => ({
+    ...state,
+    gameDetails: gameSession.gameDetailsResponse,
+    status: mapBackendStatus(gameSession.gameStatus),
+    question: gameSession.currentQuestion || null,
+    correctAnswerId: gameSession.correctAnswerId || null,
+    error: null,
+  })),
   on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
     ...state,
     gameDetails,
@@ -78,9 +94,11 @@ export const gameReducer = createReducer(
     ...state,
     submittedAnswerId: answerId,
   })),
-  on(SocketActions.correctAnswerReceived, (state, { correctAnswerId }) => ({
+
+  on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
-    correctAnswerId,
+    correctAnswerId: correctAnswer.correctAnswerId,
+    scores: correctAnswer.players,
     status: GameStatus.ANSWER,
   })),
   on(SocketActions.gameFinished, (state, { summaryId }) => ({
@@ -95,3 +113,14 @@ export const gameReducer = createReducer(
   })),
   on(GameActions.reset, () => initialState)
 );
+
+function mapBackendStatus(backendStatus: string): GameStatus {
+  const statusMap: Record<string, GameStatus> = {
+    LOBBY: GameStatus.LOBBY,
+    QUIZ: GameStatus.QUESTION,
+    SHOWING_RESULTS: GameStatus.ANSWER,
+    FINISHED: GameStatus.FINISHED,
+  };
+
+  return statusMap[backendStatus] ?? GameStatus.ERROR;
+}

@@ -25,6 +25,14 @@ spring:
                           uri: http://quiz-service:8087
                           predicates:
                               - Path=/quizzes/**
+                        - id: gameservice
+                          uri: http://game-service:8088
+                          predicates:
+                              - Path=/games/**
+                        - id: gameservice-ws
+                          uri: ws://game-service:8088
+                          predicates:
+                              - Path=/ws/**
     profiles:
         active: dev
     security:

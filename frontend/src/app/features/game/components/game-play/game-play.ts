@@ -1,16 +1,18 @@
-import { Answer } from '@/app/features/game/types/answer';
 import { Question } from '@/app/features/game/types/question';
+import { User } from '@/app/features/user/services/user/user';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
 import {
   selectCorrectAnswerId,
   selectGameStatus,
+  selectScores,
   selectSubmittedAnswerId,
 } from '@/app/store/selectors/game.selectors';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 import { ProgressBar } from 'primeng/progressbar';
 import { map, switchMap, takeWhile, timer } from 'rxjs';
 
@@ -22,6 +24,7 @@ import { map, switchMap, takeWhile, timer } from 'rxjs';
 })
 export class GamePlay {
   private readonly store = inject(Store);
+  private readonly userService = inject(User);
 
   public readonly question = input.required<Question>();
 
@@ -32,6 +35,22 @@ export class GamePlay {
   protected readonly correctAnswerId = this.store.selectSignal(
     selectCorrectAnswerId
   );
+  protected readonly scores = this.store.selectSignal(selectScores);
+
+  private readonly userQuery = injectQuery(() => ({
+    ...this.userService.fetchLoggedInUserOptions(),
+    select: (user) => user.id,
+  }));
+
+  protected readonly playerScore = computed(() => {
+    const userId = this.userQuery.data();
+    const foundScore = this.scores()?.find((score) => score.userId === userId);
+
+    return {
+      score: foundScore?.score ?? 0,
+      correctAnswers: foundScore?.correctAnswers ?? 0,
+    };
+  });
 
   private readonly totalTime = computed(() => this.question().timeLimitSeconds);
   protected readonly progressValue = computed(() => {
@@ -63,19 +82,24 @@ export class GamePlay {
   );
 
   protected readonly isLocked = computed(() => {
-    return this.remainingTime() <= 0 || this.submittedAnswerId();
+    return (
+      this.status() === GameStatus.ANSWER ||
+      this.remainingTime() <= 0 ||
+      this.submittedAnswerId()
+    );
   });
 
-  protected answerClass(answerId: string): Record<string, boolean> {
+  protected answerClass(answerId: number): Record<string, boolean> {
     const hasReceivedCorrectAnswer = this.status() === GameStatus.ANSWER;
     const isSelected = this.submittedAnswerId() === answerId;
 
     return {
-      'border-secondary': !hasReceivedCorrectAnswer && isSelected,
+      'border-secondary': isSelected,
       '!bg-border-light':
-        !hasReceivedCorrectAnswer &&
         !isSelected &&
-        this.submittedAnswerId() !== null,
+        ((this.status() === GameStatus.QUESTION &&
+          this.submittedAnswerId() !== null) ||
+          this.status() === GameStatus.ANSWER),
       'border-status-success':
         hasReceivedCorrectAnswer && this.isCorrectAnswer(answerId),
       'border-status-error':
@@ -83,20 +107,19 @@ export class GamePlay {
     };
   }
 
-  protected onAnswerSelect(answer: Answer): void {
+  protected onAnswerSelect(answerId: number): void {
     if (this.isLocked()) return;
 
     this.store.dispatch(
       GameActions.submitAnswer({
-        questionId: this.question().id,
-        answerId: answer.id,
+        answerId,
       })
     );
   }
 
-  private isCorrectAnswer(answerId: string): boolean {
+  private isCorrectAnswer(answerId: number): boolean {
     const correctId = this.correctAnswerId();
 
-    return !!correctId && answerId === correctId;
+    return answerId === correctId;
   }
 }

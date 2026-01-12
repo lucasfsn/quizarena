@@ -41,6 +41,7 @@ export const routes: Routes = [
       {
         path: 'game/:roomCode',
         title: 'Game',
+        resolve: { userResolver },
         loadComponent: () =>
           import('@/app/features/game/pages/game/game').then((m) => m.Game),
         canActivate: [authGuard],
