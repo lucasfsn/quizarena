@@ -82,7 +82,11 @@ export class GamePlay {
   );
 
   protected readonly isLocked = computed(() => {
-    return this.remainingTime() <= 0 || this.submittedAnswerId();
+    return (
+      this.status() === GameStatus.ANSWER ||
+      this.remainingTime() <= 0 ||
+      this.submittedAnswerId()
+    );
   });
 
   protected answerClass(answerId: number): Record<string, boolean> {
@@ -90,11 +94,12 @@ export class GamePlay {
     const isSelected = this.submittedAnswerId() === answerId;
 
     return {
-      'border-secondary': !hasReceivedCorrectAnswer && isSelected,
+      'border-secondary': isSelected,
       '!bg-border-light':
-        !hasReceivedCorrectAnswer &&
         !isSelected &&
-        this.submittedAnswerId() !== null,
+        ((this.status() === GameStatus.QUESTION &&
+          this.submittedAnswerId() !== null) ||
+          this.status() === GameStatus.ANSWER),
       'border-status-success':
         hasReceivedCorrectAnswer && this.isCorrectAnswer(answerId),
       'border-status-error':
@@ -115,6 +120,6 @@ export class GamePlay {
   private isCorrectAnswer(answerId: number): boolean {
     const correctId = this.correctAnswerId();
 
-    return !!correctId && answerId === correctId;
+    return answerId === correctId;
   }
 }

@@ -1,54 +1,54 @@
 spring:
-  application:
-    name: apigateway
-  cloud:
-    gateway:
-      server:
-        webflux:
-          globalcors:
-            cors-configurations:
-              '[/**]':
-                allowed-origins:
-                  - '*'
-                allowed-methods:
-                  - '*'
-                allowed-headers:
-                  - '*'
-          routes:
-            - id: userservice
-              uri: http://user-service:8086
-              predicates:
-                - Path=/users/**
-              filters:
-                - StripPrefix=1
-            - id: quizservice
-              uri: http://quiz-service:8087
-              predicates:
-                - Path=/quizzes/**
-            - id: gameservice
-              uri: http://game-service:8088
-              predicates:
-                - Path=/games/**
-            - id: gameservice-ws
-              uri: ws://game-service:8088
-              predicates:
-                - Path=/ws/**
-  profiles:
-    active: dev
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://keycloak:8080/realms/quizarena
-          # issuer-uri: http://host.docker.internal:8080/realms/quizarena
-          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+    application:
+        name: apigateway
+    cloud:
+        gateway:
+            server:
+                webflux:
+                    globalcors:
+                        cors-configurations:
+                            "[/**]":
+                                allowed-origins:
+                                    - "*"
+                                allowed-methods:
+                                    - "*"
+                                allowed-headers:
+                                    - "*"
+                    routes:
+                        - id: userservice
+                          uri: http://user-service:8086
+                          predicates:
+                              - Path=/users/**
+                          filters:
+                              - StripPrefix=1
+                        - id: quizservice
+                          uri: http://quiz-service:8087
+                          predicates:
+                              - Path=/quizzes/**
+                        - id: gameservice
+                          uri: http://game-service:8088
+                          predicates:
+                              - Path=/games/**
+                        - id: gameservice-ws
+                          uri: ws://game-service:8088
+                          predicates:
+                              - Path=/ws/**
+    profiles:
+        active: dev
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: http://keycloak:8080/realms/quizarena
+                    # issuer-uri: http://host.docker.internal:8080/realms/quizarena
+                    jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 server:
-  port: 8085
+    port: 8085
 logging:
-  level:
-    org:
-      springframework:
-        cloud:
-          gateway: TRACE
-        security: DEBUG
+    level:
+        org:
+            springframework:
+                cloud:
+                    gateway: TRACE
+                security: DEBUG

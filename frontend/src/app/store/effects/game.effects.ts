@@ -159,6 +159,7 @@ export class GameEffects {
         tap(() => {
           this.gameSocketService.closeLobby();
           this.gameSocketService.disconnect();
+          this.router.navigate(['/quizzes']);
         }),
         map(() => GameActions.reset())
       ),
@@ -171,6 +172,7 @@ export class GameEffects {
       tap(() => {
         this.gameSocketService.leaveGame();
         this.gameSocketService.disconnect();
+        this.router.navigate(['/quizzes']);
       }),
       map(() => GameActions.reset())
     )
@@ -199,7 +201,9 @@ export class GameEffects {
       this.actions$.pipe(
         ofType(SocketActions.lobbyClosed),
         tap(() => {
-          this.toastService.info('Host has left the game.');
+          this.gameSocketService.leaveGame();
+          this.gameSocketService.disconnect();
+          this.toastService.info('Host has closed the game.');
           this.router.navigate(['/quizzes']);
         })
       ),

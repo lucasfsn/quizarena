@@ -5,13 +5,13 @@ import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export enum GameStatus {
-  IDLE = 'idle',
-  LOADING = 'loading',
-  LOBBY = 'lobby',
-  QUESTION = 'question',
-  ANSWER = 'answer',
-  FINISHED = 'finished',
-  ERROR = 'error',
+  IDLE = 'IDLE',
+  LOADING = 'LOADING',
+  LOBBY = 'LOBBY',
+  QUESTION = 'QUESTION',
+  ANSWER = 'ANSWER',
+  FINISHED = 'FINISHED',
+  ERROR = 'ERROR',
 }
 
 export interface GameState {
@@ -88,8 +88,8 @@ export const gameReducer = createReducer(
 
   on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
-    correctAnswerId: correctAnswer.answerId,
-    scores: correctAnswer.scores,
+    correctAnswerId: correctAnswer.correctAnswerId,
+    scores: correctAnswer.players,
     status: GameStatus.ANSWER,
   })),
   on(SocketActions.gameFinished, (state, { summaryId }) => ({
