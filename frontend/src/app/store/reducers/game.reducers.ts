@@ -40,25 +40,26 @@ export const initialState: GameState = {
 
 export const gameReducer = createReducer(
   initialState,
-  on(GameActions.createLobby, GameActions.joinLobby, (state) => ({
+  on(GameActions.createLobby, (state) => ({
     ...state,
     status: GameStatus.LOADING,
     isHost: true,
   })),
-  on(GameActions.createLobbySuccess, (state, { gameDetails }) => ({
+  on(GameActions.getGameSession, GameActions.joinLobby, (state) => ({
     ...state,
-    gameDetails,
-    status: GameStatus.LOBBY,
-    error: null,
+    status: GameStatus.LOADING,
+    isHost: false,
   })),
-  on(GameActions.joinLobbySuccess, (state, { gameSession }) => ({
-    ...state,
-    gameDetails: gameSession.gameDetails,
-    status: gameSession.status,
-    question: gameSession.currentQuestion || null,
-    correctAnswerId: gameSession.correctAnswerId || null,
-    error: null,
-  })),
+  on(
+    GameActions.createLobbySuccess,
+    GameActions.joinLobbySuccess,
+    (state, { gameDetails }) => ({
+      ...state,
+      gameDetails,
+      status: GameStatus.LOBBY,
+      error: null,
+    })
+  ),
   on(
     GameActions.createLobbyFailure,
     GameActions.joinLobbyFailure,
@@ -68,6 +69,14 @@ export const gameReducer = createReducer(
       error,
     })
   ),
+  on(GameActions.getGameSessionSuccess, (state, { gameSession }) => ({
+    ...state,
+    gameDetails: gameSession.gameDetailsResponse,
+    status: mapBackendStatus(gameSession.gameStatus),
+    question: gameSession.currentQuestion || null,
+    correctAnswerId: gameSession.correctAnswerId || null,
+    error: null,
+  })),
   on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
     ...state,
     gameDetails,
@@ -104,3 +113,14 @@ export const gameReducer = createReducer(
   })),
   on(GameActions.reset, () => initialState)
 );
+
+function mapBackendStatus(backendStatus: string): GameStatus {
+  const statusMap: Record<string, GameStatus> = {
+    LOBBY: GameStatus.LOBBY,
+    QUIZ: GameStatus.QUESTION,
+    SHOWING_RESULTS: GameStatus.ANSWER,
+    FINISHED: GameStatus.FINISHED,
+  };
+
+  return statusMap[backendStatus] ?? GameStatus.ERROR;
+}

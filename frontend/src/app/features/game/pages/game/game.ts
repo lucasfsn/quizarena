@@ -6,10 +6,10 @@ import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
 import {
-  selectGameDetails,
-  selectGameStatus,
-  selectQuestion,
-  selectSummaryId,
+    selectGameDetails,
+    selectGameStatus,
+    selectQuestion,
+    selectSummaryId,
 } from '@/app/store/selectors/game.selectors';
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -58,7 +58,7 @@ export class Game implements OnDestroy, OnInit {
       .pipe(take(1))
       .subscribe((status) => {
         if (status === GameStatus.IDLE && roomCode)
-          this.store.dispatch(GameActions.joinLobby({ roomCode }));
+          this.store.dispatch(GameActions.getGameSession({ roomCode }));
       });
   }
 

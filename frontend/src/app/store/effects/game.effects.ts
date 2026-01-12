@@ -71,10 +71,10 @@ export class GameEffects {
       ofType(GameActions.joinLobby),
       switchMap(({ roomCode }) =>
         this.gameService.joinGame(roomCode).pipe(
-          switchMap((session: GameSession) =>
+          switchMap((res: GameDetails) =>
             this.establishGameSession(
-              session.gameDetails.roomCode,
-              GameActions.joinLobbySuccess({ gameSession: session }),
+              res.roomCode,
+              GameActions.joinLobbySuccess({ gameDetails: res }),
               GameActions.joinLobbyFailure
             )
           ),
@@ -95,23 +95,32 @@ export class GameEffects {
     { dispatch: false }
   );
 
-  public navigateToGameCreate$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(GameActions.createLobbySuccess),
-        tap(({ gameDetails }) => {
-          this.router.navigate(['/game', gameDetails.roomCode]);
-        })
-      ),
-    { dispatch: false }
+  public getGameSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.getGameSession),
+      switchMap(({ roomCode }) =>
+        this.gameService.getGameSession(roomCode).pipe(
+          switchMap((session: GameSession) =>
+            this.establishGameSession(
+              session.gameDetailsResponse.roomCode,
+              GameActions.getGameSessionSuccess({ gameSession: session }),
+              GameActions.joinLobbyFailure
+            )
+          ),
+          catchError((err) =>
+            of(GameActions.joinLobbyFailure({ error: err.message }))
+          )
+        )
+      )
+    )
   );
 
-  public navigateToGameJoin$ = createEffect(
+  public navigateToGame$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(GameActions.joinLobbySuccess),
-        tap(({ gameSession }) => {
-          this.router.navigate(['/game', gameSession.gameDetails.roomCode]);
+        ofType(GameActions.createLobbySuccess, GameActions.joinLobbySuccess),
+        tap(({ gameDetails }) => {
+          this.router.navigate(['/game', gameDetails.roomCode]);
         })
       ),
     { dispatch: false }

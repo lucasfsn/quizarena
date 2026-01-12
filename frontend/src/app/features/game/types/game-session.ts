@@ -3,8 +3,8 @@ import { Question } from '@/app/features/game/types/question';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
 
 export interface GameSession {
-  gameDetails: GameDetails;
-  status: GameStatus;
+  gameDetailsResponse: GameDetails;
+  gameStatus: GameStatus;
   currentQuestion?: Question;
   correctAnswerId?: number;
 }

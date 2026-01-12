@@ -24,11 +24,17 @@ export class Game {
       .pipe(map((res: Response<GameDetails>) => res.data));
   }
 
-  public joinGame(roomCode: string): Observable<GameSession> {
+  public joinGame(roomCode: string): Observable<GameDetails> {
     return this.http
-      .post<Response<GameSession>>(`${environment.apiUrl}/games/join`, {
-        roomCode,
+      .post<Response<GameDetails>>(`${environment.apiUrl}/games/join`, null, {
+        params: { roomCode },
       })
+      .pipe(map((res: Response<GameDetails>) => res.data));
+  }
+
+  public getGameSession(roomCode: string): Observable<GameSession> {
+    return this.http
+      .get<Response<GameSession>>(`${environment.apiUrl}/games/${roomCode}`)
       .pipe(map((res: Response<GameSession>) => res.data));
   }
 
