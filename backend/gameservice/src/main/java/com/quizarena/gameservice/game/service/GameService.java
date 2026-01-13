@@ -5,10 +5,7 @@ import com.quizarena.gameservice.communication.dto.QuestionResponse;
 import com.quizarena.gameservice.communication.dto.Quiz;
 import com.quizarena.gameservice.communication.service.QuizServiceClient;
 import com.quizarena.gameservice.exception.EntityNotFoundException;
-import com.quizarena.gameservice.game.dto.CorrectAnswer;
-import com.quizarena.gameservice.game.dto.CreateGameRequest;
-import com.quizarena.gameservice.game.dto.GameDetailsResponse;
-import com.quizarena.gameservice.game.dto.GameResultResponse;
+import com.quizarena.gameservice.game.dto.*;
 import com.quizarena.gameservice.game.enums.GameEventType;
 import com.quizarena.gameservice.game.enums.GameState;
 import com.quizarena.gameservice.game.model.Game;
@@ -168,7 +165,7 @@ public class GameService {
         gameNotificationService.notifyGame(
                 roomCode,
                 GameEventType.QUESTION,
-                QuestionResponse.from(game.currentQuestion(), game.getStartGameTime()));
+                QuestionResponse.from(game.currentQuestion(), game.getRound(), game.getQuiz().getQuestionsCount(), game.getAnswerTimeInSeconds(), game.getStartGameTime()));
         taskScheduler.schedule(() -> handleEndOfQuestion(gameId, roomCode),
                 Instant.now().plusSeconds(game.getAnswerTimeInSeconds()));
     }
@@ -189,7 +186,9 @@ public class GameService {
     private void finishGame(UUID gameId, String roomCode) {
         Game game = gameRepository.getGame(gameId);
         game.setState(GameState.SHOWING_RESULTS);
+        gameRepository.deleteGameRoomCode(game.getRoomCode());
+        game.setRoomCode(null);
         gameRepository.saveGame(game);
-        gameNotificationService.notifyGame(roomCode, GameEventType.GAME_FINISHED, GameResultResponse.from(game.getPlayers()));
+        gameNotificationService.notifyGame(roomCode, GameEventType.GAME_FINISHED, GameFinishedResponse.builder().gameId(gameId).build());
     }
 }

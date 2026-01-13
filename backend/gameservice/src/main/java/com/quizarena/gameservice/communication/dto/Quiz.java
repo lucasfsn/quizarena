@@ -17,6 +17,6 @@ public class Quiz {
     private String title;
     private String category;
     private String author;
-    private Integer questionCount;
+    private Integer questionsCount;
     private List<Question> questions;
 }

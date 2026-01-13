@@ -45,12 +45,17 @@ public class GameRepository {
         return getGame(gameId);
     }
 
-    public void deleteGame(Game game) {
+    public void deleteGame(final Game game) {
         redisTemplate.delete(getGameKey(game.getId()));
         redisTemplate.delete(getRoomCodeKey(game.getRoomCode()));
     }
 
-    public void saveGameWithRoomCodeMapping(Game game) {
+    public void deleteGameRoomCode(final String roomCode) {
+        String roomCodeKey = getRoomCodeKey(roomCode);
+        redisTemplate.delete(roomCodeKey);
+    }
+
+    public void saveGameWithRoomCodeMapping(final Game game) {
         saveGame(game);
         String roomCodeKey = getRoomCodeKey(game.getRoomCode());
         redisTemplate.opsForValue().set(roomCodeKey, game.getId(), SESSION_TTL_SECONDS, TimeUnit.SECONDS);

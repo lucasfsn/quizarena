@@ -18,8 +18,10 @@ public class GameSession {
         return GameSession.builder()
                 .gameDetailsResponse(GameDetailsResponse.from(game))
                 .gameStatus(game.getState())
-                .currentQuestion(QuestionResponse.from(game.currentQuestion(), game.getStartGameTime()))
-                .correctAnswerId(game.currentQuestion().correctAnswerIndex())
+                .currentQuestion(
+                        game.getState() != GameState.LOBBY ? QuestionResponse.from(game.currentQuestion(), game.getRound(), game.getQuiz().getQuestionsCount(), game.getAnswerTimeInSeconds(), game.getStartGameTime()) : null)
+                .correctAnswerId(
+                        game.getState() != GameState.LOBBY ? game.currentQuestion().correctAnswerIndex() : null)
                 .build();
     }
 }

@@ -15,6 +15,7 @@ public class GameDetailsResponse {
     String roomCode;
     QuizPreviewResponse quiz;
     List<PlayerResponse> players;
+    Integer maxPlayers;
 
     public static GameDetailsResponse from(final Game game) {
         return GameDetailsResponse.builder()
@@ -22,6 +23,7 @@ public class GameDetailsResponse {
                 .roomCode(game.getRoomCode())
                 .players(game.getPlayers().stream().map(PlayerResponse::from).toList())
                 .quiz(QuizPreviewResponse.from(game.getQuiz()))
+                .maxPlayers(game.getMaxPlayers())
                 .build();
     }
 }

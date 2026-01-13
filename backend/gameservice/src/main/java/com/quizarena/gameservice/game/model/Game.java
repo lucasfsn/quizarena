@@ -28,16 +28,18 @@ public class Game implements Serializable {
     private long startGameTime;
     private int displayQuestionTimeInSeconds = 20;
     private int answerTimeInSeconds = 20;
+    private int maxPlayers = 20;
 
     public Game(String roomCode, Quiz quiz) {
-        this(roomCode, quiz, 10, 30);
+        this(roomCode, quiz, 10, 30, 20);
     }
 
-    public Game(String roomCode, Quiz quiz, int displayQuestionTimeInSeconds, int answerTimeInSecond) {
+    public Game(String roomCode, Quiz quiz, int displayQuestionTimeInSeconds, int answerTimeInSecond, int maxPlayers) {
         this.roomCode = roomCode;
         this.quiz = quiz;
         this.displayQuestionTimeInSeconds = displayQuestionTimeInSeconds;
         this.answerTimeInSeconds = answerTimeInSecond;
+        this.maxPlayers = maxPlayers;
         this.state = GameState.LOBBY;
     }
 
