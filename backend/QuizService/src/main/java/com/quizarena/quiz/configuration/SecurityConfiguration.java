@@ -20,11 +20,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("GET", "/quizzes").permitAll()
+                        .requestMatchers("/internal/**").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt -> {})
                 );
-
         return http.build();
     }
 

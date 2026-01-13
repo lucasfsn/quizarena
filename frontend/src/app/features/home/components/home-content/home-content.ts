@@ -1,5 +1,7 @@
 import { Authorization } from '@/app/core/auth/authorization';
 import { HomeCard } from '@/app/features/home/components/home-card/home-card';
+import { JOIN_GAME_FORM_CONSTRAINTS } from '@/app/features/home/constants/join-game-form-consts';
+import { JoinGameFormConsts } from '@/app/features/home/types/join-game-form-consts';
 import { Button } from '@/app/shared/components/button/button';
 import { FriendsIcon } from '@/app/shared/components/svg/friends-icon';
 import { HomeQuestionImage } from '@/app/shared/components/svg/home-question-image';
@@ -12,7 +14,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DialogModule } from 'primeng/dialog';
 import { FloatLabel } from 'primeng/floatlabel';
-import { InputText } from 'primeng/inputtext';
+import { InputNumber } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-home-content',
@@ -24,7 +26,7 @@ import { InputText } from 'primeng/inputtext';
     FriendsIcon,
     RankingIcon,
     DialogModule,
-    InputText,
+    InputNumber,
     ReactiveFormsModule,
     FloatLabel,
   ],
@@ -35,6 +37,8 @@ export class HomeContent {
   private readonly authorizationService = inject(Authorization);
   private readonly store = inject(Store);
 
+  protected readonly limits: JoinGameFormConsts = JOIN_GAME_FORM_CONSTRAINTS;
+
   protected isLoggedIn(): boolean {
     return this.authorizationService.isLoggedIn();
   }
@@ -43,13 +47,12 @@ export class HomeContent {
 
   protected joinQuizDialogVisible: boolean = false;
 
-  protected roomControl = new FormControl<string>('', {
+  protected roomControl = new FormControl<number | null>(null, {
     nonNullable: true,
     validators: [
       Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(6),
-      Validators.pattern(/^[a-zA-Z0-9]*$/),
+      Validators.min(this.limits.MIN),
+      Validators.max(this.limits.MAX),
     ],
   });
 
@@ -61,7 +64,7 @@ export class HomeContent {
     }
 
     this.store.dispatch(GameActions.reset());
-    this.roomControl.reset('');
+    this.roomControl.reset(null);
 
     this.joinQuizDialogVisible = true;
   }
@@ -70,8 +73,6 @@ export class HomeContent {
     const code = this.roomControl.value;
     if (!code) return;
 
-    this.store.dispatch(
-      GameActions.joinLobby({ roomCode: code.toUpperCase() })
-    );
+    this.store.dispatch(GameActions.joinLobby({ roomCode: code.toString() }));
   }
 }

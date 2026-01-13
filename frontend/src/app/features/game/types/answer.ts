@@ -1,4 +1,3 @@
 export interface Answer {
-  id: string;
-  label: string;
+  text: string;
 }
