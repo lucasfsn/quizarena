@@ -109,10 +109,12 @@ public class GameService {
 
     public Game startGame(String roomCode) {
         Game game = gameRepository.getGameByRoomCode(roomCode);
-        game.setState(GameState.QUIZ);
-        game.setStartGameTime(System.currentTimeMillis());
-        gameRepository.saveGame(game);
-        startGameLoop(game.getId(), roomCode);
+        if (GameState.LOBBY.equals(game.getState())) {
+            game.setState(GameState.QUIZ);
+            game.setStartGameTime(System.currentTimeMillis());
+            gameRepository.saveGame(game);
+            startGameLoop(game.getId(), roomCode);
+        }
         return game;
     }
 
@@ -177,9 +179,9 @@ public class GameService {
                 GameEventType.CORRECT_ANSWER,
                 CorrectAnswer.from(game));
         taskScheduler.schedule(() -> {
-            Game nextRoundGame = gameRepository.getGame(gameId);
-            nextRoundGame.incrementRound();
-            gameRepository.saveGame(game);
+            Game gameToUpdate = gameRepository.getGame(gameId);
+            gameToUpdate.incrementRound();
+            gameRepository.saveGame(gameToUpdate);
             processQuestionStep(gameId, roomCode);
         }, Instant.now().plusSeconds(DISPLAY_QUESTION_SECONDS));
     }
