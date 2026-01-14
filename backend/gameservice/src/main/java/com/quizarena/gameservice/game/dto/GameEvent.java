@@ -1,7 +1,7 @@
-package com.quizarena.gameservice.quizsession.dto;
+package com.quizarena.gameservice.game.dto;
 
 
-import com.quizarena.gameservice.quizsession.enums.GameEventType;
+import com.quizarena.gameservice.game.enums.GameEventType;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 

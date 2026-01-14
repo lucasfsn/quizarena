@@ -1,8 +1,8 @@
-package com.quizarena.gameservice.quizsession.service;
+package com.quizarena.gameservice.game.service;
 
 import com.quizarena.gameservice.exception.dto.ErrorResponseDto;
-import com.quizarena.gameservice.quizsession.dto.GameEvent;
-import com.quizarena.gameservice.quizsession.enums.GameEventType;
+import com.quizarena.gameservice.game.dto.GameEvent;
+import com.quizarena.gameservice.game.enums.GameEventType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;

@@ -2,11 +2,7 @@ package com.quizarena.gameservice.game.dto;
 
 import lombok.Value;
 
-import java.util.UUID;
-
 @Value
-public class AnswerRequest {
+public class StartGameRequest {
     String roomCode;
-    UUID userId;
-    Integer answerId;
 }

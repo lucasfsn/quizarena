@@ -1,8 +1,8 @@
-package com.quizarena.gameservice.quizsession.dto;
+package com.quizarena.gameservice.game.dto;
 
 import com.quizarena.gameservice.communication.dto.QuestionResponse;
-import com.quizarena.gameservice.quizsession.enums.GameState;
-import com.quizarena.gameservice.quizsession.model.Game;
+import com.quizarena.gameservice.game.enums.GameState;
+import com.quizarena.gameservice.game.model.Game;
 import lombok.Builder;
 import lombok.Value;
 
@@ -18,8 +18,10 @@ public class GameSession {
         return GameSession.builder()
                 .gameDetailsResponse(GameDetailsResponse.from(game))
                 .gameStatus(game.getState())
-                .currentQuestion(QuestionResponse.from(game.currentQuestion(), game.getStartGameTime()))
-                .correctAnswerId(game.currentQuestion().correctAnswerIndex())
+                .currentQuestion(
+                        game.getState() != GameState.LOBBY ? QuestionResponse.from(game.currentQuestion(), game.getRound(), game.getQuiz().getQuestionsCount(), game.getAnswerTimeInSeconds(), game.getStartGameTime()) : null)
+                .correctAnswerId(
+                        game.getState() != GameState.LOBBY ? game.currentQuestion().correctAnswerIndex() : null)
                 .build();
     }
 }

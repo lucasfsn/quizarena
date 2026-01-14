@@ -1,8 +1,9 @@
-package com.quizarena.gameservice.quizsession.controller.ws;
+package com.quizarena.gameservice.game.controller.ws;
 
-import com.quizarena.gameservice.quizsession.dto.AnswerRequest;
-import com.quizarena.gameservice.quizsession.dto.LeaveRequest;
-import com.quizarena.gameservice.quizsession.service.GameService;
+import com.quizarena.gameservice.game.dto.AnswerRequest;
+import com.quizarena.gameservice.game.dto.LeaveRequest;
+import com.quizarena.gameservice.game.dto.StartGameRequest;
+import com.quizarena.gameservice.game.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -14,8 +15,8 @@ public class GameWSController {
     private final GameService gameService;
 
     @MessageMapping("/game/start")
-    public void startGame(@Payload final String roomCode) {
-        gameService.startGame(roomCode);
+    public void startGame(@Payload final StartGameRequest request) {
+        gameService.startGame(request.getRoomCode());
     }
 
     @MessageMapping("/game/leave")

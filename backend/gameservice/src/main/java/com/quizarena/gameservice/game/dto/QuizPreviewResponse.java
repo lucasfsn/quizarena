@@ -1,4 +1,4 @@
-package com.quizarena.gameservice.quizsession.dto;
+package com.quizarena.gameservice.game.dto;
 
 import com.quizarena.gameservice.communication.dto.Quiz;
 import lombok.Builder;
@@ -13,7 +13,7 @@ public class QuizPreviewResponse {
     String title;
     String category;
     String author;
-    Integer questionCount;
+    Integer questionsCount;
 
     public static QuizPreviewResponse from(final Quiz quizResponse) {
         return QuizPreviewResponse.builder()
@@ -21,7 +21,7 @@ public class QuizPreviewResponse {
                 .title(quizResponse.getTitle())
                 .category(quizResponse.getCategory())
                 .author(quizResponse.getAuthor())
-                .questionCount(quizResponse.getQuestionCount())
+                .questionsCount(quizResponse.getQuestionsCount())
                 .build();
     }
 }

@@ -1,9 +1,9 @@
-package com.quizarena.gameservice.quizsession.model;
+package com.quizarena.gameservice.game.model;
 
 import com.quizarena.gameservice.communication.dto.Question;
 import com.quizarena.gameservice.communication.dto.Quiz;
+import com.quizarena.gameservice.game.enums.GameState;
 import com.quizarena.gameservice.player.model.Player;
-import com.quizarena.gameservice.quizsession.enums.GameState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,16 +28,18 @@ public class Game implements Serializable {
     private long startGameTime;
     private int displayQuestionTimeInSeconds = 20;
     private int answerTimeInSeconds = 20;
+    private int maxPlayers = 20;
 
     public Game(String roomCode, Quiz quiz) {
-        this(roomCode, quiz, 10, 30);
+        this(roomCode, quiz, 10, 30, 20);
     }
 
-    public Game(String roomCode, Quiz quiz, int displayQuestionTimeInSeconds, int answerTimeInSecond) {
+    public Game(String roomCode, Quiz quiz, int displayQuestionTimeInSeconds, int answerTimeInSecond, int maxPlayers) {
         this.roomCode = roomCode;
         this.quiz = quiz;
         this.displayQuestionTimeInSeconds = displayQuestionTimeInSeconds;
         this.answerTimeInSeconds = answerTimeInSecond;
+        this.maxPlayers = maxPlayers;
         this.state = GameState.LOBBY;
     }
 

@@ -1,7 +1,7 @@
-package com.quizarena.gameservice.quizsession.dto;
+package com.quizarena.gameservice.game.dto;
 
+import com.quizarena.gameservice.game.model.Game;
 import com.quizarena.gameservice.player.dto.PlayerScoreResponse;
-import com.quizarena.gameservice.quizsession.model.Game;
 import lombok.Builder;
 import lombok.Value;
 
