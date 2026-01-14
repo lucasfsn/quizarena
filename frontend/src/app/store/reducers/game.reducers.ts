@@ -45,17 +45,10 @@ export const gameReducer = createReducer(
     status: GameStatus.LOADING,
     isHost: true,
   })),
-  on(
-    GameActions.joinLobby,
-    (): GameState => ({
-      ...initialState,
-      status: GameStatus.LOADING,
-      isHost: false,
-    })
-  ),
-  on(GameActions.getGameSession, (state) => ({
-    ...state,
+  on(GameActions.joinLobby, GameActions.getGameSession, () => ({
+    ...initialState,
     status: GameStatus.LOADING,
+    isHost: false,
   })),
   on(
     GameActions.createLobbySuccess,
