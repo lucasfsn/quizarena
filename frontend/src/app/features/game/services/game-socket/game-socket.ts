@@ -1,13 +1,16 @@
 import { ServerMessage } from '@/app/features/game/types/server-message';
 import { environment } from '@/environments/environment';
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { RxStomp } from '@stomp/rx-stomp';
+import Keycloak from 'keycloak-js';
 import { map, Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameSocket implements OnDestroy {
+  private readonly keycloak = inject(Keycloak);
+
   private rxStomp: RxStomp | null = null;
   private roomCode: string | null = null;
   private subscriptions: Subscription[] = [];
@@ -35,6 +38,9 @@ export class GameSocket implements OnDestroy {
       this.rxStomp.configure({
         brokerURL: `${environment.wsUrl}`,
         reconnectDelay: 1000,
+        connectHeaders: {
+          Authorization: `Bearer ${this.keycloak.token}`,
+        },
       });
 
       this.rxStomp.activate();

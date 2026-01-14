@@ -7,9 +7,9 @@ import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
 import {
   selectGameDetails,
+  selectGameId,
   selectGameStatus,
   selectQuestion,
-  selectSummaryId,
 } from '@/app/store/selectors/game.selectors';
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -39,7 +39,7 @@ export class Game implements OnDestroy, OnInit {
   protected readonly status = this.store.selectSignal(selectGameStatus);
   protected readonly gameDetails = this.store.selectSignal(selectGameDetails);
   protected readonly question = this.store.selectSignal(selectQuestion);
-  protected readonly summaryId = this.store.selectSignal(selectSummaryId);
+  protected readonly gameId = this.store.selectSignal(selectGameId);
 
   protected readonly GameStatus = GameStatus;
 

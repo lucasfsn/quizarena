@@ -8,6 +8,5 @@ export interface GameResultPlayer {
 }
 
 export interface GameResult {
-  players: GameResultPlayer[];
-  winnerId: string;
+  gameResultPlayerResponseList: GameResultPlayer[];
 }

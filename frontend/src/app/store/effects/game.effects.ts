@@ -161,18 +161,16 @@ export class GameEffects {
     )
   );
 
-  public closeLobby$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(GameActions.closeLobby),
-        tap(() => {
-          this.gameSocketService.closeLobby();
-          this.gameSocketService.disconnect();
-          this.router.navigate(['/quizzes']);
-        }),
-        map(() => GameActions.reset())
-      ),
-    { dispatch: false }
+  public closeLobby$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.closeLobby),
+      tap(() => {
+        this.gameSocketService.closeLobby();
+        this.gameSocketService.disconnect();
+        this.router.navigate(['/quizzes']);
+      }),
+      map(() => GameActions.reset())
+    )
   );
 
   public leaveLobby$ = createEffect(() =>
@@ -205,23 +203,30 @@ export class GameEffects {
     { dispatch: false }
   );
 
-  public lobbyClosed$ = createEffect(
+  public lobbyClosed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SocketActions.lobbyClosed),
+      tap(() => {
+        this.gameSocketService.disconnect();
+        this.toastService.info('Host has closed the game.');
+        this.router.navigate(['/quizzes']);
+      }),
+      map(() => GameActions.reset())
+    )
+  );
+
+  public gameFinished$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(SocketActions.lobbyClosed),
+        ofType(SocketActions.gameFinished),
         tap(() => {
-          this.gameSocketService.leaveGame();
           this.gameSocketService.disconnect();
-          this.toastService.info('Host has closed the game.');
-          this.router.navigate(['/quizzes']);
         })
       ),
     { dispatch: false }
   );
 
-  private mapMessageToAction(
-    message: ServerMessage
-  ): ReturnType<(typeof SocketActions)[keyof typeof SocketActions]> {
+  private mapMessageToAction(message: ServerMessage): Action {
     switch (message.eventType) {
       case 'LOBBY_UPDATE':
         return SocketActions.lobbyUpdated({ gameDetails: message.payload });
@@ -235,7 +240,7 @@ export class GameEffects {
         });
       case 'GAME_FINISHED':
         return SocketActions.gameFinished({
-          summaryId: message.payload.summaryId,
+          gameId: message.payload.gameId,
         });
       case 'ERROR':
         return SocketActions.error({ message: message.payload.message });

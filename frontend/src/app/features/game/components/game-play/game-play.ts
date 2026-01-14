@@ -85,7 +85,7 @@ export class GamePlay {
     return (
       this.status() === GameStatus.ANSWER ||
       this.remainingTime() <= 0 ||
-      this.submittedAnswerId()
+      this.submittedAnswerId() !== null
     );
   });
 

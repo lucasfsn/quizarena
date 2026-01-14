@@ -132,7 +132,8 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - SERVICES_USERSERVICE_URL=http://gateway:8085/users
-      - SERVICES_QUIZSERVICE_URL=http://gateway:8085/quizzes
+      - SERVICES_QUIZSERVICE_URL=http://gateway:8085/quizzes]
+      - FRONTEND_URL=${FRONTEND_URL}
     develop:
       watch:
         - action: rebuild
