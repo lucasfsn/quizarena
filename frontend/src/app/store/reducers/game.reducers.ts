@@ -48,7 +48,6 @@ export const gameReducer = createReducer(
   on(GameActions.joinLobby, GameActions.getGameSession, () => ({
     ...initialState,
     status: GameStatus.LOADING,
-    isHost: false,
   })),
   on(
     GameActions.createLobbySuccess,
