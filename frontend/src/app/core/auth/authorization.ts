@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { QueryClient } from '@tanstack/angular-query-experimental';
 import Keycloak from 'keycloak-js';
 
@@ -8,6 +8,19 @@ import Keycloak from 'keycloak-js';
 export class Authorization {
   private readonly keycloak = inject(Keycloak);
   private readonly queryClient = inject(QueryClient);
+
+  private readonly isInitialized = signal(false);
+  public readonly isReady = this.isInitialized.asReadonly();
+
+  public constructor() {
+    if (this.keycloak.didInitialize) {
+      this.isInitialized.set(true);
+    } else {
+      this.keycloak.onReady = () => {
+        this.isInitialized.set(true);
+      };
+    }
+  }
 
   public login(): void {
     this.keycloak.login();

@@ -12,7 +12,13 @@
       class="size-8 group-hover:opacity-95" />
     <span class="group-hover:text-brand-dark hidden sm:block">Quizarena</span>
   </a>
-  @if (isLoggedIn()) {
+  @if (!isKeycloakReady()) {
+    <app-button
+      size="md"
+      variant="skeleton"
+      skeletonWidth="4rem"
+      customClasses="shadow-sm" />
+  } @else if (isLoggedIn()) {
     <p-popover #menu>
       <div class="flex flex-col gap-1.5">
         <button

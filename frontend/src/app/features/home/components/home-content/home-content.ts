@@ -43,6 +43,10 @@ export class HomeContent {
     return this.authorizationService.isLoggedIn();
   }
 
+  protected isKeycloakReady(): boolean {
+    return this.authorizationService.isReady();
+  }
+
   protected readonly error = this.store.selectSignal(selectError);
 
   protected joinQuizDialogVisible: boolean = false;

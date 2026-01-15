@@ -26,4 +26,8 @@ export class Header {
   protected isLoggedIn(): boolean {
     return this.authorizationService.isLoggedIn();
   }
+
+  protected isKeycloakReady(): boolean {
+    return this.authorizationService.isReady();
+  }
 }
