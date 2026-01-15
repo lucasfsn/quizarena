@@ -6,6 +6,8 @@ services:
     restart: always
     ports:
       - '8080:8080'
+    volumes:
+      - keycloak_data:/opt/keycloak/data
     networks:
       - quizarena-server-network
       - quizarena-client-network
@@ -20,3 +22,6 @@ networks:
     name: quizarena-server-network
   quizarena-client-network:
     name: quizarena-client-network
+
+volumes:
+  keycloak_data:

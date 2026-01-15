@@ -21,6 +21,7 @@ spring:
                               - Path=/users/**
                           filters:
                               - StripPrefix=1
+                              - TokenRelay=
                         - id: quizservice
                           uri: http://quiz-service:8087
                           predicates:
