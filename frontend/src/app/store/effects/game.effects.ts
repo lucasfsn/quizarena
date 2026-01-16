@@ -131,11 +131,13 @@ export class GameEffects {
     successAction: Action,
     errorActionCreator: (props: { error: string }) => Action
   ): Observable<Action> {
-    return this.gameSocketService.connect(roomCode).pipe(
+    this.gameSocketService.connect(roomCode);
+
+    return this.gameSocketService.isConnected$.pipe(
       switchMap(() =>
         merge(
           of(successAction),
-          this.gameSocketService.loadedMessages.pipe(
+          this.gameSocketService.messages$.pipe(
             map((message) => this.mapMessageToAction(message))
           )
         )
