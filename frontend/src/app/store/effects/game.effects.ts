@@ -167,7 +167,6 @@ export class GameEffects {
       tap(() => {
         this.gameSocketService.closeLobby();
         this.gameSocketService.disconnect();
-        this.router.navigate(['/quizzes']);
       }),
       map(() => GameActions.reset())
     )
@@ -179,7 +178,6 @@ export class GameEffects {
       tap(() => {
         this.gameSocketService.leaveGame();
         this.gameSocketService.disconnect();
-        this.router.navigate(['/quizzes']);
       }),
       map(() => GameActions.reset())
     )
