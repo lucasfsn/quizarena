@@ -14,6 +14,7 @@ import Keycloak from 'keycloak-js';
 export class Authorization {
   private readonly keycloak = inject(Keycloak);
   private readonly queryClient = inject(QueryClient);
+  private readonly keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
 
   private readonly isInitialized = signal(false);
   public readonly isReady = this.isInitialized.asReadonly();
@@ -22,26 +23,27 @@ export class Authorization {
   public readonly isLoggedIn = this.isAuthenticated.asReadonly();
 
   public constructor() {
-    const keycloakSignal = inject(KEYCLOAK_EVENT_SIGNAL);
     effect(() => {
-      const keycloakEvent = keycloakSignal();
+      const keycloakEvent = this.keycloakSignal();
 
-      if (keycloakEvent.type === KeycloakEventType.Ready) {
-        this.isInitialized.set(true);
-        this.isAuthenticated.set(typeEventArgs<ReadyArgs>(keycloakEvent.args));
+      switch (keycloakEvent.type) {
+        case KeycloakEventType.Ready:
+          this.isInitialized.set(true);
+          this.isAuthenticated.set(
+            typeEventArgs<ReadyArgs>(keycloakEvent.args)
+          );
+          break;
+        case KeycloakEventType.AuthSuccess:
+        case KeycloakEventType.AuthRefreshSuccess:
+          this.isAuthenticated.set(true);
+          break;
+        case KeycloakEventType.AuthLogout:
+        case KeycloakEventType.AuthRefreshError:
+        case KeycloakEventType.AuthError:
+          this.isAuthenticated.set(false);
+          break;
       }
-
-      if (keycloakEvent.type === KeycloakEventType.AuthLogout)
-        this.isAuthenticated.set(false);
     });
-
-    if (this.keycloak.didInitialize) {
-      this.isInitialized.set(true);
-    } else {
-      this.keycloak.onReady = () => {
-        this.isInitialized.set(true);
-      };
-    }
   }
 
   public login(): void {
