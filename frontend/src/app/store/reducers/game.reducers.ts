@@ -95,7 +95,6 @@ export const gameReducer = createReducer(
     ...state,
     submittedAnswerId: answerId,
   })),
-
   on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
     correctAnswerId: correctAnswer.correctAnswerId,
