@@ -31,7 +31,7 @@ export class GameSummary {
     queryFn: async () =>
       lastValueFrom(this.gameService.getGameResult(this.gameId()!)),
     staleTime: Infinity,
-    enabled: !!this.gameId(),
+    enabled: this.gameId() !== null,
   }));
 
   public userQuery = injectQuery(() => ({

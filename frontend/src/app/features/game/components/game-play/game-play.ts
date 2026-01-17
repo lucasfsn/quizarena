@@ -8,7 +8,6 @@ import {
   selectScores,
   selectSubmittedAnswerId,
 } from '@/app/store/selectors/game.selectors';
-import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
@@ -18,7 +17,7 @@ import { map, switchMap, takeWhile, timer } from 'rxjs';
 
 @Component({
   selector: 'app-game-play',
-  imports: [ProgressBar, CommonModule],
+  imports: [ProgressBar],
   templateUrl: './game-play.html',
   styleUrl: './game-play.scss',
 })

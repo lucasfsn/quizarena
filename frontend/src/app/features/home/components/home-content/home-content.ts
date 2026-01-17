@@ -9,7 +9,7 @@ import { KnowledgeIcon } from '@/app/shared/components/svg/knowledge-icon';
 import { RankingIcon } from '@/app/shared/components/svg/ranking-icon';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { selectError } from '@/app/store/selectors/game.selectors';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DialogModule } from 'primeng/dialog';
@@ -39,13 +39,10 @@ export class HomeContent {
 
   protected readonly limits: JoinGameFormConsts = JOIN_GAME_FORM_CONSTRAINTS;
 
-  protected isLoggedIn(): boolean {
-    return this.authorizationService.isLoggedIn();
-  }
-
-  protected isKeycloakReady(): boolean {
-    return this.authorizationService.isReady();
-  }
+  protected isLoggedIn = computed(() => this.authorizationService.isLoggedIn());
+  protected isKeycloakReady = computed(() =>
+    this.authorizationService.isReady()
+  );
 
   protected readonly error = this.store.selectSignal(selectError);
 

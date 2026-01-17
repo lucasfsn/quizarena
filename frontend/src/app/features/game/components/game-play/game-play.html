@@ -33,7 +33,7 @@
           class="bg-surface border-border-light text-break focus-ring cursor-pointer rounded-3xl border-3 px-4 py-2 text-lg transition-all hover:text-shadow-2xs active:text-shadow-2xs disabled:cursor-default md:text-xl"
           (click)="onAnswerSelect(i)"
           [disabled]="isLocked()"
-          [ngClass]="answerClass(i)">
+          [class]="answerClass(i)">
           {{ i + 1 }}. {{ answer.text }}
         </button>
       }
