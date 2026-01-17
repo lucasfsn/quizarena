@@ -23,6 +23,8 @@ export class Quizzes implements OnInit {
   private readonly quizzesService = inject(QuizzesService);
   private readonly authorizationService = inject(Authorization);
 
+  protected isLoggedIn = computed(() => this.authorizationService.isLoggedIn());
+
   protected query = injectInfiniteQuery(() => ({
     queryKey: [...getQuizzesQueryKey(), this.quizFiltersService.filters()],
     queryFn: async ({ pageParam }) =>
@@ -60,10 +62,6 @@ export class Quizzes implements OnInit {
 
     return pages.flatMap((page) => page.content);
   });
-
-  protected isLoggedIn(): boolean {
-    return this.authorizationService.isLoggedIn();
-  }
 
   public ngOnInit(): void {
     this.quizFiltersService.reset();

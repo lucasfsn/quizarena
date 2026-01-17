@@ -31,9 +31,9 @@
       @for (answer of question().answers; track answer.text; let i = $index) {
         <button
           class="bg-surface border-border-light text-break focus-ring cursor-pointer rounded-3xl border-3 px-4 py-2 text-lg transition-all hover:text-shadow-2xs active:text-shadow-2xs disabled:cursor-default md:text-xl"
-          (click)="onAnswerSelect(i)"
+          (click)="handleAnswerSelect(i)"
           [disabled]="isLocked()"
-          [class]="answerClass(i)">
+          [class]="answerClasses(i)">
           {{ i + 1 }}. {{ answer.text }}
         </button>
       }

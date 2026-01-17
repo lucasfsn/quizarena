@@ -88,7 +88,7 @@ export class GamePlay {
     );
   });
 
-  protected answerClass(answerId: number): Record<string, boolean> {
+  protected answerClasses(answerId: number): Record<string, boolean> {
     const hasReceivedCorrectAnswer = this.status() === GameStatus.ANSWER;
     const isSelected = this.submittedAnswerId() === answerId;
 
@@ -106,7 +106,7 @@ export class GamePlay {
     };
   }
 
-  protected onAnswerSelect(answerId: number): void {
+  protected handleAnswerSelect(answerId: number): void {
     if (this.isLocked()) return;
 
     this.store.dispatch(

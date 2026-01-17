@@ -1,0 +1,35 @@
+@if (isLoggedIn()) {
+  <p-popover #menu>
+    <div class="flex flex-col gap-1.5">
+      <button
+        class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
+        routerLink="/settings">
+        <i
+          class="pi pi-cog"
+          aria-hidden="true"></i>
+        <span class="text-sm sm:text-base">Settings</span>
+      </button>
+      <button
+        class="hover:text-secondary focus-ring flex items-center gap-2 rounded-sm px-0.5 transition-colors"
+        (click)="handleLogout()">
+        <i
+          class="pi pi-sign-out"
+          aria-hidden="true"></i>
+        <span class="text-sm sm:text-base">Logout</span>
+      </button>
+    </div>
+  </p-popover>
+  <button
+    (click)="menu.toggle($event)"
+    class="bg-brand-dark border-border-light focus-ring flex aspect-square size-8 items-center justify-center rounded-full border-4">
+    <i class="pi pi-user text-border-light"></i>
+  </button>
+} @else {
+  <app-button
+    variant="ghost"
+    size="lg"
+    customClasses="!py-1"
+    (handleClick)="handleLogin()"
+    >Login</app-button
+  >
+}
