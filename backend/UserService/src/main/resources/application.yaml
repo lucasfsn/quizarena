@@ -15,7 +15,7 @@ spring:
       auto-commit: true
   jpa:
     hibernate:
-      ddl-auto: update  # Lub 'create' jeśli chcesz czyścić bazę przy każdym starcie
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
