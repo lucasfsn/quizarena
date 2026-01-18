@@ -1,8 +1,6 @@
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
 import { CategoryOption } from '@/app/features/quizzes/types/category-option';
-import {
-  QUIZ_CATEGORY_LABELS,
-  QuizCategory,
-} from '@/app/features/quizzes/types/quiz-category';
+import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
 import { Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';

@@ -1,5 +1,4 @@
 import { Response } from '@/app/core/types/response';
-import { getMockSummary } from '@/app/dev/get-mock-summary';
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { GameResult } from '@/app/features/game/types/game-result';
 import { GameSession } from '@/app/features/game/types/game-session';
@@ -38,11 +37,11 @@ export class Game {
       .pipe(map((res: Response<GameSession>) => res.data));
   }
 
-  public getGameResult(summaryId: string): Observable<GameResult> {
-    if (this.useMock) return getMockSummary();
-
+  public getGameResult(gameId: string): Observable<GameResult> {
     return this.http
-      .get<Response<GameResult>>(`${environment.apiUrl}/results/${summaryId}`)
+      .get<
+        Response<GameResult>
+      >(`${environment.apiUrl}/games/${gameId}/results`)
       .pipe(map((res: Response<GameResult>) => res.data));
   }
 }

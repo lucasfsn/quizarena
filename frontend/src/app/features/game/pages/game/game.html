@@ -27,7 +27,7 @@
       @if (gameDetails(); as gameDetails) {
         <app-game-summary
           [game]="gameDetails"
-          [summaryId]="summaryId()!" />
+          [gameId]="gameId()!" />
       }
     }
     @case (GameStatus.ERROR) {

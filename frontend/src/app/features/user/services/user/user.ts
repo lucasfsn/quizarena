@@ -32,7 +32,7 @@ export class User {
     return queryOptions({
       queryKey: getUserQueryKey(CURRENT_USER_QUERY_KEY),
       queryFn: () => lastValueFrom(this.getLoggedInUser()),
-      enabled: this.authorizationService.isLoggedIn(),
+      enabled: () => this.authorizationService.isLoggedIn(),
       staleTime: 10 * 60 * 1000, // 10 minutes
     });
   }

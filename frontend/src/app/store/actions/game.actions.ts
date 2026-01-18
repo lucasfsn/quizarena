@@ -33,7 +33,7 @@ export const SocketActions = createActionGroup({
     'Lobby Closed': emptyProps(),
     'Question Received': props<{ question: Question }>(),
     'Correct Answer Received': props<{ correctAnswer: CorrectAnswer }>(),
-    'Game Finished': props<{ summaryId: string }>(),
+    'Game Finished': props<{ gameId: string }>(),
     'Error': props<{ message: string }>(),
   },
 });

@@ -1,17 +1,13 @@
 import { QuizCreateFormCategory } from '@/app/features/quizzes/components/quiz-create-form-category/quiz-create-form-category';
-import {
-  QuizCreateFormQuestion,
-  QuizCreateFormQuestionData,
-} from '@/app/features/quizzes/components/quiz-create-form-question/quiz-create-form-question';
+import { QuizCreateFormQuestion } from '@/app/features/quizzes/components/quiz-create-form-question/quiz-create-form-question';
 import { QuizCreateFormTitle } from '@/app/features/quizzes/components/quiz-create-form-title/quiz-create-form-title';
 import { QUIZ_FORM_CONSTRAINTS } from '@/app/features/quizzes/constants/quiz-form-consts';
+import { AnswerForm } from '@/app/features/quizzes/types/answer-form';
+import { QuestionForm } from '@/app/features/quizzes/types/question-form';
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
+import { QuizCreateFormQuestionData } from '@/app/features/quizzes/types/quiz-create-form-question-data';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
-import {
-  AnswerForm,
-  QuestionForm,
-  QuizForm,
-} from '@/app/features/quizzes/types/quiz-form';
+import { QuizForm } from '@/app/features/quizzes/types/quiz-form';
 import { QuizFormConsts } from '@/app/features/quizzes/types/quiz-form-consts';
 import { Button } from '@/app/shared/components/button/button';
 import { Component, inject, input, OnInit, output } from '@angular/core';

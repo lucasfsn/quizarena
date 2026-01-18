@@ -7,5 +7,5 @@ export type ServerMessage =
   | { eventType: 'LOBBY_CLOSE'; payload: null }
   | { eventType: 'QUESTION'; payload: Question }
   | { eventType: 'CORRECT_ANSWER'; payload: CorrectAnswer }
-  | { eventType: 'GAME_FINISHED'; payload: { summaryId: string } }
+  | { eventType: 'GAME_FINISHED'; payload: { gameId: string } }
   | { eventType: 'ERROR'; payload: { message: string } };

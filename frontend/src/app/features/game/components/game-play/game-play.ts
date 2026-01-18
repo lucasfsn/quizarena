@@ -3,12 +3,11 @@ import { User } from '@/app/features/user/services/user/user';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
 import {
-  selectCorrectAnswerId,
+  selectCorrectAnswersIds,
   selectGameStatus,
   selectScores,
   selectSubmittedAnswerId,
 } from '@/app/store/selectors/game.selectors';
-import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
@@ -18,7 +17,7 @@ import { map, switchMap, takeWhile, timer } from 'rxjs';
 
 @Component({
   selector: 'app-game-play',
-  imports: [ProgressBar, CommonModule],
+  imports: [ProgressBar],
   templateUrl: './game-play.html',
   styleUrl: './game-play.scss',
 })
@@ -32,8 +31,8 @@ export class GamePlay {
     selectSubmittedAnswerId
   );
   protected readonly status = this.store.selectSignal(selectGameStatus);
-  protected readonly correctAnswerId = this.store.selectSignal(
-    selectCorrectAnswerId
+  protected readonly correctAnswersIds = this.store.selectSignal(
+    selectCorrectAnswersIds
   );
   protected readonly scores = this.store.selectSignal(selectScores);
 
@@ -85,11 +84,11 @@ export class GamePlay {
     return (
       this.status() === GameStatus.ANSWER ||
       this.remainingTime() <= 0 ||
-      this.submittedAnswerId()
+      this.submittedAnswerId() !== null
     );
   });
 
-  protected answerClass(answerId: number): Record<string, boolean> {
+  protected answerClasses(answerId: number): Record<string, boolean> {
     const hasReceivedCorrectAnswer = this.status() === GameStatus.ANSWER;
     const isSelected = this.submittedAnswerId() === answerId;
 
@@ -107,7 +106,7 @@ export class GamePlay {
     };
   }
 
-  protected onAnswerSelect(answerId: number): void {
+  protected handleAnswerSelect(answerId: number): void {
     if (this.isLocked()) return;
 
     this.store.dispatch(
@@ -118,8 +117,8 @@ export class GamePlay {
   }
 
   private isCorrectAnswer(answerId: number): boolean {
-    const correctId = this.correctAnswerId();
+    const correctAnswersIds = this.correctAnswersIds() ?? [];
 
-    return answerId === correctId;
+    return correctAnswersIds.includes(answerId);
   }
 }
