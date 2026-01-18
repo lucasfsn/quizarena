@@ -31,6 +31,7 @@ public class UserController {
     public ResponseEntity<?> test(@AuthenticationPrincipal Jwt jwt) {
         String userId = jwt.getSubject(); // ID użytkownika z Keycloak
         String email = jwt.getClaimAsString("email");
+        userFacade.getAndSyncUser(jwt);
         return ResponseEntity.ok("User ID: " + userId + ", Email: " + email);
     }
 
@@ -60,8 +61,8 @@ public class UserController {
         return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Password has been changed", null);
     }
 
-    @PatchMapping
-    public ResponseDto<Void> updateUserStats(List<PlayerGameResultResponse> playerGameResultResponseList) {
+    @PatchMapping("/stats")
+    public ResponseDto<Void> updateUserStats(@RequestBody List<PlayerGameResultResponse> playerGameResultResponseList) {
         userFacade.updateUserStats(playerGameResultResponseList);
 
         return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Stats has been save successfully", null);

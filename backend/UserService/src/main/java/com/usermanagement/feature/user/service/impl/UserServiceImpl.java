@@ -87,8 +87,11 @@ public class UserServiceImpl implements UserService {
                 throw new BusinessException(BusinessExceptionReason.USER_NOT_FOUND);
             }
 
-            user.setScore(user.getScore() + player.score());
-            user.setCorrectAnswersTotal(user.getCorrectAnswersTotal() + player.correctAnswers().longValue());
+            int currentScore = user.getScore() != null ? user.getScore() : 0;
+            long currentCorrectAnswers = user.getCorrectAnswersTotal() != null ? user.getCorrectAnswersTotal() : 0L;
+
+            user.setScore(currentScore + player.score());
+            user.setCorrectAnswersTotal(currentCorrectAnswers + player.correctAnswers().longValue());
 
         }
 
