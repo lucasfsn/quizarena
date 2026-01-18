@@ -26,23 +26,13 @@ export class Authorization {
     effect(() => {
       const keycloakEvent = this.keycloakSignal();
 
-      switch (keycloakEvent.type) {
-        case KeycloakEventType.Ready:
-          this.isInitialized.set(true);
-          this.isAuthenticated.set(
-            typeEventArgs<ReadyArgs>(keycloakEvent.args)
-          );
-          break;
-        case KeycloakEventType.AuthSuccess:
-        case KeycloakEventType.AuthRefreshSuccess:
-          this.isAuthenticated.set(true);
-          break;
-        case KeycloakEventType.AuthLogout:
-        case KeycloakEventType.AuthRefreshError:
-        case KeycloakEventType.AuthError:
-          this.isAuthenticated.set(false);
-          break;
+      if (keycloakEvent.type === KeycloakEventType.Ready) {
+        this.isInitialized.set(true);
+        this.isAuthenticated.set(typeEventArgs<ReadyArgs>(keycloakEvent.args));
       }
+
+      if (keycloakEvent.type === KeycloakEventType.AuthLogout)
+        this.isAuthenticated.set(false);
     });
   }
 
