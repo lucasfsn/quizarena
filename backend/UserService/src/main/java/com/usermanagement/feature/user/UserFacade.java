@@ -1,5 +1,6 @@
 package com.usermanagement.feature.user;
 
+import com.usermanagement.feature.user.dto.PlayerGameResultResponse;
 import com.usermanagement.feature.user.dto.UserResponseDto;
 import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.mappers.UserMapper;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,6 +58,10 @@ public class UserFacade {
 
     public void resetPassword(Jwt jwt, String password) {
         keycloakUserService.resetPassword(jwt, password);
+    }
+
+    public void updateUserStats(List<PlayerGameResultResponse> playerGameResultResponseList) {
+        userService.updateUserStatistics(playerGameResultResponseList);
     }
 
 }

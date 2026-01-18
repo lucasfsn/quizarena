@@ -2,6 +2,7 @@ package com.usermanagement.feature.user.service.impl;
 
 import com.usermanagement.core.handler.BusinessException;
 import com.usermanagement.core.handler.enums.BusinessExceptionReason;
+import com.usermanagement.feature.user.dto.PlayerGameResultResponse;
 import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.model.User;
 import com.usermanagement.feature.user.repository.UserRepository;
@@ -12,8 +13,12 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +63,34 @@ public class UserServiceImpl implements UserService {
         if (dto.email() != null) user.setEmail(dto.email());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserStatistics(List<PlayerGameResultResponse> playerGameResultResponseList) {
+
+        List<String> playerIds = playerGameResultResponseList.stream()
+                .map(p -> p.player().getId())
+                .toList();
+
+        List<User> users = userRepository.findAllById(playerIds);
+
+        Map<String, User> userMap = users.stream()
+                .collect(Collectors.toMap(User::getId, Function.identity()));
+
+        for (PlayerGameResultResponse player : playerGameResultResponseList) {
+            String playerId = player.player().getId();
+            User user = userMap.get(playerId);
+
+            if (user == null) {
+                throw new BusinessException(BusinessExceptionReason.USER_NOT_FOUND);
+            }
+
+            user.setScore(user.getScore() + player.score());
+            user.setCorrectAnswersTotal(user.getCorrectAnswersTotal() + player.correctAnswers().longValue());
+
+        }
+
+        userRepository.saveAll(users);
     }
 }

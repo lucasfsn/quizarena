@@ -1,6 +1,7 @@
 package com.usermanagement.feature.user.model;
 
 import com.usermanagement.feature.user.constants.UserConstants;
+import com.usermanagement.feature.user.enums.PlayerRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
@@ -9,19 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.UUID;
-
-//User {
-//    id
-//    firstName
-//    lastName
-//    score
-//    winCount
-//    winPercentage
-//    gamesTotal
-//}
-//
 
 @Getter
 @Setter
@@ -49,11 +37,13 @@ public class User {
 
     private String email;
 
-    private Double score;
+    private Integer score;
 
     private Double winCount;
 
     private Double winPercentage;
 
-    private Long gamesTotal;
+    private Long correctAnswersTotal;
+
+    private PlayerRole role;
 }
