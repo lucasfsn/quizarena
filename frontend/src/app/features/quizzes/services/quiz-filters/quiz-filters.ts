@@ -16,14 +16,8 @@ export class QuizFilters {
     author: this.author(),
   }));
 
-  public showAuthorFilter = computed(
-    () => this.category() === QuizCategory.COMMUNITY
-  );
-
   public setCategory(category?: QuizCategory): void {
     this.category.set(category);
-
-    if (category !== QuizCategory.COMMUNITY) this.author.set(undefined);
   }
 
   public setTitle(title?: string): void {

@@ -11,13 +11,21 @@
         </p>
       </div>
       <div class="flex gap-1.5 md:hidden">
-        <app-button
-          (handleClick)="handleShowJoinQuizDialog()"
-          size="md"
-          variant="primary"
-          customClasses="shadow-sm"
-          >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
-        >
+        @if (isKeycloakReady()) {
+          <app-button
+            (handleClick)="handleShowJoinQuizDialog()"
+            size="md"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Join quiz' : 'Start now' }}</app-button
+          >
+        } @else {
+          <app-button
+            size="md"
+            variant="skeleton"
+            skeletonWidth="5.25rem"
+            customClasses="shadow-sm" />
+        }
         <app-button
           redirectTo="/quizzes"
           size="md"
@@ -27,13 +35,21 @@
         >
       </div>
       <div class="hidden gap-2.5 md:flex">
-        <app-button
-          (handleClick)="handleShowJoinQuizDialog()"
-          size="lg"
-          variant="primary"
-          customClasses="shadow-sm"
-          >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
-        >
+        @if (isKeycloakReady()) {
+          <app-button
+            (handleClick)="handleShowJoinQuizDialog()"
+            size="lg"
+            variant="primary"
+            customClasses="shadow-sm"
+            >{{ isLoggedIn() ? 'Join quiz' : 'Start now' }}</app-button
+          >
+        } @else {
+          <app-button
+            size="lg"
+            variant="skeleton"
+            skeletonWidth="6rem"
+            customClasses="shadow-sm" />
+        }
         <app-button
           redirectTo="/quizzes"
           size="lg"
@@ -47,19 +63,18 @@
         [modal]="true"
         [(visible)]="joinQuizDialogVisible">
         <div class="flex flex-col items-center gap-2">
-          <div>
+          <div class="flex flex-col gap-1">
             <p-floatlabel variant="in">
-              <input
-                pInputText
+              <p-inputnumber
                 [formControl]="roomControl"
                 id="roomCode"
-                class="uppercase"
-                autocomplete="off"
-                maxlength="6" />
+                [useGrouping]="false"
+                [minlength]="limits.MIN.toString().length"
+                [maxlength]="limits.MAX.toString().length" />
               <label for="roomCode">Room code</label>
             </p-floatlabel>
             @if (error()) {
-              <span class="text-status-error text-xs">{{ error() }}</span>
+              <span class="text-status-error pl-1 text-xs">{{ error() }}</span>
             }
           </div>
           <app-button

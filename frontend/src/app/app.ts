@@ -1,5 +1,6 @@
 import { ProgressBar } from '@/app/shared/components/progress-bar/progress-bar';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -9,6 +10,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { Toast } from 'primeng/toast';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,20 +22,17 @@ import { Toast } from 'primeng/toast';
 export class App {
   private router = inject(Router);
 
-  protected isNavigating = signal(false);
-
-  public constructor() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.isNavigating.set(true);
-      }
-      if (
-        event instanceof NavigationEnd ||
-        event instanceof NavigationCancel ||
-        event instanceof NavigationError
-      ) {
-        this.isNavigating.set(false);
-      }
-    });
-  }
+  protected isNavigating = toSignal(
+    this.router.events.pipe(
+      filter(
+        (event) =>
+          event instanceof NavigationStart ||
+          event instanceof NavigationEnd ||
+          event instanceof NavigationCancel ||
+          event instanceof NavigationError
+      ),
+      map((event) => event instanceof NavigationStart)
+    ),
+    { initialValue: false }
+  );
 }

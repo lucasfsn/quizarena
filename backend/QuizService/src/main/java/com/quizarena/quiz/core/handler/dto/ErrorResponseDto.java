@@ -18,6 +18,5 @@ public class ErrorResponseDto {
     private String code;
     private String message;
     private LocalDateTime timestamp;
-    private List<FieldValidationErrorsDto> errors;
-    @Builder.Default private Object data = null;
+    private List<FieldValidationErrorsDto> data;
 }

@@ -1,6 +1,5 @@
 import { Page } from '@/app/core/types/page';
 import { Response } from '@/app/core/types/response';
-import { getMockQuizzes } from '@/app/dev/get-mock-quizzes';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
 import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { QuizzesFilters } from '@/app/features/quizzes/types/quizzes-filters';
@@ -15,15 +14,11 @@ import { map, Observable } from 'rxjs';
 export class Quizzes {
   private readonly http = inject(HttpClient);
 
-  private useMock = true;
-
   public getQuizzes(
     page: number = 0,
     pageSize: number = 10,
     filters?: QuizzesFilters
   ): Observable<Page<QuizPreview>> {
-    if (this.useMock) return getMockQuizzes(page, pageSize, filters);
-
     const params = this.getQuizzesParams(page, pageSize, filters);
 
     return this.http

@@ -1,4 +1,4 @@
-@if (query.isError()) {
+@if (query.isError() && !query.isPending() && !query.isFetching()) {
   <app-fallback-ui
     title="Something went wrong"
     description="Oops! We can't load this content right now."

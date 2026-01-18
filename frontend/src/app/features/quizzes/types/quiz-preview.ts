@@ -4,6 +4,9 @@ export interface QuizPreview {
   id: string;
   title: string;
   category: QuizCategory;
-  author: string | null;
+  author: {
+    firstName: string;
+    lastName: string;
+  };
   questionsCount: number;
 }

@@ -1,7 +1,7 @@
 import { Response } from '@/app/core/types/response';
-import { getMockSummary } from '@/app/dev/get-mock-summary';
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { GameResult } from '@/app/features/game/types/game-result';
+import { GameSession } from '@/app/features/game/types/game-session';
 import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
@@ -25,17 +25,23 @@ export class Game {
 
   public joinGame(roomCode: string): Observable<GameDetails> {
     return this.http
-      .post<Response<GameDetails>>(`${environment.apiUrl}/games/join`, {
-        roomCode,
+      .post<Response<GameDetails>>(`${environment.apiUrl}/games/join`, null, {
+        params: { roomCode },
       })
       .pipe(map((res: Response<GameDetails>) => res.data));
   }
 
-  public getGameResult(summaryId: string): Observable<GameResult> {
-    if (this.useMock) return getMockSummary();
-
+  public getGameSession(roomCode: string): Observable<GameSession> {
     return this.http
-      .get<Response<GameResult>>(`${environment.apiUrl}/results/${summaryId}`)
+      .get<Response<GameSession>>(`${environment.apiUrl}/games/${roomCode}`)
+      .pipe(map((res: Response<GameSession>) => res.data));
+  }
+
+  public getGameResult(gameId: string): Observable<GameResult> {
+    return this.http
+      .get<
+        Response<GameResult>
+      >(`${environment.apiUrl}/games/${gameId}/results`)
       .pipe(map((res: Response<GameResult>) => res.data));
   }
 }

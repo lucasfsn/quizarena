@@ -1,6 +1,7 @@
 import { GameSocket } from '@/app/features/game/services/game-socket/game-socket';
 import { Game } from '@/app/features/game/services/game/game';
 import { GameDetails } from '@/app/features/game/types/game-details';
+import { GameSession } from '@/app/features/game/types/game-session';
 import { ServerMessage } from '@/app/features/game/types/server-message';
 import { Toast } from '@/app/shared/services/toast/toast';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
@@ -94,16 +95,49 @@ export class GameEffects {
     { dispatch: false }
   );
 
+  public getGameSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.getGameSession),
+      switchMap(({ roomCode }) =>
+        this.gameService.getGameSession(roomCode).pipe(
+          switchMap((session: GameSession) =>
+            this.establishGameSession(
+              session.gameDetailsResponse.roomCode,
+              GameActions.getGameSessionSuccess({ gameSession: session }),
+              GameActions.joinLobbyFailure
+            )
+          ),
+          catchError((err) =>
+            of(GameActions.joinLobbyFailure({ error: err.message }))
+          )
+        )
+      )
+    )
+  );
+
+  public navigateToGame$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(GameActions.createLobbySuccess, GameActions.joinLobbySuccess),
+        tap(({ gameDetails }) => {
+          this.router.navigate(['/game', gameDetails.roomCode]);
+        })
+      ),
+    { dispatch: false }
+  );
+
   private establishGameSession(
     roomCode: string,
     successAction: Action,
     errorActionCreator: (props: { error: string }) => Action
   ): Observable<Action> {
-    return this.gameSocketService.connect(roomCode).pipe(
+    this.gameSocketService.connect(roomCode);
+
+    return this.gameSocketService.isConnected$.pipe(
       switchMap(() =>
         merge(
           of(successAction),
-          this.gameSocketService.loadedMessages.pipe(
+          this.gameSocketService.messages$.pipe(
             map((message) => this.mapMessageToAction(message))
           )
         )
@@ -129,17 +163,15 @@ export class GameEffects {
     )
   );
 
-  public closeLobby$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(GameActions.closeLobby),
-        tap(() => {
-          this.gameSocketService.closeLobby();
-          this.gameSocketService.disconnect();
-        }),
-        map(() => GameActions.reset())
-      ),
-    { dispatch: false }
+  public closeLobby$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.closeLobby),
+      tap(() => {
+        this.gameSocketService.closeLobby();
+        this.gameSocketService.disconnect();
+      }),
+      map(() => GameActions.reset())
+    )
   );
 
   public leaveLobby$ = createEffect(() =>
@@ -166,29 +198,36 @@ export class GameEffects {
     () =>
       this.actions$.pipe(
         ofType(GameActions.submitAnswer),
-        tap(({ questionId, answerId }) =>
-          this.gameSocketService.submitAnswer(questionId, answerId)
-        )
+        tap(({ answerId }) => this.gameSocketService.submitAnswer(answerId))
       ),
     { dispatch: false }
   );
 
-  public lobbyClosed$ = createEffect(
+  public lobbyClosed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SocketActions.lobbyClosed),
+      tap(() => {
+        this.gameSocketService.disconnect();
+        this.toastService.info('Host has closed the game.');
+        this.router.navigate(['/quizzes']);
+      }),
+      map(() => GameActions.reset())
+    )
+  );
+
+  public gameFinished$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(SocketActions.lobbyClosed),
+        ofType(SocketActions.gameFinished),
         tap(() => {
-          this.toastService.info('Host has left the game.');
-          this.router.navigate(['/quizzes']);
+          this.gameSocketService.disconnect();
         })
       ),
     { dispatch: false }
   );
 
-  private mapMessageToAction(
-    message: ServerMessage
-  ): ReturnType<(typeof SocketActions)[keyof typeof SocketActions]> {
-    switch (message.type) {
+  private mapMessageToAction(message: ServerMessage): Action {
+    switch (message.eventType) {
       case 'LOBBY_UPDATE':
         return SocketActions.lobbyUpdated({ gameDetails: message.payload });
       case 'LOBBY_CLOSE':
@@ -197,11 +236,11 @@ export class GameEffects {
         return SocketActions.questionReceived({ question: message.payload });
       case 'CORRECT_ANSWER':
         return SocketActions.correctAnswerReceived({
-          correctAnswerId: message.payload.correctAnswerId,
+          correctAnswer: message.payload,
         });
       case 'GAME_FINISHED':
         return SocketActions.gameFinished({
-          summaryId: message.payload.summaryId,
+          gameId: message.payload.gameId,
         });
       case 'ERROR':
         return SocketActions.error({ message: message.payload.message });

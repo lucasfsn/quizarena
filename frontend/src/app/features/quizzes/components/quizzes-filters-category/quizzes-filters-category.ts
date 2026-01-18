@@ -1,4 +1,6 @@
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
+import { CategoryOption } from '@/app/features/quizzes/types/category-option';
 import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
 import {
   Component,
@@ -8,13 +10,10 @@ import {
   input,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Select } from 'primeng/select';
-
-interface CategoryOption {
-  name: QuizCategory;
-}
 
 @Component({
   selector: 'app-quizzes-filters-category',
@@ -38,16 +37,17 @@ export class QuizzesFiltersCategory implements OnInit {
   protected readonly categories: CategoryOption[] = Object.values(
     QuizCategory
   ).map((category) => ({
-    name: category,
+    label: QUIZ_CATEGORY_LABELS[category],
+    value: category,
   }));
 
   protected readonly form = new FormControl<CategoryOption | null>(null);
 
   public ngOnInit(): void {
-    const subscription = this.form.valueChanges.subscribe((value) => {
-      this.quizFiltersService.setCategory(value?.name);
-    });
-
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    this.form.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.quizFiltersService.setCategory(value?.value);
+      });
   }
 }

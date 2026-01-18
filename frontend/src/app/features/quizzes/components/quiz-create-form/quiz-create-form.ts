@@ -1,21 +1,19 @@
-import {
-  QuizCreateFormQuestion,
-  QuizCreateFormQuestionData,
-} from '@/app/features/quizzes/components/quiz-create-form-question/quiz-create-form-question';
+import { QuizCreateFormCategory } from '@/app/features/quizzes/components/quiz-create-form-category/quiz-create-form-category';
+import { QuizCreateFormQuestion } from '@/app/features/quizzes/components/quiz-create-form-question/quiz-create-form-question';
 import { QuizCreateFormTitle } from '@/app/features/quizzes/components/quiz-create-form-title/quiz-create-form-title';
 import { QUIZ_FORM_CONSTRAINTS } from '@/app/features/quizzes/constants/quiz-form-consts';
+import { AnswerForm } from '@/app/features/quizzes/types/answer-form';
+import { QuestionForm } from '@/app/features/quizzes/types/question-form';
+import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
+import { QuizCreateFormQuestionData } from '@/app/features/quizzes/types/quiz-create-form-question-data';
 import { QuizCreatePayload } from '@/app/features/quizzes/types/quiz-create-payload';
-import {
-  AnswerForm,
-  QuestionForm,
-  QuizForm,
-} from '@/app/features/quizzes/types/quiz-form';
+import { QuizForm } from '@/app/features/quizzes/types/quiz-form';
 import { QuizFormConsts } from '@/app/features/quizzes/types/quiz-form-consts';
 import { Button } from '@/app/shared/components/button/button';
 import { Component, inject, input, OnInit, output } from '@angular/core';
 import {
-  FormBuilder,
   FormGroup,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -27,12 +25,13 @@ import {
     ReactiveFormsModule,
     QuizCreateFormTitle,
     QuizCreateFormQuestion,
+    QuizCreateFormCategory,
   ],
   templateUrl: './quiz-create-form.html',
   styleUrl: './quiz-create-form.scss',
 })
 export class QuizCreateForm implements OnInit {
-  private readonly formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
 
   public handleSubmit = output<QuizCreatePayload>();
   public isLoading = input<boolean>(false);
@@ -45,7 +44,9 @@ export class QuizCreateForm implements OnInit {
         Validators.required,
         Validators.minLength(this.limits.MIN_TEXT_LENGTH),
       ],
-      nonNullable: true,
+    }),
+    category: this.formBuilder.control(QuizCategory.GENERAL_KNOWLEDGE, {
+      validators: [Validators.required],
     }),
     questions: this.formBuilder.array<FormGroup<QuestionForm>>([]),
   });
@@ -60,7 +61,6 @@ export class QuizCreateForm implements OnInit {
           Validators.required,
           Validators.minLength(this.limits.MIN_TEXT_LENGTH),
         ],
-        nonNullable: true,
       }),
       answers: this.formBuilder.array<FormGroup<AnswerForm>>([
         this.createAnswer(),
@@ -87,9 +87,8 @@ export class QuizCreateForm implements OnInit {
           Validators.required,
           Validators.minLength(this.limits.MIN_TEXT_LENGTH),
         ],
-        nonNullable: true,
       }),
-      isCorrect: this.formBuilder.control(isCorrect, { nonNullable: true }),
+      isCorrect: this.formBuilder.control(isCorrect),
     });
   }
 
@@ -123,7 +122,7 @@ export class QuizCreateForm implements OnInit {
       return;
     }
 
-    this.handleSubmit.emit(this.form.getRawValue() as QuizCreatePayload);
+    this.handleSubmit.emit(this.form.getRawValue());
   }
 
   public ngOnInit(): void {

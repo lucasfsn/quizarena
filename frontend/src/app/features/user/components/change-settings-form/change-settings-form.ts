@@ -1,11 +1,10 @@
+import { ErrorResponse } from '@/app/core/types/error-response';
 import { CURRENT_USER_QUERY_KEY } from '@/app/features/user/constants/current-user-query-key';
 import { USER_SETTINGS_CONSTRAINTS } from '@/app/features/user/constants/user-settings-consts';
 import { getUserQueryKey } from '@/app/features/user/queries/get-user-query-key';
 import { User } from '@/app/features/user/services/user/user';
-import {
-  PasswordForm,
-  SettingsForm,
-} from '@/app/features/user/types/settings-form';
+import { PasswordForm } from '@/app/features/user/types/password-form';
+import { SettingsForm } from '@/app/features/user/types/settings-form';
 import { UserUpdatePayload } from '@/app/features/user/types/user-update-payload';
 import { passwordMatchValidator } from '@/app/features/user/validators/password-match.validator';
 import { Button } from '@/app/shared/components/button/button';
@@ -143,6 +142,6 @@ export class ChangeSettingsForm {
       );
       this.settingsForm.markAsPristine();
     },
-    onError: (error) => this.toastService.error(error.message),
+    onError: (error: ErrorResponse) => this.toastService.error(error.message),
   }));
 }

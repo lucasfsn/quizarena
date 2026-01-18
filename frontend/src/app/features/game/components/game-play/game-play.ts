@@ -1,27 +1,29 @@
-import { Answer } from '@/app/features/game/types/answer';
 import { Question } from '@/app/features/game/types/question';
+import { User } from '@/app/features/user/services/user/user';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
 import {
-  selectCorrectAnswerId,
+  selectCorrectAnswersIds,
   selectGameStatus,
+  selectScores,
   selectSubmittedAnswerId,
 } from '@/app/store/selectors/game.selectors';
-import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 import { ProgressBar } from 'primeng/progressbar';
 import { map, switchMap, takeWhile, timer } from 'rxjs';
 
 @Component({
   selector: 'app-game-play',
-  imports: [ProgressBar, CommonModule],
+  imports: [ProgressBar],
   templateUrl: './game-play.html',
   styleUrl: './game-play.scss',
 })
 export class GamePlay {
   private readonly store = inject(Store);
+  private readonly userService = inject(User);
 
   public readonly question = input.required<Question>();
 
@@ -29,9 +31,25 @@ export class GamePlay {
     selectSubmittedAnswerId
   );
   protected readonly status = this.store.selectSignal(selectGameStatus);
-  protected readonly correctAnswerId = this.store.selectSignal(
-    selectCorrectAnswerId
+  protected readonly correctAnswersIds = this.store.selectSignal(
+    selectCorrectAnswersIds
   );
+  protected readonly scores = this.store.selectSignal(selectScores);
+
+  private readonly userQuery = injectQuery(() => ({
+    ...this.userService.fetchLoggedInUserOptions(),
+    select: (user) => user.id,
+  }));
+
+  protected readonly playerScore = computed(() => {
+    const userId = this.userQuery.data();
+    const foundScore = this.scores()?.find((score) => score.userId === userId);
+
+    return {
+      score: foundScore?.score ?? 0,
+      correctAnswers: foundScore?.correctAnswers ?? 0,
+    };
+  });
 
   private readonly totalTime = computed(() => this.question().timeLimitSeconds);
   protected readonly progressValue = computed(() => {
@@ -63,19 +81,24 @@ export class GamePlay {
   );
 
   protected readonly isLocked = computed(() => {
-    return this.remainingTime() <= 0 || this.submittedAnswerId();
+    return (
+      this.status() === GameStatus.ANSWER ||
+      this.remainingTime() <= 0 ||
+      this.submittedAnswerId() !== null
+    );
   });
 
-  protected answerClass(answerId: string): Record<string, boolean> {
+  protected answerClasses(answerId: number): Record<string, boolean> {
     const hasReceivedCorrectAnswer = this.status() === GameStatus.ANSWER;
     const isSelected = this.submittedAnswerId() === answerId;
 
     return {
-      'border-secondary': !hasReceivedCorrectAnswer && isSelected,
+      'border-secondary': isSelected,
       '!bg-border-light':
-        !hasReceivedCorrectAnswer &&
         !isSelected &&
-        this.submittedAnswerId() !== null,
+        ((this.status() === GameStatus.QUESTION &&
+          this.submittedAnswerId() !== null) ||
+          this.status() === GameStatus.ANSWER),
       'border-status-success':
         hasReceivedCorrectAnswer && this.isCorrectAnswer(answerId),
       'border-status-error':
@@ -83,20 +106,19 @@ export class GamePlay {
     };
   }
 
-  protected onAnswerSelect(answer: Answer): void {
+  protected handleAnswerSelect(answerId: number): void {
     if (this.isLocked()) return;
 
     this.store.dispatch(
       GameActions.submitAnswer({
-        questionId: this.question().id,
-        answerId: answer.id,
+        answerId,
       })
     );
   }
 
-  private isCorrectAnswer(answerId: string): boolean {
-    const correctId = this.correctAnswerId();
+  private isCorrectAnswer(answerId: number): boolean {
+    const correctAnswersIds = this.correctAnswersIds() ?? [];
 
-    return !!correctId && answerId === correctId;
+    return correctAnswersIds.includes(answerId);
   }
 }

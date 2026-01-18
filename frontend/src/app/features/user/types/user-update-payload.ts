@@ -3,10 +3,8 @@ export interface UserUpdatePayload {
   email?: string;
   firstName?: string;
   lastName?: string;
-  password?: PasswordPayload;
-}
-
-interface PasswordPayload {
-  currentPassword: string;
-  newPassword: string;
+  password?: {
+    currentPassword: string;
+    newPassword: string;
+  };
 }

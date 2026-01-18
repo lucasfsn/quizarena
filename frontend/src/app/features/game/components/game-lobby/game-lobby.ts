@@ -1,10 +1,12 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
 import { Button } from '@/app/shared/components/button/button';
 import { GameLobbyImage } from '@/app/shared/components/svg/game-lobby-image';
 import { Toast } from '@/app/shared/services/toast/toast';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { selectIsHost } from '@/app/store/selectors/game.selectors';
 import { Component, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Carousel } from 'primeng/carousel';
 
@@ -17,8 +19,11 @@ import { Carousel } from 'primeng/carousel';
 export class GameLobby {
   private readonly toastService = inject(Toast);
   private readonly store = inject(Store);
+  private readonly router = inject(Router);
 
   public game = input.required<GameDetails>();
+
+  protected readonly categoryLabels = QUIZ_CATEGORY_LABELS;
 
   protected readonly isHost = this.store.selectSignal(selectIsHost);
 
@@ -47,5 +52,6 @@ export class GameLobby {
 
   protected leave(): void {
     this.store.dispatch(GameActions.leave());
+    this.router.navigate(['/quizzes']);
   }
 }
