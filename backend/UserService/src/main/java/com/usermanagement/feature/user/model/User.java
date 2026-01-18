@@ -31,7 +31,6 @@ import java.util.UUID;
 public class User {
 
     @Id
-//    @JdbcTypeCode(SqlTypes.UUID)
     private UUID id;
 
     private String userName;

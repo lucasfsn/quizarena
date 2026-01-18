@@ -1,11 +1,12 @@
 package com.usermanagement.feature.user.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public record UserUpdateRequestDto(
-       @Min(2) String username,
-       String email,
-       String firstName,
-       String lastName,
-       String password
+       @NotNull @Min(2) String username,
+       @NotNull String email,
+       @NotNull String firstName,
+       @NotNull String lastName,
+       @NotNull String password
 ) {}
