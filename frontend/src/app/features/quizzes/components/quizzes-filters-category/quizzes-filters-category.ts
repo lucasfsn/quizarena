@@ -1,9 +1,7 @@
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
 import { QuizFilters } from '@/app/features/quizzes/services/quiz-filters/quiz-filters';
 import { CategoryOption } from '@/app/features/quizzes/types/category-option';
-import {
-  QUIZ_CATEGORY_LABELS,
-  QuizCategory,
-} from '@/app/features/quizzes/types/quiz-category';
+import { QuizCategory } from '@/app/features/quizzes/types/quiz-category';
 import {
   Component,
   DestroyRef,

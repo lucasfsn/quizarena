@@ -3,7 +3,7 @@ import { User } from '@/app/features/user/services/user/user';
 import { GameActions } from '@/app/store/actions/game.actions';
 import { GameStatus } from '@/app/store/reducers/game.reducers';
 import {
-  selectCorrectAnswerId,
+  selectCorrectAnswersIds,
   selectGameStatus,
   selectScores,
   selectSubmittedAnswerId,
@@ -31,8 +31,8 @@ export class GamePlay {
     selectSubmittedAnswerId
   );
   protected readonly status = this.store.selectSignal(selectGameStatus);
-  protected readonly correctAnswerId = this.store.selectSignal(
-    selectCorrectAnswerId
+  protected readonly correctAnswersIds = this.store.selectSignal(
+    selectCorrectAnswersIds
   );
   protected readonly scores = this.store.selectSignal(selectScores);
 
@@ -117,8 +117,8 @@ export class GamePlay {
   }
 
   private isCorrectAnswer(answerId: number): boolean {
-    const correctId = this.correctAnswerId();
+    const correctAnswersIds = this.correctAnswersIds() ?? [];
 
-    return answerId === correctId;
+    return correctAnswersIds.includes(answerId);
   }
 }

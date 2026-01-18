@@ -20,7 +20,7 @@ export interface GameState {
   gameDetails: GameDetails | null;
   question: Question | null;
   submittedAnswerId: number | null;
-  correctAnswerId: number | null;
+  correctAnswersIds: number[] | null;
   gameId: string | null;
   scores: Score[] | null;
   error: string | null;
@@ -32,7 +32,7 @@ export const initialState: GameState = {
   gameDetails: null,
   question: null,
   submittedAnswerId: null,
-  correctAnswerId: null,
+  correctAnswersIds: null,
   gameId: null,
   scores: null,
   error: null,
@@ -73,7 +73,7 @@ export const gameReducer = createReducer(
     gameDetails: gameSession.gameDetailsResponse,
     status: mapBackendStatus(gameSession.gameStatus),
     question: gameSession.currentQuestion || null,
-    correctAnswerId: gameSession.correctAnswerId || null,
+    correctAnswersIds: gameSession.correctAnswersIds || null,
     submittedAnswerId: gameSession.submittedAnswerId || null,
     isHost: gameSession.host,
     error: null,
@@ -87,7 +87,7 @@ export const gameReducer = createReducer(
   on(SocketActions.questionReceived, (state, { question }) => ({
     ...state,
     question,
-    correctAnswerId: null,
+    correctAnswersIds: null,
     submittedAnswerId: null,
     status: GameStatus.QUESTION,
   })),
@@ -97,7 +97,7 @@ export const gameReducer = createReducer(
   })),
   on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
-    correctAnswerId: correctAnswer.correctAnswerId,
+    correctAnswersIds: correctAnswer.correctAnswersIds,
     scores: correctAnswer.players,
     status: GameStatus.ANSWER,
   })),

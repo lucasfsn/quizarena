@@ -2,7 +2,7 @@ import { GameSummarySkeleton } from '@/app/features/game/components/game-summary
 import { getGameResultQueryKey } from '@/app/features/game/queries/get-game-result-query-key';
 import { Game } from '@/app/features/game/services/game/game';
 import { GameDetails } from '@/app/features/game/types/game-details';
-import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/types/quiz-category';
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
 import { User } from '@/app/features/user/services/user/user';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';

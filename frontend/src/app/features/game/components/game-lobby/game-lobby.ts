@@ -1,5 +1,5 @@
 import { GameDetails } from '@/app/features/game/types/game-details';
-import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/types/quiz-category';
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
 import { Button } from '@/app/shared/components/button/button';
 import { GameLobbyImage } from '@/app/shared/components/svg/game-lobby-image';
 import { Toast } from '@/app/shared/services/toast/toast';

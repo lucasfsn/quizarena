@@ -6,7 +6,7 @@ export interface GameSession {
   gameDetailsResponse: GameDetails;
   gameStatus: GameStatus;
   currentQuestion?: Question;
-  correctAnswerId?: number;
+  correctAnswersIds?: number[];
   submittedAnswerId?: number;
   host: boolean;
 }

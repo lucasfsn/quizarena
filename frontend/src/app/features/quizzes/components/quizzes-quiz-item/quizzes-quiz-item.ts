@@ -1,5 +1,5 @@
 import { Authorization } from '@/app/core/auth/authorization';
-import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/types/quiz-category';
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
 import { QuizPreview } from '@/app/features/quizzes/types/quiz-preview';
 import { getCategoryImagePath } from '@/app/shared/utils/get-category-image-path';
 import { GameActions } from '@/app/store/actions/game.actions';
