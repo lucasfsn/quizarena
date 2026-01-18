@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 public interface UserService {
 
@@ -15,7 +16,7 @@ public interface UserService {
 
     User createFromToken(Jwt jwt);
 
-    Optional<User> getLocalUser(String id);
+    Optional<User> getLocalUser(UUID id);
 
     User updateUser(Jwt jwt, UserUpdateRequestDto userUpdateRequestDto);
 

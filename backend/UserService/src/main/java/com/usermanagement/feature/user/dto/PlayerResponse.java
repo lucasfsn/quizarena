@@ -10,7 +10,7 @@ import java.util.UUID;
 @Value
 @Builder
 public class PlayerResponse {
-    String id;
+    UUID id;
     UUID userId;
     PlayerRole role;
     String firstName;

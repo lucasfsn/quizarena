@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,7 @@ public class UserFacade {
 
     public UserResponseDto getAndSyncUser(Jwt jwt) {
 
-        String userId = jwt.getSubject();
+        UUID userId = UUID.fromString(jwt.getSubject());
 
         User user = userService.getLocalUser(userId)
                 .orElseGet(() -> userService.createFromToken(jwt));

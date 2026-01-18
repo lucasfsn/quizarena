@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public Optional<User> getLocalUser(String id) {
+    public Optional<User> getLocalUser(UUID id) {
         return userRepository.findById(id);
     }
 
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User createFromToken(Jwt jwt) {
         User user = new User();
-        user.setId(jwt.getSubject());
+        user.setId(UUID.fromString(jwt.getSubject()));
         user.setEmail(jwt.getClaimAsString("email"));
         user.setFirstName(jwt.getClaimAsString("given_name"));
         user.setLastName(jwt.getClaimAsString("family_name"));
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User updateUser(Jwt jwt, UserUpdateRequestDto dto) {
 
-        User user = userRepository.findById(jwt.getSubject()).orElseThrow(
+        User user = userRepository.findById(UUID.fromString(jwt.getSubject())).orElseThrow(
                 () -> new BusinessException(BusinessExceptionReason.USER_NOT_FOUND)
         );
 
@@ -69,17 +70,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUserStatistics(List<PlayerGameResultResponse> playerGameResultResponseList) {
 
-        List<String> playerIds = playerGameResultResponseList.stream()
+        List<UUID> playerIds = playerGameResultResponseList.stream()
                 .map(p -> p.player().getId())
                 .toList();
 
         List<User> users = userRepository.findAllById(playerIds);
 
-        Map<String, User> userMap = users.stream()
+        Map<UUID, User> userMap = users.stream()
                 .collect(Collectors.toMap(User::getId, Function.identity()));
 
         for (PlayerGameResultResponse player : playerGameResultResponseList) {
-            String playerId = player.player().getId();
+            UUID playerId = player.player().getId();
             User user = userMap.get(playerId);
 
             if (user == null) {

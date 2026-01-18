@@ -10,6 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -27,7 +31,8 @@ import lombok.Setter;
 public class User {
 
     @Id
-    private String id;
+//    @JdbcTypeCode(SqlTypes.UUID)
+    private UUID id;
 
     private String userName;
 

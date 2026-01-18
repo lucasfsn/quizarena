@@ -8,8 +8,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query(name = UserConstants.FIND_USER_BY_EMAIL)
     Optional<User> findByEmail(@Param("email") String userEmail);
