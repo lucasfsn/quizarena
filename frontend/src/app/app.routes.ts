@@ -57,6 +57,14 @@ export const routes: Routes = [
         canActivate: [authGuard],
       },
       {
+        path: 'leaderboard',
+        title: 'Leaderboard',
+        loadComponent: () =>
+          import('@\app\features\leaderboards').then(
+            (m) => m.LeaderboardPage
+          ),
+      },
+      {
         path: 'not-found',
         title: 'Page Not Found',
         loadComponent: () =>
