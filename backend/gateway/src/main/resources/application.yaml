@@ -39,9 +39,8 @@ spring:
         oauth2:
             resourceserver:
                 jwt:
-                    issuer-uri: http://keycloak:8080/realms/quizarena
-                    # issuer-uri: http://host.docker.internal:8080/realms/quizarena
-                    jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+                    issuer-uri: http://localhost:8080/realms/quizarena
+                    jwk-set-uri: http://keycloak:8080/realms/quizarena/protocol/openid-connect/certs
 
 server:
     port: 8085
