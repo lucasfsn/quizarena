@@ -3,6 +3,7 @@ package com.usermanagement.feature.user.controller;
 import com.usermanagement.feature.user.UserFacade;
 import com.usermanagement.feature.user.dto.PlayerGameResultResponse;
 import com.usermanagement.feature.user.dto.UserResponseDto;
+import com.usermanagement.feature.user.dto.UserScoreResponse;
 import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.service.UserService;
 import com.usermanagement.shared.dto.ResponseDto;
@@ -36,8 +37,8 @@ public class UserController {
     }
 
     @GetMapping("/all-users")
-    public ResponseDto<Set<UserResponseDto>> getAllUsers() {
-        return new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", userFacade.getAllUsers());
+    public ResponseDto<Set<UserScoreResponse>> getAllUsers() {
+        return new ResponseDto<Set<UserScoreResponse>>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", userFacade.getAllUsers());
     }
 
     @GetMapping("/get")
