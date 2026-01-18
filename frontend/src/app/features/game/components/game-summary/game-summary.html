@@ -25,9 +25,9 @@
   } @else {
     <div
       class="bg-surface flex w-full flex-col gap-8 rounded-4xl px-6 py-4 shadow-md">
-      @if (gameQuery.data(); as summary) {
+      @if (gameQuery.data()) {
         <p-table
-          [value]="summary.players"
+          [value]="sortedPlayers()"
           [frozenValue]="loggedInPlayer() ? [loggedInPlayer()] : []"
           [scrollable]="true"
           scrollHeight="500px">
@@ -60,7 +60,7 @@
             #body
             let-player>
             <tr>
-              <td>{{ player.position }}</td>
+              <td>1</td>
               <td>
                 {{ player.player.firstName }} {{ player.player.lastName }}
               </td>

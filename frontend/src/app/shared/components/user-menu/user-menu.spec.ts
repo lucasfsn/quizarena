@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserButton } from '@/app/shared/components/user-button/user-button';
+import { UserMenu } from '@/app/shared/components/user-menu/user-menu';
 
-describe('UserButton', () => {
-  let component: UserButton;
-  let fixture: ComponentFixture<UserButton>;
+describe('UserMenu', () => {
+  let component: UserMenu;
+  let fixture: ComponentFixture<UserMenu>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserButton],
+      imports: [UserMenu],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UserButton);
+    fixture = TestBed.createComponent(UserMenu);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

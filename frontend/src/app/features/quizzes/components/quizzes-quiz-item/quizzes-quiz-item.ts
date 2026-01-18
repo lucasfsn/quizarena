@@ -28,12 +28,9 @@ export class QuizzesQuizItem {
   protected categoryImagePath = computed(() =>
     getCategoryImagePath(this.quiz().category)
   );
+  protected isLoggedIn = computed(() => this.authorizationService.isLoggedIn());
 
   protected readonly GameStatus = GameStatus;
-
-  protected isLoggedIn(): boolean {
-    return this.authorizationService.isLoggedIn();
-  }
 
   protected handleStartQuizClick(quizId: string): void {
     this.store.dispatch(GameActions.createLobby({ quizId }));

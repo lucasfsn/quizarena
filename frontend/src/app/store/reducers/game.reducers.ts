@@ -21,7 +21,7 @@ export interface GameState {
   question: Question | null;
   submittedAnswerId: number | null;
   correctAnswerId: number | null;
-  summaryId: string | null;
+  gameId: string | null;
   scores: Score[] | null;
   error: string | null;
 }
@@ -33,22 +33,21 @@ export const initialState: GameState = {
   question: null,
   submittedAnswerId: null,
   correctAnswerId: null,
-  summaryId: null,
+  gameId: null,
   scores: null,
   error: null,
 };
 
 export const gameReducer = createReducer(
   initialState,
-  on(GameActions.createLobby, (state) => ({
-    ...state,
+  on(GameActions.createLobby, () => ({
+    ...initialState,
     status: GameStatus.LOADING,
     isHost: true,
   })),
-  on(GameActions.getGameSession, GameActions.joinLobby, (state) => ({
-    ...state,
+  on(GameActions.joinLobby, GameActions.getGameSession, () => ({
+    ...initialState,
     status: GameStatus.LOADING,
-    isHost: false,
   })),
   on(
     GameActions.createLobbySuccess,
@@ -75,6 +74,8 @@ export const gameReducer = createReducer(
     status: mapBackendStatus(gameSession.gameStatus),
     question: gameSession.currentQuestion || null,
     correctAnswerId: gameSession.correctAnswerId || null,
+    submittedAnswerId: gameSession.submittedAnswerId || null,
+    isHost: gameSession.host,
     error: null,
   })),
   on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
@@ -94,16 +95,15 @@ export const gameReducer = createReducer(
     ...state,
     submittedAnswerId: answerId,
   })),
-
   on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
     correctAnswerId: correctAnswer.correctAnswerId,
     scores: correctAnswer.players,
     status: GameStatus.ANSWER,
   })),
-  on(SocketActions.gameFinished, (state, { summaryId }) => ({
+  on(SocketActions.gameFinished, (state, { gameId }) => ({
     ...state,
-    summaryId,
+    gameId,
     status: GameStatus.FINISHED,
   })),
   on(SocketActions.error, (state, { message }) => ({
@@ -119,7 +119,6 @@ function mapBackendStatus(backendStatus: string): GameStatus {
     LOBBY: GameStatus.LOBBY,
     QUIZ: GameStatus.QUESTION,
     SHOWING_RESULTS: GameStatus.ANSWER,
-    FINISHED: GameStatus.FINISHED,
   };
 
   return statusMap[backendStatus] ?? GameStatus.ERROR;

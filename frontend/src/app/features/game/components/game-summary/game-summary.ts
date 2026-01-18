@@ -22,16 +22,16 @@ export class GameSummary {
   private readonly userService = inject(User);
 
   public readonly game = input.required<GameDetails>();
-  public readonly summaryId = input.required<string | null>();
+  public readonly gameId = input.required<string | null>();
 
   protected readonly categoryLabels = QUIZ_CATEGORY_LABELS;
 
   protected gameQuery = injectQuery(() => ({
-    queryKey: getGameResultQueryKey(this.summaryId()!),
+    queryKey: getGameResultQueryKey(this.gameId()!),
     queryFn: async () =>
-      lastValueFrom(this.gameService.getGameResult(this.summaryId()!)),
+      lastValueFrom(this.gameService.getGameResult(this.gameId()!)),
     staleTime: Infinity,
-    enabled: !!this.summaryId(),
+    enabled: this.gameId() !== null,
   }));
 
   public userQuery = injectQuery(() => ({
@@ -39,12 +39,22 @@ export class GameSummary {
     select: (user) => user.id,
   }));
 
+  protected sortedPlayers = computed(() => {
+    const data = this.gameQuery.data();
+
+    if (!data) return [];
+
+    return [...data.gameResultPlayerResponseList].sort(
+      (a, b) => b.score - a.score
+    );
+  });
+
   protected loggedInPlayer = computed(() => {
     const userId = this.userQuery.data();
-    const gameData = this.gameQuery.data();
+    const players = this.sortedPlayers();
 
-    if (!userId || !gameData) return;
+    if (!userId) return;
 
-    return gameData.players.find((player) => player.player.id === userId);
+    return players.find((player) => player.player.userId === userId);
   });
 }
