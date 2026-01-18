@@ -4,7 +4,6 @@ import com.usermanagement.feature.user.dto.PlayerGameResultResponse;
 import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
 import com.usermanagement.feature.user.model.User;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
