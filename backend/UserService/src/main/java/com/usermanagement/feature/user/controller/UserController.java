@@ -25,8 +25,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-
     private final UserFacade userFacade;
 
     @GetMapping("/test")
