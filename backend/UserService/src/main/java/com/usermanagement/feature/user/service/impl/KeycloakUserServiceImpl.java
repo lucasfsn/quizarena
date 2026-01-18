@@ -17,13 +17,14 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class KeycloakUserServiceImpl implements KeycloakUserService {
 
-    @Value("${app.keycloak.realm}")
-    private String realm;
+//    @Value("${app.keycloak.realm}")
+//    private String realm;
 
     private final Keycloak keycloak;
 
     private UsersResource getInstance() {
-        return keycloak.realm(realm).users();
+//        return keycloak.realm(realm).users();
+        return keycloak.realm("quizarena").users();
     }
 
     @Override
