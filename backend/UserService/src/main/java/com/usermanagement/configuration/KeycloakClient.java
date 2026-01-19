@@ -1,0 +1,30 @@
+package com.usermanagement.configuration;
+
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class KeycloakClient {
+
+//    @Value("${app.keycloak.admin.clientId}")
+    private String clientId;
+//    @Value("${app.keycloak.admin.clientSecret}")
+    private String clientSecret;
+//    @Value("${app.keycloak.realm}")
+    private String realm;
+//    @Value("${app.keycloak.serverUrl}")
+    private String serverUrl;
+
+    @Bean
+    public Keycloak keycloak() {
+        return KeycloakBuilder.builder()
+                .clientSecret("fZcMaX6hF9pAy1pEK7AhSSnBI7V2oSFu")
+                .clientId("quizarena-backend-api")
+                .grantType("client_credentials")
+                .realm("quizarena")
+                .serverUrl("http://keycloak:8080")
+                .build();
+    }
+}

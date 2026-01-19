@@ -132,6 +132,8 @@ services:
             - KC_HOSTNAME=${KC_HOSTNAME}
             - KC_HOSTNAME_STRICT=false
             - KC_HOSTNAME_STRICT_BACKCHANNEL=false
+        volumes:
+          - keycloak_data:/opt/keycloak/data
         ports:
             - "8080:8080"
         networks:
@@ -166,3 +168,5 @@ networks:
 
 volumes:
     quizarena-postgresql-data:
+    keycloak_data:
+  

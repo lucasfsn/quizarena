@@ -1,0 +1,71 @@
+package com.usermanagement.feature.user.controller;
+
+import com.usermanagement.feature.user.UserFacade;
+import com.usermanagement.feature.user.dto.PlayerGameResultResponse;
+import com.usermanagement.feature.user.dto.UserResponseDto;
+import com.usermanagement.feature.user.dto.UserScoreResponse;
+import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
+import com.usermanagement.feature.user.service.UserService;
+import com.usermanagement.shared.dto.ResponseDto;
+import com.usermanagement.shared.enums.SuccessCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Set;
+
+@RestController
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserFacade userFacade;
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test(@AuthenticationPrincipal Jwt jwt) {
+        String userId = jwt.getSubject(); // ID użytkownika z Keycloak
+        String email = jwt.getClaimAsString("email");
+        userFacade.getAndSyncUser(jwt);
+        return ResponseEntity.ok("User ID: " + userId + ", Email: " + email);
+    }
+
+    @GetMapping("/all-users")
+    public ResponseDto<Set<UserScoreResponse>> getAllUsers() {
+        return new ResponseDto<Set<UserScoreResponse>>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", userFacade.getAllUsers());
+    }
+
+    @GetMapping("/get")
+    public ResponseDto<UserResponseDto> getUser(@AuthenticationPrincipal Jwt jwt) {
+        UserResponseDto user = userFacade.getAndSyncUser(jwt);
+        return new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", user);
+    }
+
+    @PatchMapping("/update")
+    public ResponseDto<UserResponseDto> updateUser(@AuthenticationPrincipal Jwt jwt, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        UserResponseDto user = userFacade.updateUser(jwt, userUpdateRequestDto);
+
+        return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Successfully updated user", user);
+    }
+
+    @PutMapping
+    public ResponseDto<Void> resetPassword(@AuthenticationPrincipal Jwt jwt, @RequestBody String password) {
+
+        userFacade.resetPassword(jwt, password);
+
+        return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Password has been changed", null);
+    }
+
+    @PatchMapping("/stats")
+    public ResponseDto<Void> updateUserStats(@RequestBody List<PlayerGameResultResponse> playerGameResultResponseList) {
+        userFacade.updateUserStats(playerGameResultResponseList);
+
+        return new ResponseDto<>(SuccessCode.RESOURCE_UPDATED, "Stats has been save successfully", null);
+    }
+
+}
