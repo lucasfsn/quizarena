@@ -4,6 +4,7 @@ import com.quizarena.gameservice.communication.dto.Question;
 import com.quizarena.gameservice.communication.dto.QuestionResponse;
 import com.quizarena.gameservice.communication.dto.Quiz;
 import com.quizarena.gameservice.communication.service.QuizServiceClient;
+import com.quizarena.gameservice.communication.service.UserServiceClient;
 import com.quizarena.gameservice.exception.EntityNotFoundException;
 import com.quizarena.gameservice.game.dto.*;
 import com.quizarena.gameservice.game.enums.GameEventType;
@@ -33,10 +34,11 @@ public class GameService {
     private final GameValidationService gameValidationService;
     private final GameRepository gameRepository;
     private final QuizServiceClient quizServiceClient;
+    private final UserServiceClient userServiceClient;
     private final ThreadPoolTaskScheduler taskScheduler;
 
     public Game createGame(final CreateGameRequest request, final Jwt jwt) {
-        Quiz quiz = quizServiceClient.getQuiz(request.getQuizId());
+        Quiz quiz = quizServiceClient.getQuiz(request.getQuizId()).data();
         String roomCode = gameRepository.generateUniqueAccessCode();
         Game game = new Game(roomCode, quiz);
         Player admin = playerService.createPlayer(
@@ -136,10 +138,11 @@ public class GameService {
             throw new IllegalStateException("Player already answered");
         }
         Question currentQuestion = game.currentQuestion();
-        if (currentQuestion.correctAnswerIndex() == answerId) {
+        if (currentQuestion.correctAnswerIndices().contains(answerId)) {
             int points = calculatePoints(timeElapsed, game.getAnswerTimeInSeconds());
             player.addToScore(points);
             player.incrementCorrectAnswers();
+            player.setSubmittedAnswerId(answerId);
         }
         player.setAlreadyAnswered(true);
         gameRepository.saveGame(game);
@@ -161,7 +164,10 @@ public class GameService {
             finishGame(gameId, roomCode);
             return;
         }
-        game.getPlayers().forEach(player -> player.setAlreadyAnswered(false));
+        game.getPlayers().forEach(player -> {
+            player.setAlreadyAnswered(false);
+            player.setSubmittedAnswerId(null);
+        });
         game.setStartGameTime(System.currentTimeMillis());
         gameRepository.saveGame(game);
         gameNotificationService.notifyGame(
@@ -191,6 +197,7 @@ public class GameService {
         gameRepository.deleteGameRoomCode(game.getRoomCode());
         game.setRoomCode(null);
         gameRepository.saveGame(game);
+        userServiceClient.sendGameResults(GameResultResponse.from(game.getPlayers()));
         gameNotificationService.notifyGame(roomCode, GameEventType.GAME_FINISHED, GameFinishedResponse.builder().gameId(gameId).build());
     }
 }

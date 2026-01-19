@@ -16,10 +16,10 @@ public class Question {
     private String text;
     private List<Answer> answers;
 
-    public int correctAnswerIndex() {
+    public List<Integer> correctAnswerIndices() {
         return IntStream.range(0, answers.size())
                 .filter(i -> answers.get(i).isCorrect())
-                .findFirst()
-                .orElse(-1);
+                .boxed()
+                .toList();
     }
 }
