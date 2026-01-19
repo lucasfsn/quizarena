@@ -38,7 +38,7 @@ public class UserFacade {
         return UserResponseDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
-                .userName(user.getUserName())
+                .username(user.getUserName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .build();
@@ -52,7 +52,7 @@ public class UserFacade {
         return UserResponseDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
-                .userName(user.getUserName())
+                .username(user.getUserName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .build();
