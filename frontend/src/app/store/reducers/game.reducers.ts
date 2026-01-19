@@ -73,9 +73,9 @@ export const gameReducer = createReducer(
     gameDetails: gameSession.gameDetailsResponse,
     status: mapBackendStatus(gameSession.gameStatus),
     question: gameSession.currentQuestion || null,
-    correctAnswersIds: gameSession.correctAnswersIds || null,
+    correctAnswersIds: gameSession.correctAnswerIds || null,
     submittedAnswerId: gameSession.submittedAnswerId || null,
-    isHost: gameSession.host,
+    isHost: gameSession.isHost,
     error: null,
   })),
   on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
@@ -97,7 +97,7 @@ export const gameReducer = createReducer(
   })),
   on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
-    correctAnswersIds: correctAnswer.correctAnswersIds,
+    correctAnswersIds: correctAnswer.correctAnswerIds,
     scores: correctAnswer.players,
     status: GameStatus.ANSWER,
   })),
