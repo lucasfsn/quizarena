@@ -30,7 +30,7 @@ spring:
 app:
   keycloak:
     admin:
-      clientId: quizarena-rest-api
+      clientId: quizarena-backend-api
       clientSecret: iDmNXc7fMcUBLMUm4tyVPkv0FTAjtQBN
     realm: quizarena
     serverUrl: http://keycloak:8080
