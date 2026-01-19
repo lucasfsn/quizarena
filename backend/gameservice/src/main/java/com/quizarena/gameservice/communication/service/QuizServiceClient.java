@@ -22,7 +22,7 @@ public class QuizServiceClient {
     private String quizServiceUrl;
 
     public ResponseDto<Quiz> getQuiz(final UUID quizId) {
-        String url = quizServiceUrl + "/" + quizId;
+        String url = quizServiceUrl + "/internal/" + quizId;
 
         try {
             return restTemplate.exchange(
