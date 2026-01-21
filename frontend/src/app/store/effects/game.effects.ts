@@ -157,20 +157,7 @@ export class GameEffects {
     this.actions$.pipe(
       ofType(GameActions.leave),
       concatLatestFrom(() => this.store.select(selectIsHost)),
-      map(([, isHost]) =>
-        isHost ? GameActions.closeLobby() : GameActions.leaveLobby()
-      )
-    )
-  );
-
-  public closeLobby$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(GameActions.closeLobby),
-      tap(() => {
-        this.gameSocketService.closeLobby();
-        this.gameSocketService.disconnect();
-      }),
-      map(() => GameActions.reset())
+      map(() => GameActions.leaveLobby())
     )
   );
 
