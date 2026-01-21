@@ -11,21 +11,13 @@
         </p>
       </div>
       <div class="flex gap-1.5 md:hidden">
-        @if (isKeycloakReady()) {
-          <app-button
-            (handleClick)="handleShowJoinQuizDialog()"
-            size="md"
-            variant="primary"
-            customClasses="shadow-sm"
-            >{{ isLoggedIn() ? 'Join quiz' : 'Start now' }}</app-button
-          >
-        } @else {
-          <app-button
-            size="md"
-            variant="skeleton"
-            skeletonWidth="5.25rem"
-            customClasses="shadow-sm" />
-        }
+        <app-button
+          (handleClick)="handleShowJoinQuizDialog()"
+          size="md"
+          variant="primary"
+          customClasses="shadow-sm"
+          >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
+        >
         <app-button
           redirectTo="/quizzes"
           size="md"
@@ -35,21 +27,13 @@
         >
       </div>
       <div class="hidden gap-2.5 md:flex">
-        @if (isKeycloakReady()) {
-          <app-button
-            (handleClick)="handleShowJoinQuizDialog()"
-            size="lg"
-            variant="primary"
-            customClasses="shadow-sm"
-            >{{ isLoggedIn() ? 'Join quiz' : 'Start now' }}</app-button
-          >
-        } @else {
-          <app-button
-            size="lg"
-            variant="skeleton"
-            skeletonWidth="6rem"
-            customClasses="shadow-sm" />
-        }
+        <app-button
+          (handleClick)="handleShowJoinQuizDialog()"
+          size="lg"
+          variant="primary"
+          customClasses="shadow-sm"
+          >{{ isLoggedIn() ? 'Join quiz' : 'Start your journey' }}</app-button
+        >
         <app-button
           redirectTo="/quizzes"
           size="lg"

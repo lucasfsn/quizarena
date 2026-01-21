@@ -28,9 +28,9 @@ export const selectQuestion = createSelector(
   (state) => state.question
 );
 
-export const selectGameId = createSelector(
+export const selectSummaryId = createSelector(
   selectGameState,
-  (state) => state.gameId
+  (state) => state.summaryId
 );
 
 export const selectSubmittedAnswerId = createSelector(
@@ -38,9 +38,9 @@ export const selectSubmittedAnswerId = createSelector(
   (state) => state.submittedAnswerId
 );
 
-export const selectCorrectAnswersIds = createSelector(
+export const selectCorrectAnswerId = createSelector(
   selectGameState,
-  (state) => state.correctAnswersIds
+  (state) => state.correctAnswerId
 );
 
 export const selectScores = createSelector(

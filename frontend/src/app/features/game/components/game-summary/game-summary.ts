@@ -2,7 +2,7 @@ import { GameSummarySkeleton } from '@/app/features/game/components/game-summary
 import { getGameResultQueryKey } from '@/app/features/game/queries/get-game-result-query-key';
 import { Game } from '@/app/features/game/services/game/game';
 import { GameDetails } from '@/app/features/game/types/game-details';
-import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/constants/quiz-category-labels';
+import { QUIZ_CATEGORY_LABELS } from '@/app/features/quizzes/types/quiz-category';
 import { User } from '@/app/features/user/services/user/user';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
@@ -22,16 +22,16 @@ export class GameSummary {
   private readonly userService = inject(User);
 
   public readonly game = input.required<GameDetails>();
-  public readonly gameId = input.required<string | null>();
+  public readonly summaryId = input.required<string | null>();
 
   protected readonly categoryLabels = QUIZ_CATEGORY_LABELS;
 
   protected gameQuery = injectQuery(() => ({
-    queryKey: getGameResultQueryKey(this.gameId()!),
+    queryKey: getGameResultQueryKey(this.summaryId()!),
     queryFn: async () =>
-      lastValueFrom(this.gameService.getGameResult(this.gameId()!)),
+      lastValueFrom(this.gameService.getGameResult(this.summaryId()!)),
     staleTime: Infinity,
-    enabled: this.gameId() !== null,
+    enabled: !!this.summaryId(),
   }));
 
   public userQuery = injectQuery(() => ({
@@ -39,22 +39,12 @@ export class GameSummary {
     select: (user) => user.id,
   }));
 
-  protected sortedPlayers = computed(() => {
-    const data = this.gameQuery.data();
-
-    if (!data) return [];
-
-    return [...data.gameResultPlayerResponseList].sort(
-      (a, b) => b.score - a.score
-    );
-  });
-
   protected loggedInPlayer = computed(() => {
     const userId = this.userQuery.data();
-    const players = this.sortedPlayers();
+    const gameData = this.gameQuery.data();
 
-    if (!userId) return;
+    if (!userId || !gameData) return;
 
-    return players.find((player) => player.player.userId === userId);
+    return gameData.players.find((player) => player.player.id === userId);
   });
 }

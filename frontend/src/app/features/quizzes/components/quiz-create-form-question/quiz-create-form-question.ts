@@ -1,13 +1,19 @@
 import { QUIZ_FORM_CONSTRAINTS } from '@/app/features/quizzes/constants/quiz-form-consts';
-import { QuizCreateFormQuestionData } from '@/app/features/quizzes/types/quiz-create-form-question-data';
+import { QuestionForm } from '@/app/features/quizzes/types/quiz-form';
 import { QuizFormConsts } from '@/app/features/quizzes/types/quiz-form-consts';
 import { Button } from '@/app/shared/components/button/button';
 import { Component, computed, input, output } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Checkbox } from 'primeng/checkbox';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputText } from 'primeng/inputtext';
 import { Textarea } from 'primeng/textarea';
+
+export interface QuizCreateFormQuestionData {
+  form: FormGroup<QuestionForm>;
+  index: number;
+  totalCount: number;
+}
 
 @Component({
   selector: 'app-quiz-create-form-question',

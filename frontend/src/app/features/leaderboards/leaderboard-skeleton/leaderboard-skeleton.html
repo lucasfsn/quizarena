@@ -1,0 +1,21 @@
+<div class="flex flex-col items-center gap-3 md:gap-5">
+
+<div class="flex w-full max-w-3xl flex-col gap-2.5 md:gap-4.5">
+    <!-- <app-leaderboards
+    [skeletonCount]="skeletonCount()"
+    [isPending]="query.isPending()"
+    [isFetching]="query.isFetching()"
+    [leaderboards]="leaderboards()" /> -->
+    <app-leaderboards></app-leaderboards>
+    @if (!query.isFetching() && query.hasNextPage()) {
+    <app-button
+        variant="secondary"
+        size="lg"
+        customClasses="shadow-sm mx-auto"
+        (handleClick)="query.fetchNextPage()">
+        Load more
+    </app-button>
+    }
+</div>
+</div>
+

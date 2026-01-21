@@ -20,8 +20,8 @@ export interface GameState {
   gameDetails: GameDetails | null;
   question: Question | null;
   submittedAnswerId: number | null;
-  correctAnswersIds: number[] | null;
-  gameId: string | null;
+  correctAnswerId: number | null;
+  summaryId: string | null;
   scores: Score[] | null;
   error: string | null;
 }
@@ -32,22 +32,23 @@ export const initialState: GameState = {
   gameDetails: null,
   question: null,
   submittedAnswerId: null,
-  correctAnswersIds: null,
-  gameId: null,
+  correctAnswerId: null,
+  summaryId: null,
   scores: null,
   error: null,
 };
 
 export const gameReducer = createReducer(
   initialState,
-  on(GameActions.createLobby, () => ({
-    ...initialState,
+  on(GameActions.createLobby, (state) => ({
+    ...state,
     status: GameStatus.LOADING,
     isHost: true,
   })),
-  on(GameActions.joinLobby, GameActions.getGameSession, () => ({
-    ...initialState,
+  on(GameActions.getGameSession, GameActions.joinLobby, (state) => ({
+    ...state,
     status: GameStatus.LOADING,
+    isHost: false,
   })),
   on(
     GameActions.createLobbySuccess,
@@ -73,9 +74,7 @@ export const gameReducer = createReducer(
     gameDetails: gameSession.gameDetailsResponse,
     status: mapBackendStatus(gameSession.gameStatus),
     question: gameSession.currentQuestion || null,
-    correctAnswersIds: gameSession.correctAnswersIds || null,
-    submittedAnswerId: gameSession.submittedAnswerId || null,
-    isHost: gameSession.host,
+    correctAnswerId: gameSession.correctAnswerId || null,
     error: null,
   })),
   on(SocketActions.lobbyUpdated, (state, { gameDetails }) => ({
@@ -87,7 +86,7 @@ export const gameReducer = createReducer(
   on(SocketActions.questionReceived, (state, { question }) => ({
     ...state,
     question,
-    correctAnswersIds: null,
+    correctAnswerId: null,
     submittedAnswerId: null,
     status: GameStatus.QUESTION,
   })),
@@ -95,15 +94,16 @@ export const gameReducer = createReducer(
     ...state,
     submittedAnswerId: answerId,
   })),
+
   on(SocketActions.correctAnswerReceived, (state, { correctAnswer }) => ({
     ...state,
-    correctAnswersIds: correctAnswer.correctAnswersIds,
+    correctAnswerId: correctAnswer.correctAnswerId,
     scores: correctAnswer.players,
     status: GameStatus.ANSWER,
   })),
-  on(SocketActions.gameFinished, (state, { gameId }) => ({
+  on(SocketActions.gameFinished, (state, { summaryId }) => ({
     ...state,
-    gameId,
+    summaryId,
     status: GameStatus.FINISHED,
   })),
   on(SocketActions.error, (state, { message }) => ({
@@ -119,6 +119,7 @@ function mapBackendStatus(backendStatus: string): GameStatus {
     LOBBY: GameStatus.LOBBY,
     QUIZ: GameStatus.QUESTION,
     SHOWING_RESULTS: GameStatus.ANSWER,
+    FINISHED: GameStatus.FINISHED,
   };
 
   return statusMap[backendStatus] ?? GameStatus.ERROR;

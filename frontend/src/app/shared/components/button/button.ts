@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Skeleton } from 'primeng/skeleton';
@@ -7,7 +8,7 @@ type Size = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'app-button',
-  imports: [RouterLink, Skeleton],
+  imports: [CommonModule, RouterLink, Skeleton],
   templateUrl: './button.html',
   styleUrl: './button.scss',
 })

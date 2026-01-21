@@ -131,13 +131,11 @@ export class GameEffects {
     successAction: Action,
     errorActionCreator: (props: { error: string }) => Action
   ): Observable<Action> {
-    this.gameSocketService.connect(roomCode);
-
-    return this.gameSocketService.isConnected$.pipe(
+    return this.gameSocketService.connect(roomCode).pipe(
       switchMap(() =>
         merge(
           of(successAction),
-          this.gameSocketService.messages$.pipe(
+          this.gameSocketService.loadedMessages.pipe(
             map((message) => this.mapMessageToAction(message))
           )
         )
@@ -163,15 +161,18 @@ export class GameEffects {
     )
   );
 
-  public closeLobby$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(GameActions.closeLobby),
-      tap(() => {
-        this.gameSocketService.closeLobby();
-        this.gameSocketService.disconnect();
-      }),
-      map(() => GameActions.reset())
-    )
+  public closeLobby$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(GameActions.closeLobby),
+        tap(() => {
+          this.gameSocketService.closeLobby();
+          this.gameSocketService.disconnect();
+          this.router.navigate(['/quizzes']);
+        }),
+        map(() => GameActions.reset())
+      ),
+    { dispatch: false }
   );
 
   public leaveLobby$ = createEffect(() =>
@@ -180,6 +181,7 @@ export class GameEffects {
       tap(() => {
         this.gameSocketService.leaveGame();
         this.gameSocketService.disconnect();
+        this.router.navigate(['/quizzes']);
       }),
       map(() => GameActions.reset())
     )
@@ -203,30 +205,23 @@ export class GameEffects {
     { dispatch: false }
   );
 
-  public lobbyClosed$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(SocketActions.lobbyClosed),
-      tap(() => {
-        this.gameSocketService.disconnect();
-        this.toastService.info('Host has closed the game.');
-        this.router.navigate(['/quizzes']);
-      }),
-      map(() => GameActions.reset())
-    )
-  );
-
-  public gameFinished$ = createEffect(
+  public lobbyClosed$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(SocketActions.gameFinished),
+        ofType(SocketActions.lobbyClosed),
         tap(() => {
+          this.gameSocketService.leaveGame();
           this.gameSocketService.disconnect();
+          this.toastService.info('Host has closed the game.');
+          this.router.navigate(['/quizzes']);
         })
       ),
     { dispatch: false }
   );
 
-  private mapMessageToAction(message: ServerMessage): Action {
+  private mapMessageToAction(
+    message: ServerMessage
+  ): ReturnType<(typeof SocketActions)[keyof typeof SocketActions]> {
     switch (message.eventType) {
       case 'LOBBY_UPDATE':
         return SocketActions.lobbyUpdated({ gameDetails: message.payload });
@@ -240,7 +235,7 @@ export class GameEffects {
         });
       case 'GAME_FINISHED':
         return SocketActions.gameFinished({
-          gameId: message.payload.gameId,
+          summaryId: message.payload.summaryId,
         });
       case 'ERROR':
         return SocketActions.error({ message: message.payload.message });

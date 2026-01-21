@@ -1,4 +1,3 @@
-import { PasswordForm } from '@/app/features/user/types/password-form';
 import { FormControl, FormGroup } from '@angular/forms';
 
 export interface SettingsForm {
@@ -7,4 +6,10 @@ export interface SettingsForm {
   lastName: FormControl<string>;
   email: FormControl<string>;
   password: FormGroup<PasswordForm>;
+}
+
+export interface PasswordForm {
+  currentPassword: FormControl<string>;
+  newPassword: FormControl<string>;
+  confirmNewPassword: FormControl<string>;
 }

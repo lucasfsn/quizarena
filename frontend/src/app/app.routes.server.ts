@@ -21,6 +21,10 @@ export const serverRoutes: ServerRoute[] = [
     path: 'settings',
     renderMode: RenderMode.Client,
   },
+    {
+    path: 'leaderboard',
+    renderMode: RenderMode.Server,
+  },
   { path: 'not-found', renderMode: RenderMode.Prerender },
   {
     path: '**',
