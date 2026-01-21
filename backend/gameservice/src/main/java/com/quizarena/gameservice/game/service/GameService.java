@@ -1,5 +1,7 @@
 package com.quizarena.gameservice.game.service;
 
+import com.quizarena.gameservice.communication.dto.Question;
+import com.quizarena.gameservice.communication.dto.QuestionResponse;
 import com.quizarena.gameservice.communication.dto.Quiz;
 import com.quizarena.gameservice.communication.service.QuizServiceClient;
 import com.quizarena.gameservice.communication.service.UserServiceClient;

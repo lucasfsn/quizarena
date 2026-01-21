@@ -16,8 +16,6 @@ export const GameActions = createActionGroup({
     'Join Lobby Failure': props<{ error: string }>(),
     'Get Game Session': props<{ roomCode: string }>(),
     'Get Game Session Success': props<{ gameSession: GameSession }>(),
-    'Leave': emptyProps(),
-    'Close Lobby': emptyProps(),
     'Leave Lobby': emptyProps(),
     'Start Game': emptyProps(),
     'Submit Answer': props<{ answerId: number }>(),

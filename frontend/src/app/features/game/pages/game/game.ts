@@ -57,6 +57,6 @@ export class Game implements OnDestroy, OnInit {
   }
 
   public ngOnDestroy(): void {
-    this.store.dispatch(GameActions.leave());
+    this.store.dispatch(GameActions.leaveLobby());
   }
 }

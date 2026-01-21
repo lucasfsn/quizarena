@@ -53,7 +53,7 @@
           [responsiveOptions]="responsiveOptions"
           [autoplayInterval]="2000"
           contentClass="p-2"
-          class="xs:max-w-sm max-w-2xs md:max-w-md lg:max-w-2xl">
+          class="xs:max-w-sm !w-full max-w-2xs md:max-w-md lg:max-w-2xl">
           <ng-template
             let-player
             #item>
@@ -63,7 +63,7 @@
                 {{ player.firstName.charAt(0) + player.lastName.charAt(0) }}
               </div>
               <p
-                class="cursor-default text-base select-none text-shadow-sm sm:text-lg">
+                class="text-break cursor-default text-base whitespace-nowrap select-none text-shadow-sm sm:text-lg">
                 {{ player.firstName }} {{ player.lastName }}
               </p>
             </div>
