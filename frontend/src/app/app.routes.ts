@@ -4,6 +4,7 @@ import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolv
 import { userResolver } from '@/app/features/user/resolvers/user-resolver';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
 import { Routes } from '@angular/router';
+import { leaderboardResolver } from '@/app/features/leaderboards/resolvers/leaderboard-resolver';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,15 @@ export const routes: Routes = [
             canActivate: [authGuard],
           },
         ],
+      },
+      {
+        path: 'leaderboard',
+        title: 'Leaderboard',
+        resolve: { leaderboardResolver },
+        loadComponent: () =>
+          import('@/app/features/leaderboards/pages/leaderboards/leaderboards').then(
+            (m) => m.Leaderboards
+          ),
       },
       {
         path: 'game/:roomCode',
