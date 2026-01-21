@@ -21,15 +21,16 @@ public class GameSession {
     Boolean isHost;
 
     public static GameSession from(Game game, UUID userId) {
+        boolean isGameInProgress = game.getState() == GameState.QUIZ || game.getState() == GameState.SHOWING_ANSWER;
         return GameSession.builder()
                 .gameDetailsResponse(GameDetailsResponse.from(game))
                 .gameStatus(game.getState())
                 .submittedAnswerId(game.getPlayer(userId).getSubmittedAnswerId())
                 .isHost(game.getPlayer(userId).getRole().equals(PlayerRole.ADMIN))
                 .currentQuestion(
-                        game.getState() != GameState.LOBBY ? QuestionResponse.from(game.currentQuestion(), game.getRound(), game.getQuiz().getQuestionsCount(), game.getAnswerTimeInSeconds(), game.getStartGameTime()) : null)
+                        isGameInProgress ? QuestionResponse.from(game.currentQuestion(), game.getRound(), game.getQuiz().getQuestionsCount(), game.getAnswerTimeInSeconds(), game.getStartGameTime()) : null)
                 .correctAnswerIds(
-                        game.getState() != GameState.LOBBY ? game.currentQuestion().correctAnswerIndices() : null)
+                        game.getState() == GameState.SHOWING_ANSWER ? game.currentQuestion().correctAnswerIndices() : null)
                 .build();
     }
 }

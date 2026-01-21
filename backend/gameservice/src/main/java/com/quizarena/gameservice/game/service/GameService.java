@@ -1,7 +1,5 @@
 package com.quizarena.gameservice.game.service;
 
-import com.quizarena.gameservice.communication.dto.Question;
-import com.quizarena.gameservice.communication.dto.QuestionResponse;
 import com.quizarena.gameservice.communication.dto.Quiz;
 import com.quizarena.gameservice.communication.service.QuizServiceClient;
 import com.quizarena.gameservice.communication.service.UserServiceClient;
@@ -211,6 +209,7 @@ public class GameService {
 				player.setAlreadyAnswered(false);
 				player.setSubmittedAnswerId(null);
 			});
+		game.setState(GameState.QUIZ);
 		game.setStartGameTime(System.currentTimeMillis());
 		gameRepository.saveGame(game);
 		gameNotificationService.notifyGame(
@@ -232,6 +231,8 @@ public class GameService {
 
 	private void handleEndOfQuestion(UUID gameId, String roomCode) {
 		Game game = gameRepository.getGame(gameId);
+		game.setState(GameState.SHOWING_ANSWER);
+		gameRepository.saveGame(game);
 		gameNotificationService.notifyGame(
 			roomCode,
 			GameEventType.CORRECT_ANSWER,

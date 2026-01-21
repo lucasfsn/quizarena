@@ -118,7 +118,8 @@ function mapBackendStatus(backendStatus: string): GameStatus {
   const statusMap: Record<string, GameStatus> = {
     LOBBY: GameStatus.LOBBY,
     QUIZ: GameStatus.QUESTION,
-    SHOWING_RESULTS: GameStatus.ANSWER,
+    SHOWING_ANSWER: GameStatus.ANSWER,
+    SHOWING_RESULTS: GameStatus.FINISHED,
   };
 
   return statusMap[backendStatus] ?? GameStatus.ERROR;
