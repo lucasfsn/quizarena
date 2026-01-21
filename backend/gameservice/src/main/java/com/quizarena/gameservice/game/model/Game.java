@@ -64,4 +64,8 @@ public class Game implements Serializable {
     public Question currentQuestion() {
         return quiz.getQuestions().get(round);
     }
+
+    public Player getPlayer(UUID userId) {
+        return players.stream().filter(p -> p.getUserId().equals(userId)).findFirst().orElse(null);
+    }
 }

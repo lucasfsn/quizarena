@@ -16,7 +16,7 @@ public class Quiz {
     private UUID id;
     private String title;
     private String category;
-    private String author;
+    private Author author;
     private Integer questionsCount;
     private List<Question> questions;
 }

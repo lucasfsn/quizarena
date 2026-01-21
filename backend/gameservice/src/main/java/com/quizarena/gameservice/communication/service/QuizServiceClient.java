@@ -1,27 +1,39 @@
 package com.quizarena.gameservice.communication.service;
 
-import com.quizarena.gameservice.communication.dto.Answer;
-import com.quizarena.gameservice.communication.dto.Question;
 import com.quizarena.gameservice.communication.dto.Quiz;
+import com.quizarena.gameservice.exception.EntityNotFoundException;
+import com.quizarena.gameservice.game.dto.ResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class QuizServiceClient {
+    private final RestTemplate restTemplate;
 
     @Value("${services.quizservice.url}")
     private String quizServiceUrl;
 
-    public final Quiz getQuiz(final UUID quizId) {
-        Answer answer = new Answer("a", true);
-        Answer answer2 = new Answer("b", false);
-        Answer answer3= new Answer("c", false);
-        Answer answer4 = new Answer("d", false);
-        Question question = new Question("Co bylo?", List.of(answer, answer2, answer3, answer4));
-        Question question2 = new Question("Co bylo2?", List.of(answer, answer2, answer3, answer4));
-        return new Quiz(quizId, "title", "category", "author", 2, List.of(question, question2));
+    public ResponseDto<Quiz> getQuiz(final UUID quizId) {
+        String url = quizServiceUrl + "/internal/" + quizId;
+
+        try {
+            return restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<ResponseDto<Quiz>>() {}
+            ).getBody();
+
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new EntityNotFoundException("Quiz with id " + quizId + " not found");
+        }
     }
 }

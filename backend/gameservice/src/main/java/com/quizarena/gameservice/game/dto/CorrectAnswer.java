@@ -10,12 +10,12 @@ import java.util.List;
 @Value
 @Builder
 public class CorrectAnswer {
-    Integer correctAnswerId;
+    List<Integer> correctAnswerIds;
     List<PlayerScoreResponse> players;
 
     public static CorrectAnswer from(Game game) {
         return CorrectAnswer.builder()
-                .correctAnswerId(game.currentQuestion().correctAnswerIndex())
+                .correctAnswerIds(game.currentQuestion().correctAnswerIndices())
                 .players(game.getPlayers().stream().map(PlayerScoreResponse::from).toList())
                 .build();
     }

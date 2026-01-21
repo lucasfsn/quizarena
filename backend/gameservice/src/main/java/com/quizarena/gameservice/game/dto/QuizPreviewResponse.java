@@ -1,5 +1,6 @@
 package com.quizarena.gameservice.game.dto;
 
+import com.quizarena.gameservice.communication.dto.Author;
 import com.quizarena.gameservice.communication.dto.Quiz;
 import lombok.Builder;
 import lombok.Value;
@@ -12,7 +13,7 @@ public class QuizPreviewResponse {
     UUID id;
     String title;
     String category;
-    String author;
+    Author author;
     Integer questionsCount;
 
     public static QuizPreviewResponse from(final Quiz quizResponse) {

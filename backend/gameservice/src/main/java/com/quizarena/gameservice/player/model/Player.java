@@ -20,6 +20,7 @@ public class Player implements Serializable {
     private int correctAnswers = 0;
     private PlayerRole role;
     private boolean alreadyAnswered;
+    private Integer submittedAnswerId;
 
     public Player(UUID userId, PlayerRole role, String firstName, String lastName) {
         this.userId = userId;

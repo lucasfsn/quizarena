@@ -4,6 +4,7 @@ import com.quizarena.gameservice.game.dto.*;
 import com.quizarena.gameservice.game.enums.SuccessCode;
 import com.quizarena.gameservice.game.model.Game;
 import com.quizarena.gameservice.game.service.GameService;
+import com.quizarena.gameservice.game.util.UserSessionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class GameController {
             @AuthenticationPrincipal Jwt jwt,
             @PathVariable final String roomCode) {
         Game game = gameService.getGameByRoomCode(roomCode, jwt);
-        GameSession data = GameSession.from(game);
+        GameSession data = GameSession.from(game, UserSessionService.getLoggedInUserId(jwt));
 
         return ResponseEntity.ok(new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Game session retrieved", data));
     }
