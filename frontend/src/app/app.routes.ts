@@ -32,9 +32,9 @@ export const routes: Routes = [
             path: 'new',
             title: 'Create New Quiz',
             loadComponent: () =>
-              import('@/app/features/quizzes/pages/quiz-create/quiz-create').then(
-                (m) => m.QuizCreate
-              ),
+              import(
+                '@/app/features/quizzes/pages/quiz-create/quiz-create'
+              ).then((m) => m.QuizCreate),
             canActivate: [authGuard],
           },
         ],
@@ -42,11 +42,11 @@ export const routes: Routes = [
       {
         path: 'leaderboard',
         title: 'Leaderboard',
-        resolve: { leaderboardResolver },
+        resolve: { leaderboardResolver, userResolver },
         loadComponent: () =>
-          import('@/app/features/leaderboards/pages/leaderboards/leaderboards').then(
-            (m) => m.Leaderboards
-          ),
+          import(
+            '@/app/features/leaderboards/pages/leaderboards/leaderboards'
+          ).then((m) => m.Leaderboards),
       },
       {
         path: 'game/:roomCode',

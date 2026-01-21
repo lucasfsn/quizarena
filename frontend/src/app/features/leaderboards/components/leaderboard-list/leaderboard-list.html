@@ -6,20 +6,34 @@
   </div>
 } @else if (leaderboards().length === 0) {
   <div
-    class="bg-surface text-secondary flex min-h-40 flex-col items-center justify-center rounded-xl border border-gray-100 p-6 shadow-sm">
-    <p class="text-xl font-medium text-gray-900">No quizzes found!</p>
-    <p class="text-gray-500">
-      Try adjusting your filters or browsing a different category.
-    </p>
+    class="bg-surface text-secondary flex min-h-40 flex-col items-center justify-center gap-1 rounded-lg p-4 shadow-sm">
+    <p class="text-xl font-medium text-gray-900">The throne is empty.</p>
+    <div class="flex flex-col items-center justify-center">
+      <p class="text-gray-500">
+        Be the first to claim your spot on the leaderboard.
+      </p>
+      <p class="text-gray-500">Start competing now!</p>
+    </div>
   </div>
 } @else {
-  <div class="flex flex-col gap-3">
+  <div class="flex flex-col gap-5">
+    @if (loggedInUserScore(); as user) {
+      <div
+        class="bg-surface flex w-full items-center justify-between gap-4 rounded-lg p-4 shadow-sm transition-all">
+        <div class="flex flex-col pl-10">
+          <p class="font-semibold">You ({{ user.username }})</p>
+          <p class="text-secondary text-sm">Position: {{ user.position }}</p>
+        </div>
+        <p class="text-primary font-semibold">{{ user.score }} Points</p>
+      </div>
+    }
     <div class="flex flex-col gap-3">
-      @for (leaderboard of leaderboards(); track leaderboard.id) {
-        <app-leaderboard-entry [leaderboard]="leaderboard" />
+      @for (user of leaderboards(); track user.id; let i = $index) {
+        <app-leaderboard-entry
+          [user]="user"
+          [position]="i + 1" />
       }
     </div>
-
     @if (isFetching()) {
       <div class="flex flex-col gap-3">
         @for (_ of [].constructor(skeletonCount()); track $index) {

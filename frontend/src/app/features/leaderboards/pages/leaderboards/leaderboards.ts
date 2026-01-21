@@ -49,7 +49,9 @@ export class Leaderboards {
   protected leaderboards = computed(() => {
     const pages = this.query.data()?.pages ?? [];
 
-    return pages.flatMap((page) => page.content);
+    return pages
+      .flatMap((page) => page.content)
+      .sort((a, b) => b.score - a.score);
   });
 
   protected isLoggedIn(): boolean {

@@ -9,7 +9,8 @@ import { Component, inject, input } from '@angular/core';
 export class LeaderboardsLeaderboardEntry {
   private readonly authorizationService = inject(Authorization);
 
-  public leaderboard = input.required<LeaderboardEntry>();
+  public user = input.required<LeaderboardEntry>();
+  public position = input.required<number>();
 
   protected isLoggedIn(): boolean {
     return this.authorizationService.isLoggedIn();

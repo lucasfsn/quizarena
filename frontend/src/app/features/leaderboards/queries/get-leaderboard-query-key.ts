@@ -1,5 +1,5 @@
-const leaderboardQueryKey = ['leaderboards'] as const;
+const leaderboardQueryKey = ['leaderboard'] as const;
 
-export function getLeaderboardQueryKey(id?: string): readonly string[] {
-  return id ? [...leaderboardQueryKey, id] : leaderboardQueryKey;
+export function getLeaderboardQueryKey(): readonly string[] {
+  return leaderboardQueryKey;
 }
