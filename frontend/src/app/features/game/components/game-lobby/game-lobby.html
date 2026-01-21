@@ -6,7 +6,8 @@
       </h1>
       <div
         class="bg-accent text-on-accent w-fit shrink-0 self-start rounded-full px-2 py-0.5 text-xs shadow-sm sm:self-center sm:px-3 sm:py-1 sm:text-base">
-        {{ game().quiz.questionsCount }} questions
+        {{ game().quiz.questionsCount }}
+        {{ game().quiz.questionsCount === 1 ? 'question' : 'questions' }}
       </div>
     </div>
     <h2 class="text-secondary text-sm sm:text-lg">

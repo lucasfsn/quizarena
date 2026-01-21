@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Answer {
-    private String text;
-    private boolean isCorrect;
+
+	private String text;
+	private Boolean isCorrect;
 }
