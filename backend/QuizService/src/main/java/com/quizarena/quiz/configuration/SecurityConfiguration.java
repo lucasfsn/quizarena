@@ -22,7 +22,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("GET", "/quizzes").permitAll()
-                        .requestMatchers("/internal/**").permitAll()
+                        .requestMatchers("/quizzes/internal/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->

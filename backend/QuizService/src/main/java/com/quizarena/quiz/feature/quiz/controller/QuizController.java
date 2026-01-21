@@ -67,7 +67,7 @@ public class QuizController {
         );
     }
 
-    @GetMapping("internal/quizzes"+ID)
+    @GetMapping("quizzes/internal"+ID)
     public ResponseDto<QuizDetailsResponseDto> getQuizDetails(@PathVariable UUID quizId) {
         return new ResponseDto<>(
                 SuccessCode.RESPONSE_SUCCESSFUL,
