@@ -4,12 +4,16 @@ import com.usermanagement.feature.user.dto.PlayerGameResultResponse;
 import com.usermanagement.feature.user.dto.UserResponseDto;
 import com.usermanagement.feature.user.dto.UserScoreResponse;
 import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
+import com.usermanagement.feature.user.dto.UsersLeaderboardDto;
+import com.usermanagement.feature.user.mappers.UserLeaderboardMapper;
 import com.usermanagement.feature.user.mappers.UserMapper;
 import com.usermanagement.feature.user.mappers.UserScoreMapper;
 import com.usermanagement.feature.user.model.User;
 import com.usermanagement.feature.user.service.KeycloakUserService;
 import com.usermanagement.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +31,7 @@ public class UserFacade {
     private final KeycloakUserService keycloakUserService;
     private final UserMapper userMapper;
     private final UserScoreMapper userScoreMapper;
+    private final UserLeaderboardMapper userLeaderboardMapper;
 
     public UserResponseDto getAndSyncUser(Jwt jwt) {
 
@@ -58,8 +63,11 @@ public class UserFacade {
                 .build();
     }
 
-    public Set<UserScoreResponse> getAllUsers() {
-        return userService.getAllUsers().stream().map(userScoreMapper::toDto).collect(Collectors.toSet());
+    public Page<UsersLeaderboardDto> getAllUsers(Pageable pageable) {
+
+        Page<User> usersPage = userService.getAllUsers(pageable);
+
+        return usersPage.map(userLeaderboardMapper::toDto);
     }
 
     public void resetPassword(Jwt jwt, String password) {

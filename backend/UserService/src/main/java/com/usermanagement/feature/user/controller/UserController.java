@@ -5,10 +5,15 @@ import com.usermanagement.feature.user.dto.PlayerGameResultResponse;
 import com.usermanagement.feature.user.dto.UserResponseDto;
 import com.usermanagement.feature.user.dto.UserScoreResponse;
 import com.usermanagement.feature.user.dto.UserUpdateRequestDto;
+import com.usermanagement.feature.user.dto.UsersLeaderboardDto;
 import com.usermanagement.feature.user.service.UserService;
 import com.usermanagement.shared.dto.ResponseDto;
 import com.usermanagement.shared.enums.SuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,8 +42,12 @@ public class UserController {
     }
 
     @GetMapping("/all-users")
-    public ResponseDto<Set<UserScoreResponse>> getAllUsers() {
-        return new ResponseDto<Set<UserScoreResponse>>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", userFacade.getAllUsers());
+    public ResponseDto<Page<UsersLeaderboardDto>> getAllUsers(@RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "20") int pageSize) {
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        return new ResponseDto<Page<UsersLeaderboardDto>>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", userFacade.getAllUsers(pageable));
     }
 
     @GetMapping("/get")

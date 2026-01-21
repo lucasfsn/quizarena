@@ -9,6 +9,8 @@ import com.usermanagement.feature.user.repository.UserRepository;
 import com.usermanagement.feature.user.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +47,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<User> getAllUsers() {
-        return new HashSet<>(userRepository.findAll());
+    public Page<User> getAllUsers(Pageable pageable) {
+        // To wywoła zapytanie z LIMIT i OFFSET w bazie danych i git
+        return userRepository.findAll(pageable);
     }
 
     @Override
