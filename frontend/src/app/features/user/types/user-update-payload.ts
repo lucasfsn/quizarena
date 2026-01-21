@@ -3,8 +3,5 @@ export interface UserUpdatePayload {
   email?: string;
   firstName?: string;
   lastName?: string;
-  password?: {
-    currentPassword: string;
-    newPassword: string;
-  };
+  password?: string;
 }

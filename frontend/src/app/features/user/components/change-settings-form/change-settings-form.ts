@@ -117,12 +117,8 @@ export class ChangeSettingsForm {
     if (lastName.dirty) payload.lastName = lastName.value;
     if (email.dirty) payload.email = email.value;
 
-    const { currentPassword, newPassword } = password.controls;
-    if (currentPassword.value && newPassword.value)
-      payload.password = {
-        currentPassword: currentPassword.value,
-        newPassword: newPassword.value,
-      };
+    const { newPassword } = password.controls;
+    if (newPassword.value) payload.password = newPassword.value;
 
     return payload;
   }
