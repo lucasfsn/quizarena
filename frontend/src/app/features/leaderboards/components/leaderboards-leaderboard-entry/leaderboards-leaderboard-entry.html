@@ -1,15 +1,16 @@
-
+<div
+  class="flex w-full items-center justify-between gap-4 rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-gray-200 hover:shadow-md">
   <div class="flex items-center gap-4">
-    <span class="font-bold text-gray-400 w-8 text-center">#</span>
-    
+    <span class="w-8 text-center font-bold text-gray-400">#</span>
+
     <div class="flex flex-col">
-      <span class="font-semibold text-gray-900">{{ leaderboard().username }}</span>
-      <span class="text-[10px] text-gray-400 font-medium">{{ leaderboard().wins }} Wins</span>
+      <span class="font-semibold text-gray-900">{{
+        leaderboard().username
+      }}</span>
     </div>
   </div>
 
   <div class="text-right">
-    <div class="font-bold">
-      {{ leaderboard().score }} Points
-    </div>
+    <div class="font-bold text-gray-900">{{ leaderboard().score }} Points</div>
   </div>
+</div>

@@ -1,10 +1,10 @@
 import { authGuard } from '@/app/core/guards/auth-guard';
 import { Home } from '@/app/features/home/home';
+import { leaderboardResolver } from '@/app/features/leaderboards/resolvers/leaderboard-resolver';
 import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 import { userResolver } from '@/app/features/user/resolvers/user-resolver';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
 import { Routes } from '@angular/router';
-import { leaderboardResolver } from '@/app/features/leaderboards/resolvers/leaderboard-resolver';
 
 export const routes: Routes = [
   {
@@ -32,9 +32,9 @@ export const routes: Routes = [
             path: 'new',
             title: 'Create New Quiz',
             loadComponent: () =>
-              import(
-                '@/app/features/quizzes/pages/quiz-create/quiz-create'
-              ).then((m) => m.QuizCreate),
+              import('@/app/features/quizzes/pages/quiz-create/quiz-create').then(
+                (m) => m.QuizCreate
+              ),
             canActivate: [authGuard],
           },
         ],

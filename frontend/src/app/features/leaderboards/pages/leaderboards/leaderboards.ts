@@ -1,33 +1,28 @@
-import { Button } from '@/app/shared/components/button/button';
-import { Component, inject, computed } from '@angular/core';
-import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
-import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
-import { getQuizzesQueryKey } from '@/app/features/quizzes/queries/get-quizzes-query-key';
-import { lastValueFrom } from 'rxjs';
 import { Authorization } from '@/app/core/auth/authorization';
-import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { LeaderboardsList } from '@/app/features/leaderboards/components/leaderboard-list/leaderboard-list';
-
-const PAGE_SIZE = 10;
+import { PAGE_SIZE } from '@/app/features/leaderboards/Constants/leaderboard-page-size';
+import { getLeaderboardQueryKey } from '@/app/features/leaderboards/queries/get-leaderboard-query-key';
+import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
+import { Button } from '@/app/shared/components/button/button';
+import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
+import { Component, computed, inject } from '@angular/core';
+import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-leaderboards',
   imports: [Button, FallbackUi, LeaderboardsList],
-  templateUrl: './leaderboards.html'
+  templateUrl: './leaderboards.html',
 })
-
 export class Leaderboards {
-private readonly leaderboardsService = inject(LeaderboardsService);
-private readonly authorizationService = inject(Authorization);
+  private readonly leaderboardsService = inject(LeaderboardsService);
+  private readonly authorizationService = inject(Authorization);
 
-protected query = injectInfiniteQuery(() => ({
-    queryKey: getQuizzesQueryKey(),
+  protected query = injectInfiniteQuery(() => ({
+    queryKey: getLeaderboardQueryKey(),
     queryFn: async ({ pageParam }) =>
       lastValueFrom(
-        this.leaderboardsService.getLeaderboards(
-          pageParam,
-          PAGE_SIZE
-        )
+        this.leaderboardsService.getLeaderboards(pageParam, PAGE_SIZE)
       ),
     initialPageParam: 0,
     getNextPageParam: (lastPage) =>

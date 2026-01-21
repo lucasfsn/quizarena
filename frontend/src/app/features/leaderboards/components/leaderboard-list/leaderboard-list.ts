@@ -1,4 +1,3 @@
-
 import { LeaderboardEntry } from '@/app/features/leaderboards/types/leaderboard-entry';
 import { Component, input } from '@angular/core';
 
@@ -8,7 +7,7 @@ import { LeaderboardsLeaderboardEntry } from '@/app/features/leaderboards/compon
 @Component({
   selector: 'app-leaderboards-list',
   imports: [LeaderboardSkeleton, LeaderboardsLeaderboardEntry],
-  templateUrl: "./leaderboard-list.html",
+  templateUrl: './leaderboard-list.html',
   // styleUrl: './leaderboards-list.scss',
 })
 export class LeaderboardsList {
