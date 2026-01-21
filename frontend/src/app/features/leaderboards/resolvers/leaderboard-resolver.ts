@@ -6,7 +6,7 @@ import { ResolveFn } from '@angular/router';
 import { QueryClient } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
-import { LeaderboardResponse } from '@/app/features/leaderboards/types/leaderboard-response';
+import { LeaderboardEntry } from '@/app/features/leaderboards/types/leaderboard-entry';
 
 export const leaderboardResolver: ResolveFn<void> = () => {
   const queryClient = inject(QueryClient);
@@ -22,7 +22,7 @@ export const leaderboardResolver: ResolveFn<void> = () => {
         )
       ),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: Page<LeaderboardResponse>) =>
+    getNextPageParam: (lastPage: Page<LeaderboardEntry>) =>
       lastPage.last ? undefined : lastPage.number + 1,
     staleTime: 10 * 60 * 1000, // 10 minutes
   });

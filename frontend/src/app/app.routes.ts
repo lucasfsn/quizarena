@@ -61,7 +61,7 @@ export const routes: Routes = [
         title: 'Leaderboard',
         resolve: { leaderboardResolver },
         loadComponent: () =>
-          import('@/app/features/leaderboards/components/leaderboard').then(
+          import('@/app/features/leaderboards/pages/leaderboards/leaderboards').then(
             (m) => m.Leaderboards
           ),
       },

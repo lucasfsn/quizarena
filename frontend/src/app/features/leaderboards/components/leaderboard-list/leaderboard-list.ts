@@ -1,11 +1,14 @@
-import { LeaderboardSkeleton } from '@/app/features/leaderboards/leaderboard-skeleton/leaderboard-skeleton';  
+
 import { LeaderboardEntry } from '@/app/features/leaderboards/types/leaderboard-entry';
 import { Component, input } from '@angular/core';
 
+import { LeaderboardSkeleton } from '@/app/features/leaderboards/components/leaderboard-skeleton/leaderboard-skeleton';
+import { LeaderboardsLeaderboardEntry } from '@/app/features/leaderboards/components/leaderboards-leaderboard-entry/leaderboards-leaderboard-entry';
+
 @Component({
   selector: 'app-leaderboards-list',
-  imports: [LeaderboardSkeleton],
-  templateUrl: "./leaderboard.html",
+  imports: [LeaderboardSkeleton, LeaderboardsLeaderboardEntry],
+  templateUrl: "./leaderboard-list.html",
   // styleUrl: './leaderboards-list.scss',
 })
 export class LeaderboardsList {

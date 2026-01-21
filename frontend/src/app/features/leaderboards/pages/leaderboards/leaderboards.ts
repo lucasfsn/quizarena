@@ -1,5 +1,3 @@
-
-import { Skeleton } from 'primeng/skeleton';
 import { Button } from '@/app/shared/components/button/button';
 import { Component, inject, computed } from '@angular/core';
 import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
@@ -7,30 +5,18 @@ import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { getQuizzesQueryKey } from '@/app/features/quizzes/queries/get-quizzes-query-key';
 import { lastValueFrom } from 'rxjs';
 import { Authorization } from '@/app/core/auth/authorization';
-import { Leaderboards } from '@/app/features/leaderboards/components/leaderboard';
+import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
+import { LeaderboardsList } from '@/app/features/leaderboards/components/leaderboard-list/leaderboard-list';
 
 const PAGE_SIZE = 10;
 
 @Component({
-  selector: 'app-leaderboard-skeleton',
-  imports: [Skeleton, Button, Leaderboards],
-  templateUrl: './leaderboard-skeleton.html',
-//   styleUrl: './leaderboard-skeleton.scss',
+  selector: 'app-leaderboards',
+  imports: [Button, FallbackUi, LeaderboardsList],
+  templateUrl: './leaderboards.html'
 })
 
-export class LeaderboardSkeleton {
-  // private http = inject(HttpClient);
-  // private apiUrl = `${environment.apiUrl}/leaderboards`; 
-
-  // public getLeaderboard(page: number = 0, size: number = 10): Observable<LeaderboardResponse> {
-  //   const params = new HttpParams()
-  //     .set('page', page.toString())
-  //     .set('size', size.toString());
-
-  //   return this.http.get<LeaderboardResponse>(this.apiUrl, { params });
-  // }
-
-/////////////////////////////////////////////
+export class Leaderboards {
 private readonly leaderboardsService = inject(LeaderboardsService);
 private readonly authorizationService = inject(Authorization);
 
@@ -65,7 +51,7 @@ protected query = injectInfiniteQuery(() => ({
     return remaining;
   });
 
-  protected quizzes = computed(() => {
+  protected leaderboards = computed(() => {
     const pages = this.query.data()?.pages ?? [];
 
     return pages.flatMap((page) => page.content);
@@ -74,5 +60,4 @@ protected query = injectInfiniteQuery(() => ({
   protected isLoggedIn(): boolean {
     return this.authorizationService.isLoggedIn();
   }
-
 }
