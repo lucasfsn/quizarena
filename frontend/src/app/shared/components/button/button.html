@@ -5,6 +5,7 @@
     borderRadius="9999px" />
 } @else {
   <button
+    [type]="type()"
     [class]="classes()"
     [disabled]="disabled()"
     [attr.aria-disabled]="disabled()"

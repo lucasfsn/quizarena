@@ -18,6 +18,7 @@ export class Button {
   public disabled = input<boolean>(false);
   public customClasses = input<string>('');
   public redirectTo = input<string | null>(null);
+  public type = input<'button' | 'submit' | 'reset'>('button');
   public handleClick = output<void>();
 
   protected skeletonHeight = computed(() => {

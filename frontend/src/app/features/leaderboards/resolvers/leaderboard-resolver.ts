@@ -1,5 +1,5 @@
 import { Page } from '@/app/core/types/page';
-import { PAGE_SIZE } from '@/app/features/leaderboards/Constants/leaderboard-page-size';
+import { PAGE_SIZE } from '@/app/features/leaderboards/constants/leaderboard-page-size';
 import { getLeaderboardQueryKey } from '@/app/features/leaderboards/queries/get-leaderboard-query-key';
 import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
 import { LeaderboardEntry } from '@/app/features/leaderboards/types/leaderboard-entry';
