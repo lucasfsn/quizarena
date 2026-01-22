@@ -1,4 +1,5 @@
 import { ErrorResponse } from '@/app/core/types/error-response';
+import { getLeaderboardQueryKey } from '@/app/features/leaderboard/queries/get-leaderboard-query-key';
 import { CURRENT_USER_QUERY_KEY } from '@/app/features/user/constants/current-user-query-key';
 import { USER_SETTINGS_CONSTRAINTS } from '@/app/features/user/constants/user-settings-consts';
 import { getUserQueryKey } from '@/app/features/user/queries/get-user-query-key';
@@ -136,6 +137,9 @@ export class ChangeSettingsForm {
         getUserQueryKey(CURRENT_USER_QUERY_KEY),
         updatedUser
       );
+      this.queryClient.invalidateQueries({
+        queryKey: getLeaderboardQueryKey(),
+      });
       this.settingsForm.markAsPristine();
     },
     onError: (error: ErrorResponse) => this.toastService.error(error.message),

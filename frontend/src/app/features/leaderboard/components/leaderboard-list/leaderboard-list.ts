@@ -7,15 +7,15 @@ import { User } from '@/app/features/user/services/user/user';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
-  selector: 'app-leaderboards-list',
+  selector: 'app-leaderboard-list',
   imports: [LeaderboardSkeleton, LeaderboardItem],
   templateUrl: './leaderboard-list.html',
   styleUrl: './leaderboard-list.scss',
 })
-export class LeaderboardsList {
+export class LeaderboardList {
   private readonly userService = inject(User);
 
-  public leaderboards = input.required<LeaderboardEntry[]>();
+  public leaderboard = input.required<LeaderboardEntry[]>();
   public skeletonCount = input.required<number>();
   public isPending = input.required<boolean>();
   public isFetching = input.required<boolean>();
@@ -27,7 +27,7 @@ export class LeaderboardsList {
 
   protected readonly loggedInUserScore = computed(() => {
     const userId = this.userQuery.data();
-    const list = this.leaderboards();
+    const list = this.leaderboard();
 
     if (!userId) return null;
 

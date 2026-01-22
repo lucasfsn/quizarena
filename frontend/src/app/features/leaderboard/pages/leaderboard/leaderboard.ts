@@ -1,5 +1,5 @@
 import { Authorization } from '@/app/core/auth/authorization';
-import { LeaderboardsList } from '@/app/features/leaderboard/components/leaderboard-list/leaderboard-list';
+import { LeaderboardList } from '@/app/features/leaderboard/components/leaderboard-list/leaderboard-list';
 import { PAGE_SIZE } from '@/app/features/leaderboard/constants/leaderboard-page-size';
 import { getLeaderboardQueryKey } from '@/app/features/leaderboard/queries/get-leaderboard-query-key';
 import { Leaderboard as LeaderboardService } from '@/app/features/leaderboard/services/leaderboard';
@@ -12,18 +12,19 @@ import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-leaderboard',
-  imports: [Button, FallbackUi, LeaderboardsList, FetchErrorImage],
+  imports: [Button, FallbackUi, FetchErrorImage, LeaderboardList],
   templateUrl: './leaderboard.html',
+  styleUrl: './leaderboard.scss',
 })
 export class Leaderboard {
-  private readonly leaderboardsService = inject(LeaderboardService);
+  private readonly leaderboardService = inject(LeaderboardService);
   private readonly authorizationService = inject(Authorization);
 
   protected query = injectInfiniteQuery(() => ({
     queryKey: getLeaderboardQueryKey(),
     queryFn: async ({ pageParam }) =>
       lastValueFrom(
-        this.leaderboardsService.getLeaderboard(pageParam, PAGE_SIZE)
+        this.leaderboardService.getLeaderboard(pageParam, PAGE_SIZE)
       ),
     initialPageParam: 0,
     getNextPageParam: (lastPage) =>
@@ -47,7 +48,7 @@ export class Leaderboard {
     return remaining;
   });
 
-  protected leaderboards = computed(() => {
+  protected leaderboard = computed(() => {
     const pages = this.query.data()?.pages ?? [];
 
     return pages
