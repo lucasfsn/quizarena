@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     public void updateUserStatistics(List<PlayerGameResultResponse> playerGameResultResponseList) {
 
         List<UUID> playerIds = playerGameResultResponseList.stream()
-                .map(p -> p.player().getId())
+                .map(p -> p.player().getUserId())
                 .toList();
 
         List<User> users = userRepository.findAllById(playerIds);
@@ -82,8 +82,8 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toMap(User::getId, Function.identity()));
 
         for (PlayerGameResultResponse player : playerGameResultResponseList) {
-            UUID playerId = player.player().getId();
-            User user = userMap.get(playerId);
+            UUID userId = player.player().getUserId();
+            User user = userMap.get(userId);
 
             if (user == null) {
                 throw new BusinessException(BusinessExceptionReason.USER_NOT_FOUND);
