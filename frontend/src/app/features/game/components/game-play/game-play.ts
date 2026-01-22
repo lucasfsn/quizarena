@@ -69,17 +69,20 @@ export class GamePlay {
           map(() => {
             const now = Date.now();
             const remainingMs = endTime - now;
+            const rawSeconds = Math.floor(remainingMs / 1000);
+            const clamped = Math.max(
+              0,
+              Math.min(question.timeLimitSeconds, rawSeconds)
+            );
 
-            return Math.ceil(remainingMs / 1000);
+            return clamped;
           }),
-          map((seconds) => Math.max(0, seconds)),
           takeWhile((seconds) => seconds > 0, true)
         );
       })
     ),
     { initialValue: 0 }
   );
-
   protected readonly isLocked = computed(() => {
     return (
       this.status() === GameStatus.ANSWER ||

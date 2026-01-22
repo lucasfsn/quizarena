@@ -1,6 +1,6 @@
 import { authGuard } from '@/app/core/guards/auth-guard';
 import { Home } from '@/app/features/home/home';
-import { leaderboardResolver } from '@/app/features/leaderboards/resolvers/leaderboard-resolver';
+import { leaderboardResolver } from '@/app/features/leaderboard/resolvers/leaderboard-resolver';
 import { quizzesResolver } from '@/app/features/quizzes/resolvers/quizzes-resolver';
 import { userResolver } from '@/app/features/user/resolvers/user-resolver';
 import { MainLayout } from '@/app/shared/layouts/main-layout/main-layout';
@@ -45,8 +45,8 @@ export const routes: Routes = [
         resolve: { leaderboardResolver, userResolver },
         loadComponent: () =>
           import(
-            '@/app/features/leaderboards/pages/leaderboards/leaderboards'
-          ).then((m) => m.Leaderboards),
+            '@/app/features/leaderboard/pages/leaderboard/leaderboard'
+          ).then((m) => m.Leaderboard),
       },
       {
         path: 'game/:roomCode',

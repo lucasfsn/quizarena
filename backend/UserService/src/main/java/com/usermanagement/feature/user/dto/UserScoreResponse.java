@@ -16,6 +16,5 @@ import java.util.UUID;
 public class UserScoreResponse {
     private UUID id;
     private String username;
-    private String email;
     private Integer score;
 }

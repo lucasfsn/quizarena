@@ -1,43 +1,75 @@
-# Project file structure
+# Quizarena
+
+## Prerequisites
+
+- Python `pipx`
 
 ```bash
-/app
-├── dev/
-├── core
-│ ├── interceptors/
-│ ├── guards/
-│ └── auth/
-├── shared
-│ ├── components
-│ │ └── navbar/
-│ ├── directives
-│ ├── pipes
-│ └── constants
-├── features
-│ ├── game
-│ │ ├── components
-│ │ ├── services
-│ │ ├── pages
-│ │ ├── resolvers
-│ │ ├── types
-│ │ └── game.routes.ts
-│ │ └── game.ts
-│ │ └── game.html
-│ │ └── game.scss
-│ └── state
-│ │ │ ├── reducers
-│ │ │ │ └── game.reducer.ts
-│ │ │ └── actions
-│ │ │ │ └── game.actions.ts
+sudo apt install pipx
+pipx ensurepath
 ```
 
-- **dev**: helper directory for development — contains example usages (e.g.
-  modal demos), mock/dummy data, utility scripts and demo implementations. Not
-  intended for production code.
-- **core**: singleton services (services that are shared across app such as
-  AuthService), guards, interceptors.
-- **shared**: reusable components, directives, pipes, utils, validators,
-  constants, layouts etc.
-- **features**: each feature in its own folder (with its components, services,
-  resolvers, types, route file, page files and so on).
-- features/**state**: application state management with all reducers and actions
+## Pre-push / pre-commit hooks
+
+We use `pre-commit` to run checks before pushing.
+
+Install via pipx:
+
+```bash
+pipx install pre-commit
+pre-commit install --hook-type pre-push
+```
+
+Manually run the hooks:
+
+```bash
+pre-commit run --all-files --hook-stage pre-push
+```
+
+## Run Locally
+
+1. Clone the project:
+
+```bash
+git clone https://github.com/lucasfsn/quizarena
+cd quizarena
+```
+
+2. Create `.env` file to set environment variables. Use the provided
+   `.env.example` file as a reference.
+
+3. Build and run the application using Docker Compose:
+
+```bash
+  docker compose -f docker-compose.dev.yml up --build --watch
+```
+
+> **Note:** If you want to run **only a specific microservice** without starting
+> all docker compose services, you can specify the service name:
+
+```bash
+docker compose -f docker-compose.dev.yml up --build --watch database service-name
+```
+
+## Branching & PR naming
+
+Use kebab-case for branch names and lowercase text. Format:
+`type/short-task-title`
+
+Examples for `type`:
+
+- feat — new feature
+- fix — bug fix
+- chore — configuration, technical tasks, or miscellaneous changes that don’t
+  fit other categories
+- docs — documentation changes
+- refactor — code changes without adding features or fixing bugs
+- test — everything related to tests
+
+PR titles follow (also lowercase): `type: short task title`
+
+Example:
+
+```
+feat: add user profile endpoint
+```

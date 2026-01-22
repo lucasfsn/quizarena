@@ -1,8 +1,8 @@
 import { Authorization } from '@/app/core/auth/authorization';
-import { LeaderboardsList } from '@/app/features/leaderboards/components/leaderboard-list/leaderboard-list';
-import { PAGE_SIZE } from '@/app/features/leaderboards/constants/leaderboard-page-size';
-import { getLeaderboardQueryKey } from '@/app/features/leaderboards/queries/get-leaderboard-query-key';
-import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
+import { LeaderboardsList } from '@/app/features/leaderboard/components/leaderboard-list/leaderboard-list';
+import { PAGE_SIZE } from '@/app/features/leaderboard/constants/leaderboard-page-size';
+import { getLeaderboardQueryKey } from '@/app/features/leaderboard/queries/get-leaderboard-query-key';
+import { Leaderboard as LeaderboardService } from '@/app/features/leaderboard/services/leaderboard';
 import { Button } from '@/app/shared/components/button/button';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
@@ -11,19 +11,19 @@ import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-leaderboards',
+  selector: 'app-leaderboard',
   imports: [Button, FallbackUi, LeaderboardsList, FetchErrorImage],
-  templateUrl: './leaderboards.html',
+  templateUrl: './leaderboard.html',
 })
-export class Leaderboards {
-  private readonly leaderboardsService = inject(LeaderboardsService);
+export class Leaderboard {
+  private readonly leaderboardsService = inject(LeaderboardService);
   private readonly authorizationService = inject(Authorization);
 
   protected query = injectInfiniteQuery(() => ({
     queryKey: getLeaderboardQueryKey(),
     queryFn: async ({ pageParam }) =>
       lastValueFrom(
-        this.leaderboardsService.getLeaderboards(pageParam, PAGE_SIZE)
+        this.leaderboardsService.getLeaderboard(pageParam, PAGE_SIZE)
       ),
     initialPageParam: 0,
     getNextPageParam: (lastPage) =>

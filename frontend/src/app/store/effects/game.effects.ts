@@ -3,7 +3,7 @@ import { Game } from '@/app/features/game/services/game/game';
 import { GameDetails } from '@/app/features/game/types/game-details';
 import { GameSession } from '@/app/features/game/types/game-session';
 import { ServerMessage } from '@/app/features/game/types/server-message';
-import { getLeaderboardQueryKey } from '@/app/features/leaderboards/queries/get-leaderboard-query-key';
+import { getLeaderboardQueryKey } from '@/app/features/leaderboard/queries/get-leaderboard-query-key';
 import { Toast } from '@/app/shared/services/toast/toast';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
 import { inject, Injectable } from '@angular/core';

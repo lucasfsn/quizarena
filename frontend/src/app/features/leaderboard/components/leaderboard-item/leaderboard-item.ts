@@ -1,12 +1,14 @@
 import { Authorization } from '@/app/core/auth/authorization';
-import { LeaderboardEntry } from '@/app/features/leaderboards/types/leaderboard-entry';
+import { LeaderboardEntry } from '@/app/features/leaderboard/types/leaderboard-entry';
 import { Component, inject, input } from '@angular/core';
 
 @Component({
-  selector: 'app-leaderboard-entry',
-  templateUrl: './leaderboards-leaderboard-entry.html',
+  selector: 'app-leaderboard-item',
+  imports: [],
+  templateUrl: './leaderboard-item.html',
+  styleUrl: './leaderboard-item.scss',
 })
-export class LeaderboardsLeaderboardEntry {
+export class LeaderboardItem {
   private readonly authorizationService = inject(Authorization);
 
   public user = input.required<LeaderboardEntry>();

@@ -29,7 +29,7 @@
     }
     <div class="flex flex-col gap-3">
       @for (user of leaderboards(); track user.id; let i = $index) {
-        <app-leaderboard-entry
+        <app-leaderboard-item
           [user]="user"
           [position]="i + 1" />
       }

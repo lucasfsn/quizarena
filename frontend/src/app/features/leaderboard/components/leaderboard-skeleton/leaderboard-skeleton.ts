@@ -5,5 +5,6 @@ import { Skeleton } from 'primeng/skeleton';
   selector: 'app-leaderboard-skeleton',
   imports: [Skeleton],
   templateUrl: './leaderboard-skeleton.html',
+  styleUrl: './leaderboard-skeleton.scss',
 })
 export class LeaderboardSkeleton {}
