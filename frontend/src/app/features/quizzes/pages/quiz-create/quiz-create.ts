@@ -1,5 +1,4 @@
 import { ErrorResponse } from '@/app/core/types/error-response';
-import { getLeaderboardQueryKey } from '@/app/features/leaderboard/queries/get-leaderboard-query-key';
 import { QuizCreateForm } from '@/app/features/quizzes/components/quiz-create-form/quiz-create-form';
 import { getQuizzesQueryKey } from '@/app/features/quizzes/queries/get-quizzes-query-key';
 import { Quizzes } from '@/app/features/quizzes/services/quizzes/quizzes';
@@ -32,9 +31,6 @@ export class QuizCreate {
       this.toastService.success('Quiz created successfully!');
       this.queryClient.invalidateQueries({
         queryKey: getQuizzesQueryKey(),
-      });
-      this.queryClient.invalidateQueries({
-        queryKey: getLeaderboardQueryKey(),
       });
       this.router.navigate(['/quizzes']);
     },
