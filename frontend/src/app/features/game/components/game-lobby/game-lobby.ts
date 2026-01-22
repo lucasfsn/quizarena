@@ -51,7 +51,7 @@ export class GameLobby {
   }
 
   protected leave(): void {
-    this.store.dispatch(GameActions.leave());
+    this.store.dispatch(GameActions.leaveLobby());
     this.router.navigate(['/quizzes']);
   }
 }

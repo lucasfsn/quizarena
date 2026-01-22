@@ -1,8 +1,10 @@
 import { ServerMessage } from '@/app/features/game/types/server-message';
+import { User } from '@/app/features/user/services/user/user';
 import { environment } from '@/environments/environment';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RxStomp } from '@stomp/rx-stomp';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 import Keycloak from 'keycloak-js';
 import {
   BehaviorSubject,
@@ -20,6 +22,7 @@ import {
 export class GameSocket {
   private readonly keycloak = inject(Keycloak);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly userService = inject(User);
 
   private rxStomp: RxStomp | null = null;
   private roomCode: string | null = null;
@@ -29,6 +32,11 @@ export class GameSocket {
 
   private readonly messagesSubject = new Subject<ServerMessage>();
   public readonly messages$ = this.messagesSubject.asObservable();
+
+  private readonly userQuery = injectQuery(() => ({
+    ...this.userService.fetchLoggedInUserOptions(),
+    select: (user) => user.id,
+  }));
 
   public connect(roomCode: string): void {
     if (this.rxStomp?.active && this.roomCode === roomCode) return;
@@ -70,16 +78,11 @@ export class GameSocket {
     this.roomCode = null;
   }
 
-  public joinGame(roomCode: string): void {
-    this.send('/app/game/join', { roomCode });
-  }
-
-  public closeLobby(): void {
-    this.send('/app/game/close', { roomCode: this.roomCode });
-  }
-
   public leaveGame(): void {
-    this.send('/app/game/leave', { roomCode: this.roomCode });
+    this.send('/app/game/leave', {
+      roomCode: this.roomCode,
+      userId: this.userQuery.data(),
+    });
   }
 
   public startGame(): void {
@@ -90,6 +93,7 @@ export class GameSocket {
     this.send('/app/game/answer', {
       roomCode: this.roomCode,
       answerId,
+      userId: this.userQuery.data(),
     });
   }
 

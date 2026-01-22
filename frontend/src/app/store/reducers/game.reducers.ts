@@ -73,8 +73,8 @@ export const gameReducer = createReducer(
     gameDetails: gameSession.gameDetailsResponse,
     status: mapBackendStatus(gameSession.gameStatus),
     question: gameSession.currentQuestion || null,
-    correctAnswersIds: gameSession.correctAnswerIds || null,
-    submittedAnswerId: gameSession.submittedAnswerId || null,
+    correctAnswersIds: gameSession.correctAnswerIds ?? null,
+    submittedAnswerId: gameSession.submittedAnswerId ?? null,
     isHost: gameSession.isHost,
     error: null,
   })),
@@ -118,7 +118,8 @@ function mapBackendStatus(backendStatus: string): GameStatus {
   const statusMap: Record<string, GameStatus> = {
     LOBBY: GameStatus.LOBBY,
     QUIZ: GameStatus.QUESTION,
-    SHOWING_RESULTS: GameStatus.ANSWER,
+    SHOWING_ANSWER: GameStatus.ANSWER,
+    SHOWING_RESULTS: GameStatus.FINISHED,
   };
 
   return statusMap[backendStatus] ?? GameStatus.ERROR;

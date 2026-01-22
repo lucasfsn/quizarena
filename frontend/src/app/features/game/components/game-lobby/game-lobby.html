@@ -6,7 +6,8 @@
       </h1>
       <div
         class="bg-accent text-on-accent w-fit shrink-0 self-start rounded-full px-2 py-0.5 text-xs shadow-sm sm:self-center sm:px-3 sm:py-1 sm:text-base">
-        {{ game().quiz.questionsCount }} questions
+        {{ game().quiz.questionsCount }}
+        {{ game().quiz.questionsCount === 1 ? 'question' : 'questions' }}
       </div>
     </div>
     <h2 class="text-secondary text-sm sm:text-lg">
@@ -52,20 +53,17 @@
           [responsiveOptions]="responsiveOptions"
           [autoplayInterval]="2000"
           contentClass="p-2"
-          class="xs:max-w-sm max-w-2xs md:max-w-md lg:max-w-2xl">
+          class="xs:max-w-sm !w-full max-w-2xs md:max-w-md lg:max-w-2xl">
           <ng-template
             let-player
             #item>
             <div class="flex items-center justify-center gap-2 p-1">
               <div
-                class="focus-ring text-on-accent flex aspect-square size-6 cursor-default items-center justify-center rounded-full text-xs select-none sm:size-8 sm:text-base"
-                [class.bg-tertiary]="isHost()"
-                [class.bg-primary]="!isHost()">
+                class="focus-ring text-on-accent bg-primary flex aspect-square size-6 cursor-default items-center justify-center rounded-full text-xs select-none sm:size-8 sm:text-base">
                 {{ player.firstName.charAt(0) + player.lastName.charAt(0) }}
               </div>
               <p
-                class="cursor-default text-base select-none text-shadow-sm sm:text-lg"
-                [class.text-tertiary]="isHost()">
+                class="text-break cursor-default text-base whitespace-nowrap select-none text-shadow-sm sm:text-lg">
                 {{ player.firstName }} {{ player.lastName }}
               </p>
             </div>

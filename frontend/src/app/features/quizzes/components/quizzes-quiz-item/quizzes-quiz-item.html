@@ -16,7 +16,10 @@
           <i
             class="pi pi-question-circle"
             style="font-size: 0.75rem"></i>
-          <p>{{ quiz().questionsCount }} questions</p>
+          <p>
+            {{ quiz().questionsCount }}
+            {{ quiz().questionsCount === 1 ? 'question' : 'questions' }}
+          </p>
         </div>
         <div class="text-secondary flex items-center gap-1.5 text-xs">
           <i

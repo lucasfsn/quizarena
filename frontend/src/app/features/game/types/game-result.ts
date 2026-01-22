@@ -4,7 +4,6 @@ export interface GameResult {
   gameResultPlayerResponseList: {
     correctAnswers: number;
     score: number;
-    position: number;
     player: Player;
   }[];
 }
