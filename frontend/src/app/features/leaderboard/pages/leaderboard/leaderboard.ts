@@ -14,6 +14,7 @@ import { lastValueFrom } from 'rxjs';
   selector: 'app-leaderboard',
   imports: [Button, FallbackUi, FetchErrorImage, LeaderboardList],
   templateUrl: './leaderboard.html',
+  styleUrl: './leaderboard.scss',
 })
 export class Leaderboard {
   private readonly leaderboardService = inject(LeaderboardService);
