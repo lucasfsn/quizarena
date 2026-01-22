@@ -1,6 +1,5 @@
 import { Page } from '@/app/core/types/page';
 import { Response } from '@/app/core/types/response';
-import { getMockLeaderboard } from '@/app/dev/get-mock-leaderboard';
 import { LeaderboardEntry } from '@/app/features/leaderboards/types/leaderboard-entry';
 import { environment } from '@/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -13,19 +12,15 @@ import { map, Observable } from 'rxjs';
 export class LeaderboardsService {
   private readonly http = inject(HttpClient);
 
-  private useMock = true;
-
   public getLeaderboards(
     page: number = 0,
     pageSize: number = 10
   ): Observable<Page<LeaderboardEntry>> {
-    if (this.useMock) return getMockLeaderboard(page, pageSize);
-
     const params = this.getQuizzesParams(page, pageSize);
 
     return this.http
       .get<Response<Page<LeaderboardEntry>>>(
-        `${environment.apiUrl}/leaderboards`,
+        `${environment.apiUrl}/users/leaderboard`,
         {
           params,
         }

@@ -51,6 +51,7 @@ export class Leaderboards {
 
     return pages
       .flatMap((page) => page.content)
+      .map((user) => ({ ...user, score: user.score ?? 0 }))
       .sort((a, b) => b.score - a.score);
   });
 

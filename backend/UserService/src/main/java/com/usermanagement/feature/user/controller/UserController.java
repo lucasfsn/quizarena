@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Set;
@@ -35,9 +37,10 @@ public class UserController {
         return ResponseEntity.ok("User ID: " + userId + ", Email: " + email);
     }
 
-    @GetMapping("/all-users")
-    public ResponseDto<Set<UserScoreResponse>> getAllUsers() {
-        return new ResponseDto<Set<UserScoreResponse>>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched user", userFacade.getAllUsers());
+    @GetMapping("/leaderboard")
+    public ResponseDto<Page<UserScoreResponse>> getAllUsers(Pageable pageable) {
+        Page<UserScoreResponse> users = userFacade.getAllUsers(pageable);
+        return new ResponseDto<>(SuccessCode.RESPONSE_SUCCESSFUL, "Successfully fetched leaderboard", users);
     }
 
     @GetMapping("/get")

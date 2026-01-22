@@ -12,6 +12,8 @@ import com.usermanagement.feature.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Set;
@@ -58,8 +60,8 @@ public class UserFacade {
                 .build();
     }
 
-    public Set<UserScoreResponse> getAllUsers() {
-        return userService.getAllUsers().stream().map(userScoreMapper::toDto).collect(Collectors.toSet());
+    public Page<UserScoreResponse> getAllUsers(Pageable pageable) {
+        return userService.getAllUsers(pageable).map(userScoreMapper::toDto);
     }
 
     public void resetPassword(Jwt jwt, String password) {
