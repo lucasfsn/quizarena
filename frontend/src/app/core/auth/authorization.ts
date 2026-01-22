@@ -31,8 +31,15 @@ export class Authorization {
         this.isAuthenticated.set(typeEventArgs<ReadyArgs>(keycloakEvent.args));
       }
 
-      if (keycloakEvent.type === KeycloakEventType.AuthLogout)
+      if (keycloakEvent.type === KeycloakEventType.AuthSuccess) {
+        this.isAuthenticated.set(true);
+        this.queryClient.resetQueries();
+      }
+
+      if (keycloakEvent.type === KeycloakEventType.AuthLogout) {
         this.isAuthenticated.set(false);
+        this.queryClient.clear();
+      }
     });
   }
 
@@ -41,8 +48,6 @@ export class Authorization {
   }
 
   public logout(): void {
-    this.queryClient.clear();
-
     this.keycloak.logout({
       redirectUri: window.location.origin,
     });
