@@ -1,6 +1,6 @@
 import { Authorization } from '@/app/core/auth/authorization';
 import { LeaderboardsList } from '@/app/features/leaderboards/components/leaderboard-list/leaderboard-list';
-import { PAGE_SIZE } from '@/app/features/leaderboards/Constants/leaderboard-page-size';
+import { PAGE_SIZE } from '@/app/features/leaderboards/constants/leaderboard-page-size';
 import { getLeaderboardQueryKey } from '@/app/features/leaderboards/queries/get-leaderboard-query-key';
 import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
 import { Button } from '@/app/shared/components/button/button';
