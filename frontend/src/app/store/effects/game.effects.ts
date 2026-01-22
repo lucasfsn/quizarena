@@ -5,11 +5,9 @@ import { GameSession } from '@/app/features/game/types/game-session';
 import { ServerMessage } from '@/app/features/game/types/server-message';
 import { Toast } from '@/app/shared/services/toast/toast';
 import { GameActions, SocketActions } from '@/app/store/actions/game.actions';
-import { selectIsHost } from '@/app/store/selectors/game.selectors';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatLatestFrom } from '@ngrx/operators';
 import { Action, Store } from '@ngrx/store';
 import {
   catchError,
@@ -152,27 +150,6 @@ export class GameEffects {
       )
     );
   }
-
-  public leave$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(GameActions.leave),
-      concatLatestFrom(() => this.store.select(selectIsHost)),
-      map(([, isHost]) =>
-        isHost ? GameActions.closeLobby() : GameActions.leaveLobby()
-      )
-    )
-  );
-
-  public closeLobby$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(GameActions.closeLobby),
-      tap(() => {
-        this.gameSocketService.closeLobby();
-        this.gameSocketService.disconnect();
-      }),
-      map(() => GameActions.reset())
-    )
-  );
 
   public leaveLobby$ = createEffect(() =>
     this.actions$.pipe(

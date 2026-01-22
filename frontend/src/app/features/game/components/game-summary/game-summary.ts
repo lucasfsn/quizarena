@@ -44,9 +44,12 @@ export class GameSummary {
 
     if (!data) return [];
 
-    return [...data.gameResultPlayerResponseList].sort(
-      (a, b) => b.score - a.score
-    );
+    return [...data.gameResultPlayerResponseList]
+      .sort((a, b) => b.score - a.score)
+      .map((player, index) => ({
+        ...player,
+        position: index + 1,
+      }));
   });
 
   protected loggedInPlayer = computed(() => {
