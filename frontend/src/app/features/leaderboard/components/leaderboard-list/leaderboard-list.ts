@@ -1,15 +1,16 @@
-import { LeaderboardEntry } from '@/app/features/leaderboards/types/leaderboard-entry';
+import { LeaderboardEntry } from '@/app/features/leaderboard/types/leaderboard-entry';
 import { Component, computed, inject, input } from '@angular/core';
 
-import { LeaderboardSkeleton } from '@/app/features/leaderboards/components/leaderboard-skeleton/leaderboard-skeleton';
-import { LeaderboardsLeaderboardEntry } from '@/app/features/leaderboards/components/leaderboards-leaderboard-entry/leaderboards-leaderboard-entry';
+import { LeaderboardItem } from '@/app/features/leaderboard/components/leaderboard-item/leaderboard-item';
+import { LeaderboardSkeleton } from '@/app/features/leaderboard/components/leaderboard-skeleton/leaderboard-skeleton';
 import { User } from '@/app/features/user/services/user/user';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
   selector: 'app-leaderboards-list',
-  imports: [LeaderboardSkeleton, LeaderboardsLeaderboardEntry],
+  imports: [LeaderboardSkeleton, LeaderboardItem],
   templateUrl: './leaderboard-list.html',
+  styleUrl: './leaderboard-list.scss',
 })
 export class LeaderboardsList {
   private readonly userService = inject(User);

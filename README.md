@@ -1,73 +1,67 @@
 # Quizarena
 
-## Prerequisites
+Multiplayer platform that allows you to easily create and play real-time quizzes.
 
-- Python `pipx`
+## Contents
 
-```bash
-sudo apt install pipx
-pipx ensurepath
-```
+- [Contents](#contents)
+- [Overview](#overview)
+    - [Main Features](#main-features)
+    - [Technologies Used](#technologies-used)
+- [Run Locally](#run-locally)
+- [Contact](#contact)
 
-## Pre-push / pre-commit hooks
+## Overview
 
-We use `pre-commit` to run checks before pushing.
+![Home](https://i.ibb.co/xS0PKdy1/quizarena.png)
 
-Install via pipx:
+### Main Features
 
-```bash
-pipx install pre-commit
-pre-commit install --hook-type pre-push
-```
+- **Quizzes**: Create your own challenges and browse a vast library of community-made quizzes.
+- **Gameplay**: Host private game sessions and invite friends using unique room codes for instant real-time competition.
+- **Leaderboard**: Track your progress via global rankings and game-specific summary.
+- **User Settings**: Easily update your account details and manage your personal information in one place.
+- **Authentication**: Ensure data safety with secure login and role-based authorization powered by Keycloak.
 
-Manually run the hooks:
+### Technologies Used
 
-```bash
-pre-commit run --all-files --hook-stage pre-push
-```
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![TanStack Query](https://img.shields.io/badge/-TanStack%20Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)
+![Tailwind_CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![SpringBoot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white)
+![Stomp](https://img.shields.io/badge/STOMP-000000?style=for-the-badge&logo=stomp&logoColor=white)
 
 ## Run Locally
 
-1. Clone the project:
+Clone the project
 
 ```bash
-git clone https://github.com/lucasfsn/quizarena
-cd quizarena
+  git clone https://github.com/lucasfsn/quizarena
 ```
 
-2. Create `.env` file to set environment variables. Use the provided `.env.example` file as a reference.
+Go to the project directory
 
-3. Build and run the application using Docker Compose:
+```bash
+  cd quizarena
+```
+
+Create `.env` file to set environment variables. Use the provided `.env.example` file as a reference.
+
+Build and run the application using Docker Compose:
 
 ```bash
   docker compose -f docker-compose.dev.yml up --build --watch
 ```
 
-> **Note:** If you want to run **only a specific microservice** without starting all docker compose services, you can specify the service name:
+The --watch flag enables automatic reload of the server when source files change.
 
-```bash
-docker compose -f docker-compose.dev.yml up --build --watch database service-name
-```
+Once started, the application will be available at:
+http://localhost:4200
 
-## Branching & PR naming
+## Contact
 
-Use kebab-case for branch names and lowercase text. Format:
-`type/short-task-title`
-
-Examples for `type`:
-
-- feat — new feature
-- fix — bug fix
-- chore — configuration, technical tasks, or miscellaneous changes that don’t fit other categories
-- docs — documentation changes
-- refactor — code changes without adding features or fixing bugs
-- test — everything related to tests
-
-PR titles follow (also lowercase):
-`type: short task title`
-
-Example:
-
-```
-feat: add user profile endpoint
-```
+For questions please contact [lukasz.nowosielski02@gmail.com](mailto:lukasz.nowosielski02@gmail.com)
