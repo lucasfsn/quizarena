@@ -5,13 +5,14 @@ import { getLeaderboardQueryKey } from '@/app/features/leaderboards/queries/get-
 import { LeaderboardsService } from '@/app/features/leaderboards/services/leaderboard';
 import { Button } from '@/app/shared/components/button/button';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
+import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
 import { Component, computed, inject } from '@angular/core';
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-leaderboards',
-  imports: [Button, FallbackUi, LeaderboardsList],
+  imports: [Button, FallbackUi, LeaderboardsList, FetchErrorImage],
   templateUrl: './leaderboards.html',
 })
 export class Leaderboards {
