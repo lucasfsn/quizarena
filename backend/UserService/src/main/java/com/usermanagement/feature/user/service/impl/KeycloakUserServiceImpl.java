@@ -31,19 +31,21 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
     public void updateUser(Jwt jwt, UserUpdateRequestDto userUpdateRequestDto) {
 
         UsersResource usersResource = getInstance();
-
-        CredentialRepresentation passwordCredentials = new CredentialRepresentation();
-        passwordCredentials.setTemporary(false);
-        passwordCredentials.setType(CredentialRepresentation.PASSWORD);
-        passwordCredentials.setValue(userUpdateRequestDto.password());
-
-
         UserRepresentation user = usersResource.get(jwt.getSubject()).toRepresentation();
+
+
+        if (userUpdateRequestDto.password() != null) {
+            CredentialRepresentation passwordCredentials = new CredentialRepresentation();
+            passwordCredentials.setTemporary(false);
+            passwordCredentials.setType(CredentialRepresentation.PASSWORD);
+            passwordCredentials.setValue(userUpdateRequestDto.password());
+            user.setCredentials(Collections.singletonList(passwordCredentials));
+        }
         user.setUsername(userUpdateRequestDto.username());
         user.setFirstName(userUpdateRequestDto.firstName());
         user.setLastName(userUpdateRequestDto.lastName());
         user.setEmail(userUpdateRequestDto.email());
-        user.setCredentials(Collections.singletonList(passwordCredentials));
+
 
         usersResource.get(jwt.getSubject()).update(user);
 
