@@ -20,7 +20,7 @@ public class KeycloakClient {
     @Bean
     public Keycloak keycloak() {
         return KeycloakBuilder.builder()
-                .clientSecret("fZcMaX6hF9pAy1pEK7AhSSnBI7V2oSFu")
+                .clientSecret("**********")
                 .clientId("quizarena-backend-api")
                 .grantType("client_credentials")
                 .realm("quizarena")
