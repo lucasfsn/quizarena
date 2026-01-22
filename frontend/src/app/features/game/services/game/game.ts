@@ -13,8 +13,6 @@ import { map, Observable } from 'rxjs';
 export class Game {
   private readonly http = inject(HttpClient);
 
-  private useMock = true;
-
   public createGame(quizId: string): Observable<GameDetails> {
     return this.http
       .post<Response<GameDetails>>(`${environment.apiUrl}/games`, {

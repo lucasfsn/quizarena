@@ -25,7 +25,7 @@
                  .csrf(AbstractHttpConfigurer::disable)
                  .authorizeHttpRequests(auth -> auth
                                  .requestMatchers("/**").permitAll()
-                                 .requestMatchers("/users/all-users").permitAll()
+                                 .requestMatchers("/users/leaderboard").permitAll()
                                  .requestMatchers(HttpMethod.POST, "/**").permitAll()
  //                        .anyRequest().authenticated()
                                  .anyRequest().permitAll() // so far we let that say
