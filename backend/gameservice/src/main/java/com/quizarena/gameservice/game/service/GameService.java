@@ -96,7 +96,7 @@ public class GameService {
 		}
 		Player player = playerService.createPlayer(
 			userId,
-			PlayerRole.ADMIN,
+			PlayerRole.GUEST,
 			UserSessionService.getLoggedInUserFirstName(jwt),
 			UserSessionService.getLoggedInUserLastName(jwt)
 		);
@@ -118,7 +118,7 @@ public class GameService {
 		Optional<Player> playerToRemove = game
 			.getPlayers()
 			.stream()
-			.filter(p -> p.getId().equals(userId))
+			.filter(p -> p.getUserId().equals(userId))
 			.findFirst();
 		if (playerToRemove.isPresent()) {
 			Player player = playerToRemove.get();
