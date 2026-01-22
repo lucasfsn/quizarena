@@ -21,7 +21,7 @@ Multiplayer platform that allows you to easily create and play real-time quizzes
 - **Gameplay**: Host private game sessions and invite friends using unique room codes for instant real-time competition.
 - **Leaderboard**: Track your progress via global rankings and game-specific summary.
 - **User Settings**: Easily update your account details and manage your personal information in one place.
-- **Authentication**: Ensure data safety with secure login and role-based authorization powered by Keycloak.
+- **Authentication**: Ensure data safety with secure login and robust authentication powered by Keycloak.
 
 ### Technologies Used
 
