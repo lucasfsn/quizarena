@@ -1,6 +1,6 @@
 import { Authorization } from '@/app/core/auth/authorization';
 import { Button } from '@/app/shared/components/button/button';
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Popover } from 'primeng/popover';
 
@@ -13,7 +13,7 @@ import { Popover } from 'primeng/popover';
 export class UserMenu {
   private readonly authorizationService = inject(Authorization);
 
-  protected isLoggedIn = computed(() => this.authorizationService.isLoggedIn());
+  protected isLoggedIn = this.authorizationService.isLoggedIn;
 
   protected handleLogin(): void {
     this.authorizationService.login();
