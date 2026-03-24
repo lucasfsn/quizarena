@@ -23,7 +23,7 @@ export class Quizzes {
   private readonly quizzesService = inject(QuizzesService);
   private readonly authorizationService = inject(Authorization);
 
-  protected isLoggedIn = computed(() => this.authorizationService.isLoggedIn());
+  protected isLoggedIn = this.authorizationService.isLoggedIn;
 
   protected query = injectInfiniteQuery(() => {
     const filters = this.quizFiltersService.filters();

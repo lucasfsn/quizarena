@@ -1,4 +1,3 @@
-import { Authorization } from '@/app/core/auth/authorization';
 import { LeaderboardList } from '@/app/features/leaderboard/components/leaderboard-list/leaderboard-list';
 import { PAGE_SIZE } from '@/app/features/leaderboard/constants/leaderboard-page-size';
 import { getLeaderboardQueryKey } from '@/app/features/leaderboard/queries/get-leaderboard-query-key';
@@ -18,7 +17,6 @@ import { lastValueFrom } from 'rxjs';
 })
 export class Leaderboard {
   private readonly leaderboardService = inject(LeaderboardService);
-  private readonly authorizationService = inject(Authorization);
 
   protected query = injectInfiniteQuery(() => ({
     queryKey: getLeaderboardQueryKey(),
@@ -56,8 +54,4 @@ export class Leaderboard {
       .map((user) => ({ ...user, score: user.score ?? 0 }))
       .sort((a, b) => b.score - a.score);
   });
-
-  protected isLoggedIn(): boolean {
-    return this.authorizationService.isLoggedIn();
-  }
 }

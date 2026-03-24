@@ -28,7 +28,7 @@ export class QuizzesQuizItem {
   protected categoryImagePath = computed(() =>
     getCategoryImagePath(this.quiz().category)
   );
-  protected isLoggedIn = computed(() => this.authorizationService.isLoggedIn());
+  protected isLoggedIn = this.authorizationService.isLoggedIn;
 
   protected readonly GameStatus = GameStatus;
 
