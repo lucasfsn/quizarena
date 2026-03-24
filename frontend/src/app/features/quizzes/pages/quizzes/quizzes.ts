@@ -8,7 +8,7 @@ import { Quizzes as QuizzesService } from '@/app/features/quizzes/services/quizz
 import { Button } from '@/app/shared/components/button/button';
 import { FallbackUi } from '@/app/shared/components/fallback-ui/fallback-ui';
 import { FetchErrorImage } from '@/app/shared/components/svg/fetch-error-image';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { injectInfiniteQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 
@@ -18,29 +18,29 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './quizzes.html',
   styleUrl: './quizzes.scss',
 })
-export class Quizzes implements OnInit {
+export class Quizzes {
   private readonly quizFiltersService = inject(QuizFilters);
   private readonly quizzesService = inject(QuizzesService);
   private readonly authorizationService = inject(Authorization);
 
   protected isLoggedIn = computed(() => this.authorizationService.isLoggedIn());
 
-  protected query = injectInfiniteQuery(() => ({
-    queryKey: [...getQuizzesQueryKey(), this.quizFiltersService.filters()],
-    queryFn: async ({ pageParam }) =>
-      lastValueFrom(
-        this.quizzesService.getQuizzes(
-          pageParam,
-          PAGE_SIZE,
-          this.quizFiltersService.filters()
-        )
-      ),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) =>
-      lastPage.last ? undefined : lastPage.number + 1,
-    retry: 3,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-  }));
+  protected query = injectInfiniteQuery(() => {
+    const filters = this.quizFiltersService.filters();
+
+    return {
+      queryKey: [...getQuizzesQueryKey(), filters],
+      queryFn: async ({ pageParam }) =>
+        lastValueFrom(
+          this.quizzesService.getQuizzes(pageParam, PAGE_SIZE, filters)
+        ),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) =>
+        lastPage.last ? undefined : lastPage.number + 1,
+      retry: 3,
+      staleTime: 10 * 60 * 1000, // 10 minutes
+    };
+  });
 
   protected skeletonCount = computed(() => {
     const pages = this.query.data()?.pages ?? [];
@@ -62,8 +62,4 @@ export class Quizzes implements OnInit {
 
     return pages.flatMap((page) => page.content);
   });
-
-  public ngOnInit(): void {
-    this.quizFiltersService.reset();
-  }
 }
